@@ -3,7 +3,11 @@ guid: 12d79fbca00bc9840bd3c42c3d9d9f99
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - rb: {instanceID: 0}
+  - circleMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - circleSprite: {fileID: -1701831061, guid: 9686993059222a948bc42a5282ff8687, type: 3}
+  - spriteRenderer: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

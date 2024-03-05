@@ -4,27 +4,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {   
-
     public float moveSpeed = 5f;
     public Rigidbody2D rb;
 
     Vector2 velocity;
-
     public SpriteRenderer spriteRenderer;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         SetPlayerVelocity();
     }
 
-    private void SetPlayerVelocity(){
+    private void SetPlayerVelocity()
+    {
         velocity = Vector2.zero;
         velocity.x = Input.GetAxisRaw("Horizontal");
         velocity.y = Input.GetAxisRaw("Vertical");
@@ -40,4 +32,5 @@ public class Player : MonoBehaviour
     {
         rb.MovePosition(rb.position + velocity * moveSpeed * Time.fixedDeltaTime);
     }
+
 }
