@@ -22,11 +22,15 @@ public class Player : MonoBehaviour
     private float dashingCooldown = 1f;
 
     [SerializeField] private TrailRenderer tr;
+    private Animator animator;
+
+    public Transform bulletPoint;
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponentInChildren<Animator>();
         //spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         // Eingabemethode für die Taste "V" hinzufügen
@@ -44,13 +48,32 @@ public class Player : MonoBehaviour
         }
 
         if(movementInput != Vector2.zero){
-            bool success = TryMove(new Vector2(movementInput.x, 0));
-
-            if(!success) {
-                success = TryMove(new Vector2(0, movementInput.y)); 
-            }
+            TryMove(movementInput); // Direkte Übertragung der Eingabe
         }
 
+        // Richtung der Animation ändern
+        //UpdateSpriteDirection();
+        UpdateAnimator();
+    }
+
+    private void UpdateAnimator()
+    {
+        if (animator != null)
+        {
+            animator.SetFloat("MoveX", movementInput.x);
+            animator.SetFloat("MoveY", movementInput.y);
+        }
+
+        if (bulletPoint != null)
+        {
+            float bulletPointX = 0.46f * Mathf.Sign(movementInput.x);
+            float bulletPointY = 0.15f * Mathf.Sign(movementInput.y);
+            bulletPoint.localPosition = new Vector3(bulletPointX, bulletPointY, bulletPoint.localPosition.z);
+        }
+    }
+
+    private void UpdateSpriteDirection()
+    {
         Vector3 currentScale = transform.GetChild(0).localScale;
         if (movementInput.x < 0)
         {
@@ -62,7 +85,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private bool TryMove(Vector2 direction) {
+    private void TryMove(Vector2 direction) {
         if(direction != Vector2.zero) {
             int count = rb.Cast(
                 direction,
@@ -72,12 +95,7 @@ public class Player : MonoBehaviour
 
             if(count == 0){
                 rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
-                return true;
-            } else {
-                return false;
             }
-        } else {
-            return false;
         }   
     }
 
