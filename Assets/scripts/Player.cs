@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
 
     private bool canDash = true;
     private bool isDashing;
-    private float dashingPower = 24f;
+    private float dashingPower = 5f;
     private float dashingTime = 0.1f;
     private float dashingCooldown = 1f;
 
@@ -63,13 +63,11 @@ public class Player : MonoBehaviour
             animator.SetFloat("MoveX", movementInput.x);
             animator.SetFloat("MoveY", movementInput.y);
         }
+    }
 
-        if (bulletPoint != null)
-        {
-            float bulletPointX = 0.46f * Mathf.Sign(movementInput.x);
-            float bulletPointY = 0.15f * Mathf.Sign(movementInput.y);
-            bulletPoint.localPosition = new Vector3(bulletPointX, bulletPointY, bulletPoint.localPosition.z);
-        }
+    public Vector2 GetMovementInput()
+    {
+        return movementInput;
     }
 
     private void UpdateSpriteDirection()
@@ -111,20 +109,47 @@ public class Player : MonoBehaviour
     {
         if (canDash)
         {
-            StartCoroutine(Dash());
+            StartCoroutine(Dash(movementInput.normalized));
         }
     }
 
-    private IEnumerator Dash(){
+    private IEnumerator Dash(Vector2 direction)
+    {
         canDash = false;
         isDashing = true;
-        rb.velocity = new Vector2(transform.GetChild(0).localScale.x * dashingPower, 0f);
+        rb.velocity = direction * dashingPower;
         tr.emitting = true;
-        yield return new WaitForSeconds(dashingTime);
+        
+        float dashDistance = 0f;
+        while (dashDistance < dashingPower)
+        {
+            int count = rb.Cast(direction, movementFilter, castCollisions, dashingPower - dashDistance + collisionOffset);
+            if (count > 0)
+            {
+                foreach (var hit in castCollisions)
+                {
+                    if (hit.collider.CompareTag("Obstacle"))
+                    {
+                        Debug.Log("uwbfuwbf");
+                        rb.velocity = Vector2.zero;
+                        isDashing = false;
+                        tr.emitting = false;
+                        canDash = true;
+                        yield break;
+                    }
+                }
+            }
+
+            dashDistance += (dashingPower / dashingTime) * Time.deltaTime;
+            yield return null;
+        }
+        
         tr.emitting = false;
         isDashing = false;
         rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
+
+
 }
