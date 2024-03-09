@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     private Animator animator;
 
     public Transform bulletPoint;
+    public Vector2 lastMovementInput;
 
 
     void Start()
@@ -48,11 +49,10 @@ public class Player : MonoBehaviour
         }
 
         if(movementInput != Vector2.zero){
-            TryMove(movementInput); // Direkte Übertragung der Eingabe
+            TryMove(movementInput); 
+            lastMovementInput = movementInput;
         }
 
-        // Richtung der Animation ändern
-        //UpdateSpriteDirection();
         UpdateAnimator();
     }
 
@@ -60,27 +60,14 @@ public class Player : MonoBehaviour
     {
         if (animator != null)
         {
-            animator.SetFloat("MoveX", movementInput.x);
-            animator.SetFloat("MoveY", movementInput.y);
+            animator.SetFloat("MoveX", lastMovementInput.x);
+            animator.SetFloat("MoveY", lastMovementInput.y);
         }
     }
 
     public Vector2 GetMovementInput()
     {
         return movementInput;
-    }
-
-    private void UpdateSpriteDirection()
-    {
-        Vector3 currentScale = transform.GetChild(0).localScale;
-        if (movementInput.x < 0)
-        {
-            transform.GetChild(0).localScale = new Vector3(-Mathf.Abs(currentScale.x), currentScale.y, currentScale.z);
-        }
-        else if (movementInput.x > 0)
-        {
-            transform.GetChild(0).localScale = new Vector3(Mathf.Abs(currentScale.x), currentScale.y, currentScale.z);
-        }
     }
 
     private void TryMove(Vector2 direction) {

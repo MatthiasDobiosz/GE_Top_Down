@@ -9,7 +9,7 @@ public class Gun2D : MonoBehaviour
     public float bulletSpeed = 10f;
 
     private Player player;
-
+    private Vector2 lastMovementInput;
     private void Start()
     {
         player = GetComponentInParent<Player>();
@@ -18,7 +18,8 @@ public class Gun2D : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-        {
+        {   
+            lastMovementInput = player.lastMovementInput;
             Vector2 shootDirection = GetShootDirection();
             ShootBullet(shootDirection);
         }
@@ -26,45 +27,38 @@ public class Gun2D : MonoBehaviour
 
     private Vector2 GetShootDirection()
     {
-        Vector2 inputDirection = player.GetMovementInput().normalized;
-
-        if (inputDirection == Vector2.zero)
-        {
-            return Vector2.up;
-        }
-
-        float horizontalInput = inputDirection.x;
-        float verticalInput = inputDirection.y;
+        float horizontalInput = lastMovementInput.x;
+        float verticalInput = lastMovementInput.y;
 
         if (Mathf.Abs(horizontalInput) > Mathf.Abs(verticalInput))
         {
             if (horizontalInput > 0)
-                return Vector2.right;
+                lastMovementInput = Vector2.right;
             else
-                return Vector2.left;
+                lastMovementInput = Vector2.left;
         }
         else
         {
             if (verticalInput > 0)
             {
                 if (horizontalInput > 0)
-                    return new Vector2(1, 1);
+                    lastMovementInput = new Vector2(1, 1);
                 else if (horizontalInput < 0)
-                    return new Vector2(-1, 1);
+                    lastMovementInput = new Vector2(-1, 1);
                 else
-                    return Vector2.up;
+                    lastMovementInput = Vector2.up;
             }
             else if (verticalInput < 0)
             {
                 if (horizontalInput > 0)
-                    return new Vector2(1, -1);
+                    lastMovementInput = new Vector2(1, -1);
                 else if (horizontalInput < 0)
-                    return new Vector2(-1, -1);
+                    lastMovementInput = new Vector2(-1, -1);
                 else
-                    return Vector2.down;
+                    lastMovementInput = Vector2.down;
             }
         }
-        return Vector2.zero;
+        return lastMovementInput;
     }
 
     private void ShootBullet(Vector2 direction)
