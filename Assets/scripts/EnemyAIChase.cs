@@ -7,7 +7,7 @@ public class EnemyAIChase : MonoBehaviour
 {
     public Transform target;
     public float speed = 2f;
-    public float nextWaypointDistance = 3f;
+    public float nextWaypointDistance = 0.5f;
     public Transform enemyGFX;
     public float chaseStartDistance = 0.5f;
     public float chaseEndDistance = 3f;
@@ -15,8 +15,9 @@ public class EnemyAIChase : MonoBehaviour
 
     private Path path;
     private int currentWaypoint = 0;
-    private bool reachedEndOfPath = false;
+    //private bool reachedEndOfPath = false;
     private bool currentlyChasing = false;
+    private bool currentlyAttacking = false;
 
     private Seeker seeker;
     private Rigidbody2D rb;
@@ -27,11 +28,14 @@ public class EnemyAIChase : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         InvokeRepeating(nameof(UpdatePath), 0f, .01f);
+
+        EventManager.StartListening("attackStart", StopChase);
+        EventManager.StartListening("attackEnd", StartChase);
     }
 
     void UpdatePath()
     {
-        if(seeker.IsDone() && currentlyChasing)
+        if(seeker.IsDone() && currentlyChasing && !currentlyAttacking)
             seeker.StartPath(rb.position, target.position, OnPathComplete);
     }
 
@@ -46,14 +50,13 @@ public class EnemyAIChase : MonoBehaviour
 
     void Update()
     {
-
         if(Vector2.Distance(rb.position, target.position) < chaseStartDistance)
         { 
             EventManager.TriggerEvent("chaseStart", null);
             currentlyChasing = true;
         }
 
-        if (path == null || !currentlyChasing)
+        if (path == null || !currentlyChasing || currentlyAttacking)
             return;
 
         if (Vector2.Distance(rb.position, target.position) > chaseEndDistance)
@@ -62,14 +65,17 @@ public class EnemyAIChase : MonoBehaviour
             currentlyChasing = false;
         }
 
+        
         if(currentWaypoint >= path.vectorPath.Count)
         {
-            reachedEndOfPath = true;
+            //reachedEndOfPath = true;
             return;
-        } else 
+        } 
+        /**else 
         {
             reachedEndOfPath = false;
-        }
+        }*/
+        
 
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 velocity = direction * speed;
@@ -84,12 +90,22 @@ public class EnemyAIChase : MonoBehaviour
             currentWaypoint++;
         }
 
-        if(velocity.x >= 0.01f)
+        if(velocity.x >= 0.1f)
         {
-            enemyGFX.localScale = new Vector3(-1f, 1f, 1f);
-        } else if (velocity.x <= -0.01f)
+            transform.localScale = new Vector3(0.6f, 0.6f, 1f);
+        } else if (velocity.x <= -0.1f)
         {
-            enemyGFX.localScale = new Vector3(1f, 1f, 1f);
+           transform.localScale = new Vector3(-0.6f, 0.6f, 1f);
         }
+    }
+
+    void StopChase(Dictionary<string, object> message)
+    {
+        currentlyAttacking = true;
+    }
+
+    void StartChase(Dictionary<string, object> message)
+    {
+        currentlyAttacking = false;
     }
 }

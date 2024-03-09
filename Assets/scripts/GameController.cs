@@ -9,7 +9,6 @@ public class GameController : MonoBehaviour
     void Start()
     {
         startPos = transform.position;
-        Debug.Log(startPos);
     }
 
     // Update is called once per frame
