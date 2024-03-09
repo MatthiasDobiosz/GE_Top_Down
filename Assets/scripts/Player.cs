@@ -123,7 +123,7 @@ public class Player : MonoBehaviour
         float dashDistance = 0f;
         while (dashDistance < dashingPower)
         {
-            int count = rb.Cast(direction, movementFilter, castCollisions, dashingPower - dashDistance + collisionOffset);
+            int count = rb.Cast(direction, movementFilter, castCollisions, 0.3f);
             if (count > 0)
             {
                 foreach (var hit in castCollisions)
