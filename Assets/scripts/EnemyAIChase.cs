@@ -95,7 +95,7 @@ public class EnemyAIChase : MonoBehaviour
             transform.localScale = new Vector3(0.6f, 0.6f, 1f);
         } else if (velocity.x <= -0.1f)
         {
-           transform.localScale = new Vector3(-0.6f, 0.6f, 1f);
+            transform.localScale = new Vector3(-0.6f, 0.6f, 1f);
         }
     }
 
