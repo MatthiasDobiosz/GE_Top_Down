@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+// Basic Logic inspired by: https://www.youtube.com/watch?v=sPiVz1k-fEs
+
+/**
+    Logic for setting an enemy into a "attacking" state and dealing damage to the player
+*/
 public class EnemyDamage : MonoBehaviour
 {
     public Transform target;
