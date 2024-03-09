@@ -7,12 +7,12 @@ public class EnemyAIPatrol : MonoBehaviour
 {
     public Transform[] patrolPoints;
     public float speed = 2f;
-    public float nextWaypointDistance = 3f;
+    public float nextWaypointDistance = 0.1f;
     public Transform enemyGFX;
 
     private Path path;
     private int currentWaypoint = 0;
-    private bool reachedEndOfPath = false;
+    // private bool reachedEndOfPath = false;
 
     private Seeker seeker;
     private Rigidbody2D rb;
@@ -36,7 +36,9 @@ public class EnemyAIPatrol : MonoBehaviour
     void UpdatePath()
     {
         if(seeker.IsDone() && isPatroling)
+        {
             seeker.StartPath(rb.position, currentPoint.position, OnPathComplete);
+        }
     }
 
     void OnPathComplete(Path p)
@@ -53,7 +55,7 @@ public class EnemyAIPatrol : MonoBehaviour
         if (path == null || !isPatroling)
             return;
 
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.1f)
+        if (Vector2.Distance(transform.position, currentPoint.position) < nextWaypointDistance)
             {
             // change array direction to go route backwards
             if (currentIndex >= patrolPoints.Length - 1 && arrayDirection == 1 || currentIndex <= 0 && arrayDirection == -1)
@@ -65,20 +67,24 @@ public class EnemyAIPatrol : MonoBehaviour
                 currentPoint = patrolPoints[currentIndex];
             }
 
+
         if(currentWaypoint >= path.vectorPath.Count)
         {
-            reachedEndOfPath = true;
+            // reachedEndOfPath = true;
             return;
-        } else 
+        } 
+        /**
+        else 
         {
             reachedEndOfPath = false;
         }
+        */
+
 
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 velocity = direction * speed;
 
         rb.position += velocity * Time.deltaTime;
-
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
 
         if (distance < nextWaypointDistance)
@@ -86,12 +92,12 @@ public class EnemyAIPatrol : MonoBehaviour
             currentWaypoint++;
         }
 
-        if(velocity.x >= 0.01f)
+        if(velocity.x >= 0.1f)
         {
-            enemyGFX.localScale = new Vector3(-1f, 1f, 1f);
-        } else if (velocity.x <= -0.01f)
+            transform.localScale = new Vector3(0.6f, 0.6f, 1f);
+        } else if (velocity.x <= -0.1f)
         {
-            enemyGFX.localScale = new Vector3(1f, 1f, 1f);
+            transform.localScale = new Vector3(-0.6f, 0.6f, 1f);
         }
     }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class bullet : MonoBehaviour
 {
     public float life = 3f;
+    public int damage = 20;
 
     private void Awake()
     {
@@ -15,7 +16,15 @@ public class bullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Destroy(other.gameObject);
+                if(other.gameObject.TryGetComponent<Health>(out var healthComponent))
+                {
+                    healthComponent.TakeDamage(damage);
+                    Debug.Log(healthComponent.currentHealth);
+                    if(healthComponent.currentHealth <= 0)
+                    {
+                        Destroy(other.gameObject);
+                    }
+                }
         }
 
         if(other.gameObject.CompareTag("Player")){
