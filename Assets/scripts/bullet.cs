@@ -18,6 +18,10 @@ public class bullet : MonoBehaviour
             Destroy(other.gameObject);
         }
 
-        Destroy(gameObject);
+        if(other.gameObject.CompareTag("Player")){
+            Debug.Log("pass");
+        }else {
+            Destroy(gameObject);
+        }
     }
 }

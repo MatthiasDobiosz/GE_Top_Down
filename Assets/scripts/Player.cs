@@ -17,16 +17,20 @@ public class Player : MonoBehaviour
 
     private bool canDash = true;
     private bool isDashing;
-    private float dashingPower = 24f;
+    private float dashingPower = 5f;
     private float dashingTime = 0.1f;
     private float dashingCooldown = 1f;
 
     [SerializeField] private TrailRenderer tr;
+    private Animator animator;
+
+    public Transform bulletPoint;
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponentInChildren<Animator>();
         //spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         // Eingabemethode für die Taste "V" hinzufügen
@@ -44,13 +48,30 @@ public class Player : MonoBehaviour
         }
 
         if(movementInput != Vector2.zero){
-            bool success = TryMove(new Vector2(movementInput.x, 0));
-
-            if(!success) {
-                success = TryMove(new Vector2(0, movementInput.y)); 
-            }
+            TryMove(movementInput); // Direkte Übertragung der Eingabe
         }
 
+        // Richtung der Animation ändern
+        //UpdateSpriteDirection();
+        UpdateAnimator();
+    }
+
+    private void UpdateAnimator()
+    {
+        if (animator != null)
+        {
+            animator.SetFloat("MoveX", movementInput.x);
+            animator.SetFloat("MoveY", movementInput.y);
+        }
+    }
+
+    public Vector2 GetMovementInput()
+    {
+        return movementInput;
+    }
+
+    private void UpdateSpriteDirection()
+    {
         Vector3 currentScale = transform.GetChild(0).localScale;
         if (movementInput.x < 0)
         {
@@ -62,7 +83,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private bool TryMove(Vector2 direction) {
+    private void TryMove(Vector2 direction) {
         if(direction != Vector2.zero) {
             int count = rb.Cast(
                 direction,
@@ -72,12 +93,7 @@ public class Player : MonoBehaviour
 
             if(count == 0){
                 rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
-                return true;
-            } else {
-                return false;
             }
-        } else {
-            return false;
         }   
     }
 
@@ -93,20 +109,47 @@ public class Player : MonoBehaviour
     {
         if (canDash)
         {
-            StartCoroutine(Dash());
+            StartCoroutine(Dash(movementInput.normalized));
         }
     }
 
-    private IEnumerator Dash(){
+    private IEnumerator Dash(Vector2 direction)
+    {
         canDash = false;
         isDashing = true;
-        rb.velocity = new Vector2(transform.GetChild(0).localScale.x * dashingPower, 0f);
+        rb.velocity = direction * dashingPower;
         tr.emitting = true;
-        yield return new WaitForSeconds(dashingTime);
+        
+        float dashDistance = 0f;
+        while (dashDistance < dashingPower)
+        {
+            int count = rb.Cast(direction, movementFilter, castCollisions, 0.3f);
+            if (count > 0)
+            {
+                foreach (var hit in castCollisions)
+                {
+                    if (hit.collider.CompareTag("Obstacle"))
+                    {
+                        Debug.Log("uwbfuwbf");
+                        rb.velocity = Vector2.zero;
+                        isDashing = false;
+                        tr.emitting = false;
+                        canDash = true;
+                        yield break;
+                    }
+                }
+            }
+
+            dashDistance += (dashingPower / dashingTime) * Time.deltaTime;
+            yield return null;
+        }
+        
         tr.emitting = false;
         isDashing = false;
         rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
+
+
 }
