@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Teleporter : MonoBehaviour
@@ -10,9 +11,12 @@ public class Teleporter : MonoBehaviour
 
     private bool playerOnTeleporter = false;
 
+    public bool allKeyFragments = false;
+    public TMP_Text teleporterError;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && allKeyFragments)
         {
             playerOnTeleporter = true;
             Invoke("TeleportPlayer", delayBeforeTeleport);
@@ -21,11 +25,15 @@ public class Teleporter : MonoBehaviour
             {
                 spawnedParticles = Instantiate(particlePrefab, transform.position, Quaternion.identity);
             }
+        }else if (other.CompareTag("Player") && !allKeyFragments)
+        {
+            teleporterError.gameObject.SetActive(true); 
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        teleporterError.gameObject.SetActive(false); 
         if (other.CompareTag("Player"))
         {
             playerOnTeleporter = false;

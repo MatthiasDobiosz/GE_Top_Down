@@ -1,35 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    Vector2 startPos;
-    // Start is called before the first frame update
-    void Start()
-    {
-        startPos = transform.position;
+    public TMP_Text collectedText;
+    private int collectedCount = 0;
+    public int totalObjects = 4;
+
+    public Teleporter teleporter;
+
+    private void Start() {
+        UpdateCollectedText();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CollectObject()
     {
-        
-    }
+        collectedCount++;
+        UpdateCollectedText();
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log(other);
-        if(other.CompareTag("Obstacle"))
+        if (collectedCount >= totalObjects)
         {
-            Die();
+            teleporter.allKeyFragments = true;
         }
     }
 
-    void Die(){
-        Respawn();
-    }
-
-    void Respawn(){
-        transform.position = startPos;
+    void UpdateCollectedText()
+    {
+        collectedText.text = collectedCount + "/" + totalObjects + " key fragments";
     }
 }

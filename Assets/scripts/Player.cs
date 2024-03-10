@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     public Transform bulletPoint;
     public Vector2 lastMovementInput;
 
+    public GameController gameController;
+
 
     void Start()
     {
@@ -136,6 +138,16 @@ public class Player : MonoBehaviour
         rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Collectible"))
+        {
+            gameController.CollectObject();
+
+            other.gameObject.SetActive(false);
+        }
     }
 
 
