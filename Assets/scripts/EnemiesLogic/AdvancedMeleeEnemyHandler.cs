@@ -115,10 +115,15 @@ public class AdvancedMeleeEnemyHandler : MonoBehaviour
 
     IEnumerator Die(int secs)
     {
+        transform.GetComponent<EnemyAIChase>().enabled = false;
+        transform.GetComponent<EnemyAIPatrol>().enabled = false;
+
         Destroy(transform.gameObject, secs);
         yield return new WaitForSeconds(secs);
+
         transform.GetComponent<EnemyAIChase>().OnDestroy();
         transform.GetComponent<EnemyAIPatrol>().OnDestroy();
+        
         OnDestroy();
     }
 
