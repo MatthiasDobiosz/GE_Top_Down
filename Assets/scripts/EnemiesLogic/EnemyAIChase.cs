@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
+// Basic Logic for the script taken by: https://www.youtube.com/watch?v=jvtFUfJ6CP8
+
+/**
+    Logic for an Enemy type that chases the player directly
+*/
 public class EnemyAIChase : MonoBehaviour
 {
     public Transform target;

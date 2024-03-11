@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+    Basic logic to transform a slider into a healthbar with a maxValue and a currentValue
+*/
 public class Healthbar : MonoBehaviour
 {
     public Slider slider;

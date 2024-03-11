@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+    Sets health for a given object and exposes functions to take/heal damage
+*/
 public class Health : MonoBehaviour
 {
     public int maxHealth = 100;
