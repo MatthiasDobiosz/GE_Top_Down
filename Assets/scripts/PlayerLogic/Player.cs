@@ -70,6 +70,11 @@ public class Player : MonoBehaviour
         return movementInput;
     }
 
+    public Vector2 GetLastMovementInput()
+    {
+        return lastMovementInput;
+    }
+
     private void TryMove(Vector2 direction) {
         if(direction != Vector2.zero) {
             int count = rb.Cast(
