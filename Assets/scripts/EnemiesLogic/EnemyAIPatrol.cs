@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using System;
 
 // Basic Logic for the script taken by: https://www.youtube.com/watch?v=jvtFUfJ6CP8
 
@@ -13,7 +14,6 @@ public class EnemyAIPatrol : MonoBehaviour
     public Transform[] patrolPoints;
     public float speed = 2f;
     public float nextWaypointDistance = 0.1f;
-    public Transform enemyGFX;
 
     private Path path;
     private int currentWaypoint = 0;
@@ -60,7 +60,7 @@ public class EnemyAIPatrol : MonoBehaviour
         if (path == null || !isPatroling)
             return;
 
-        if (Vector2.Distance(transform.position, currentPoint.position) < nextWaypointDistance)
+        if (Vector2.Distance(transform.position, currentPoint.position) < nextWaypointDistance && patrolPoints.Length > 1)
             {
             // change array direction to go route backwards
             if (currentIndex >= patrolPoints.Length - 1 && arrayDirection == 1 || currentIndex <= 0 && arrayDirection == -1)
@@ -86,34 +86,61 @@ public class EnemyAIPatrol : MonoBehaviour
         */
 
 
+        // Debug.Log("Path: " + path.vectorPath[currentWaypoint].x + ", Position: " + rb.position.x);
+        
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 velocity = direction * speed;
-
+        
         rb.position += velocity * Time.deltaTime;
+        
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
+        
+        if(Math.Abs(path.vectorPath[currentWaypoint].x - rb.position.x) > 0.1f)
+        {
+            if(velocity.x >= 0.01f)
+            {
+                transform.localScale = new Vector3(0.6f, 0.6f, 1f);
+            } else if (velocity.x <= -0.01f)
+            {
+                transform.localScale = new Vector3(-0.6f, 0.6f, 1f);
+            }
+        }
 
         if (distance < nextWaypointDistance)
         {
             currentWaypoint++;
         }
-
-        if(velocity.x >= 0.1f)
-        {
-            transform.localScale = new Vector3(0.6f, 0.6f, 1f);
-        } else if (velocity.x <= -0.1f)
-        {
-            transform.localScale = new Vector3(-0.6f, 0.6f, 1f);
-        }
     }
+
 
     void StartPatrol(Dictionary<string, object> message)
     {
-        isPatroling = true;
+        if((Rigidbody2D)message["body"] == rb)
+        {
+            isPatroling = true;
+
+            EventManager.TriggerEvent("patrolStart", new Dictionary<string, object> {
+                {"body", rb}
+            });
+        }
     }
 
     void StopPatrol(Dictionary<string, object> message)
     {
-        isPatroling = false;
+        if((Rigidbody2D)message["body"] == rb)
+        {
+            isPatroling = false;
+
+            EventManager.TriggerEvent("patrolStop", new Dictionary<string, object> {
+                {"body", rb}
+            });
+        }
+    }
+
+    public void OnDestroy()
+    {
+        EventManager.StopListening("chaseStart", StopPatrol);
+        EventManager.StopListening("chaseEnd", StartPatrol);
     }
 
     private void OnDrawGizmos()

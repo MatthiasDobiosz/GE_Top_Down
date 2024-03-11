@@ -7,9 +7,9 @@ using System;
 // Basic Logic for the script taken by: https://www.youtube.com/watch?v=jvtFUfJ6CP8
 
 /**
-    Logic for an Enemy type that chases the player directly
+    Logic for a Ranged Enemy type that chases player and always keeps distance 
 */
-public class EnemyAIChase : MonoBehaviour
+public class EnemyAIChaseRanged : MonoBehaviour
 {
     public Transform target;
     public float speed = 2f;
@@ -17,6 +17,7 @@ public class EnemyAIChase : MonoBehaviour
     public Transform enemyGFX;
     public float chaseStartDistance = 0.5f;
     public float chaseEndDistance = 3f;
+    public float thresholdDistance = 1f;
 
 
     private Path path;
@@ -28,11 +29,14 @@ public class EnemyAIChase : MonoBehaviour
 
     private Seeker seeker;
     private Rigidbody2D rb;
+    private Vector2 currentTargetPoint;
+    private bool isInThresholdDistance;
 
     void Start()
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
+        GetRangedPosition();
 
         InvokeRepeating(nameof(UpdatePath), 0f, .01f);
 
@@ -45,7 +49,7 @@ public class EnemyAIChase : MonoBehaviour
     void UpdatePath()
     {
         if(seeker.IsDone() && currentlyChasing && !currentlyAttacking)
-            seeker.StartPath(rb.position, target.position, OnPathComplete);
+            seeker.StartPath(rb.position, currentTargetPoint, OnPathComplete);
     }
 
     void OnPathComplete(Path p)
@@ -59,15 +63,18 @@ public class EnemyAIChase : MonoBehaviour
 
     void Update()
     {
-        if(Vector2.Distance(rb.position, target.position) < chaseStartDistance && hasLineOfSight)
+        GetRangedPosition();
+        
+        if(Vector2.Distance(rb.position, currentTargetPoint) < chaseStartDistance && hasLineOfSight)
         { 
             StartChase();
         }
 
-        if (path == null || !currentlyChasing || currentlyAttacking)
+
+        if (path == null || !currentlyChasing || currentlyAttacking || isInThresholdDistance)
             return;
 
-        if (Vector2.Distance(rb.position, target.position) > chaseEndDistance)
+        if (Vector2.Distance(rb.position, currentTargetPoint) > chaseEndDistance)
         {
             EventManager.TriggerEvent("chaseEnd", new Dictionary<string, object> {
                 {"body", rb}
@@ -117,14 +124,32 @@ public class EnemyAIChase : MonoBehaviour
         CheckIfPlayerIsInLineOfSight();
     }
 
-    void StartChase()
+    void GetRangedPosition()
     {
-        if(!currentlyChasing)
+        float currentDistance = Vector2.Distance(currentTargetPoint, rb.position);
+
+         /// Debug.Log(currentDistance);
+
+        // if the enemy is not at the threshold distance or has no LOS than it should chase the player target point
+        if(currentDistance > thresholdDistance  || !hasLineOfSight)
         {
-            EventManager.TriggerEvent("chaseStart", new Dictionary<string, object> {
+            currentTargetPoint = target.position;
+            isInThresholdDistance = false;
+
+            EventManager.TriggerEvent("canNotAttackRanged", new Dictionary<string, object> {
                 {"body", rb}
             });
-            currentlyChasing = true;
+        }
+        // if line of sight is established and enemy is within threshold range it should stop and attack
+        else 
+        {
+            currentTargetPoint = target.position;
+            isInThresholdDistance = true;
+
+            
+            EventManager.TriggerEvent("canAttackRanged", new Dictionary<string, object> {
+                {"body", rb}
+            });
         }
     }
 
@@ -142,6 +167,17 @@ public class EnemyAIChase : MonoBehaviour
             Debug.DrawLine(transform.position, target.transform.position, Color.green);
         }
 
+    }
+
+    void StartChase()
+    {
+        if(!currentlyChasing)
+        {
+            EventManager.TriggerEvent("chaseStart", new Dictionary<string, object> {
+                {"body", rb}
+            });
+            currentlyChasing = true;
+        }
     }
 
     void DiscontinueChase(Dictionary<string, object> message)

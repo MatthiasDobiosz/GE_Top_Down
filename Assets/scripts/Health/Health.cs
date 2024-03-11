@@ -10,21 +10,31 @@ public class Health : MonoBehaviour
     public int maxHealth = 100;
     public int currentHealth;
 
-    public Healthbar healthbar;
+    public Healthbar healthbar = null;
     void Start()
     {
         currentHealth = maxHealth;
-        healthbar.SetMaxHealth(maxHealth);
+
+        if(healthbar)
+            healthbar.SetMaxHealth(maxHealth);
     }
 
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
-        healthbar.SetHealth(currentHealth);
-
+        if(healthbar)
+            healthbar.SetHealth(currentHealth);
+        
         if(currentHealth <= 0)
         {
-            //Death
+            EventManager.TriggerEvent("death", new Dictionary<string, object> {
+                {"gameobject", transform.gameObject}
+            });             
+        } else
+        {
+            EventManager.TriggerEvent("damageTaken", new Dictionary<string, object> {
+                {"gameobject", transform.gameObject}
+            });     
         }
     }
 

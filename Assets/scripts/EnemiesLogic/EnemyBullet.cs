@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bullet : MonoBehaviour
+public class EnemyBullet : MonoBehaviour
 {
     public float life = 3f;
-    public int damage = 20;
+    public int damage = 10;
 
     private void Awake()
     {
@@ -14,15 +14,15 @@ public class bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Player"))
         {
-                if(other.gameObject.TryGetComponent<Health>(out var healthComponent))
-                {
-                    healthComponent.TakeDamage(damage);
-                }
+            if(other.gameObject.TryGetComponent<Health>(out var healthComponent))
+            {
+                healthComponent.TakeDamage(damage);
+            }
         }
 
-        if(other.gameObject.CompareTag("Player")){
+        if(other.gameObject.CompareTag("Enemy")){
             Debug.Log("pass");
         }else {
             Destroy(gameObject);
