@@ -155,5 +155,20 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Enemy"))
+        {
+            Vector2 pushbackDirection = (transform.position - collision.transform.position).normalized;
+
+            rb.AddForce(pushbackDirection * 0.5f, ForceMode2D.Impulse);
+
+            if(collision.gameObject.TryGetComponent<Rigidbody2D>(out var enemyRb))
+            {
+                enemyRb.AddForce(-pushbackDirection * 0.5f, ForceMode2D.Impulse);
+            }
+        }
+    }
+
 
 }
