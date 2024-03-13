@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class DoorAnimated : MonoBehaviour
@@ -20,13 +21,12 @@ public class DoorAnimated : MonoBehaviour
         }
         else if (!IsPlayerNearDoor())
         {
-            Debug.Log("wiofnwf");
             CloseDoor();
         }
     }
 
     bool IsPlayerNearDoor()
-    {
+    {   
         if (player != null)
         {
             float distance = Vector3.Distance(transform.position, player.transform.position);
@@ -37,11 +37,11 @@ public class DoorAnimated : MonoBehaviour
 
     public void OpenDoor()
     {
-        animator.SetBool("OpenDoor", true);
+        animator.SetBool("Open", true);
     }
 
     public void CloseDoor()
     {
-        animator.SetBool("OpenDoor", false);
+        animator.SetBool("Open", false);
     }
 }
