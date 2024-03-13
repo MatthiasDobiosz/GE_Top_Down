@@ -117,10 +117,15 @@ public class BasicRangedEnemyHandler : MonoBehaviour
 
     IEnumerator Die(int secs)
     {
+        transform.GetComponent<EnemyAIChaseRanged>().enabled = false;
+        transform.GetComponent<EnemyAIPatrol>().enabled = false;
+        
         Destroy(transform.gameObject, secs);
         yield return new WaitForSeconds(secs);
+
         transform.GetComponent<EnemyAIChaseRanged>().OnDestroy();
         transform.GetComponent<EnemyAIPatrol>().OnDestroy();
+
         OnDestroy();
     }
     public void OnDestroy()
