@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class DoorAnimated : MonoBehaviour
@@ -6,6 +7,9 @@ public class DoorAnimated : MonoBehaviour
     private Animator animator;
     public float interactionDistance = 2f;
     private GameObject player;
+    public TMP_Text lockedText;
+    private bool isOpen = false;
+    private bool isPlayerNear = false;
 
     void Start()
     {
@@ -15,18 +19,29 @@ public class DoorAnimated : MonoBehaviour
 
     void Update()
     {
-        if (IsPlayerNearDoor() && Input.GetKeyDown(KeyCode.E))
+        isPlayerNear = IsPlayerNearDoor();
+
+        if (isPlayerNear && Input.GetKeyDown(KeyCode.E))
         {
             OpenDoor();
         }
-        else if (!IsPlayerNearDoor())
+        else if (!isPlayerNear)
         {
             CloseDoor();
+        }
+
+        if (isPlayerNear && !isOpen)
+        {
+            lockedText.gameObject.SetActive(true);
+        }
+        else
+        {
+            lockedText.gameObject.SetActive(false);
         }
     }
 
     bool IsPlayerNearDoor()
-    {   
+    {
         if (player != null)
         {
             float distance = Vector3.Distance(transform.position, player.transform.position);
@@ -38,10 +53,12 @@ public class DoorAnimated : MonoBehaviour
     public void OpenDoor()
     {
         animator.SetBool("Open", true);
+        isOpen = true;
     }
 
     public void CloseDoor()
     {
         animator.SetBool("Open", false);
+        isOpen = false;
     }
 }
