@@ -22,6 +22,7 @@ public class EnemyAIPatrol : MonoBehaviour
     private Seeker seeker;
     private Rigidbody2D rb;
     private Transform currentPoint;
+    private Animator anim;
     private int currentIndex;
     private int arrayDirection = 1;
     private bool isPatroling = true;
@@ -30,6 +31,7 @@ public class EnemyAIPatrol : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         currentPoint = patrolPoints[0];
 
         EventManager.StartListening("chaseStart", StopPatrol);
@@ -94,16 +96,22 @@ public class EnemyAIPatrol : MonoBehaviour
         rb.position += velocity * Time.deltaTime;
         
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
-        
+
         if(Math.Abs(path.vectorPath[currentWaypoint].x - rb.position.x) > 0.1f)
         {
-            if(velocity.x >= 0.01f)
-            {
-                transform.localScale = new Vector3(0.6f, 0.6f, 1f);
-            } else if (velocity.x <= -0.01f)
-            {
-                transform.localScale = new Vector3(-0.6f, 0.6f, 1f);
+            if(Math.Abs(velocity.y) < 0.1f)
+            {   
+                anim.SetFloat("YInput", 0);
             }
+            anim.SetFloat("XInput", velocity.x);
+        }
+        if(Math.Abs(path.vectorPath[currentWaypoint].y - rb.position.y) > 0.1f)
+        {
+            if(Math.Abs(velocity.x) < 0.1f)
+            {   
+                anim.SetFloat("XInput", 0);
+            }
+            anim.SetFloat("YInput", velocity.y);
         }
 
         if (distance < nextWaypointDistance)

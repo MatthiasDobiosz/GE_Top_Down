@@ -41,7 +41,7 @@ public class BasicMeleeEnemyHandler : MonoBehaviour
 
             if(shouldAttack)
             {
-                anim.SetTrigger("Attack");
+                //anim.SetTrigger("Attack");
                 isAttacking = true;
             }
         }
