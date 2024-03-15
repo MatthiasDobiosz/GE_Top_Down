@@ -109,7 +109,7 @@ public class BasicRangedEnemyHandler : MonoBehaviour
     {
         if((GameObject)message["gameobject"] == transform.gameObject && !inDeathAnimation)
         {
-            anim.SetTrigger("Death");
+            //anim.SetTrigger("Death");
             inDeathAnimation = true;
             StartCoroutine(Die(1));
         }
