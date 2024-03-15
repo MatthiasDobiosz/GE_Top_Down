@@ -67,7 +67,9 @@ public class EnemyAIChase : MonoBehaviour
         }
 
         if (path == null || !currentlyChasing || currentlyAttacking)
+        {
             return;
+        }
 
         if (Vector2.Distance(rb.position, target.position) > chaseEndDistance)
         {
@@ -156,6 +158,7 @@ public class EnemyAIChase : MonoBehaviour
     {
         if((Rigidbody2D)message["body"] == rb)
         {
+            
             currentlyAttacking = true;
         }
     }

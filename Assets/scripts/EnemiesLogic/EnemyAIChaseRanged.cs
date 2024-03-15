@@ -74,7 +74,11 @@ public class EnemyAIChaseRanged : MonoBehaviour
 
 
         if (path == null || !currentlyChasing || currentlyAttacking || isInThresholdDistance)
+        {
+            anim.SetBool("Moving", false);
             return;
+        }
+            
 
         if (Vector2.Distance(rb.position, currentTargetPoint) > chaseEndDistance)
         {
@@ -181,6 +185,7 @@ public class EnemyAIChaseRanged : MonoBehaviour
     {
         if(!currentlyChasing)
         {
+            anim.SetBool("Moving", true);
             EventManager.TriggerEvent("chaseStart", new Dictionary<string, object> {
                 {"body", rb}
             });
@@ -200,6 +205,7 @@ public class EnemyAIChaseRanged : MonoBehaviour
     {
         if((Rigidbody2D)message["body"] == rb)
         {
+            anim.SetBool("Moving", true);
             currentlyAttacking = false;
         }
     }
