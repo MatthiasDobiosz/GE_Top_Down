@@ -1006,7 +1006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b208b57d96a9e2549be2806ada5074f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportPosition: {x: 1, y: 1}
+  teleportPosition: {x: 3, y: -1.5}
   delayBeforeTeleport: 3
   particlePrefab: {fileID: 4557353778044983212, guid: c446c6a1ad3c75b46a0dc88f70fa1544, type: 3}
   allKeyFragments: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,7 +37,6 @@ public class Player : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         //spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
-        // Eingabemethode für die Taste "V" hinzufügen
         InputAction dashAction = new InputAction(binding: "<Keyboard>/v", interactions: "press");
         dashAction.performed += context => StartDash();
         dashAction.Enable();
@@ -53,15 +53,19 @@ public class Player : MonoBehaviour
         if(movementInput != Vector2.zero){
             TryMove(movementInput); 
             lastMovementInput = movementInput;
+            UpdateAnimator(false);
+        } else{
+            UpdateAnimator(true);
         }
 
-        UpdateAnimator();
     }
 
-    private void UpdateAnimator()
+    private void UpdateAnimator(bool idle)
     {
+        Debug.Log(idle);
         if (animator != null)
         {
+            animator.SetBool("Idle", idle);
             animator.SetFloat("MoveX", lastMovementInput.x);
             animator.SetFloat("MoveY", lastMovementInput.y);
         }
@@ -96,6 +100,9 @@ public class Player : MonoBehaviour
         if (movementInput.magnitude > 1f)
         {
             movementInput.Normalize();
+        } else if (movementInput.magnitude < 1f) 
+        {
+            movementInput = Vector2.zero;
         }
     }
 
