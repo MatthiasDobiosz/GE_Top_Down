@@ -10,6 +10,7 @@ public class Gun2D : MonoBehaviour
 
     private Player player;
     private Vector2 lastMovementInput;
+
     private void Start()
     {
         player = GetComponentInParent<Player>();
@@ -32,33 +33,58 @@ public class Gun2D : MonoBehaviour
 
         if (Mathf.Abs(horizontalInput) > Mathf.Abs(verticalInput))
         {
-            if (horizontalInput > 0)
+            if (horizontalInput > 0){
                 lastMovementInput = Vector2.right;
-            else
+                AdjustBulletSpawnPointPosition(-0.48f, 1.6f);
+            }
+            else{
                 lastMovementInput = Vector2.left;
+                Debug.Log("wdwd");
+                AdjustBulletSpawnPointPosition(-0.53f, -1.24f);
+                }
         }
         else
         {
             if (verticalInput > 0)
             {
-                if (horizontalInput > 0)
+                if (horizontalInput > 0){
                     lastMovementInput = new Vector2(1, 1);
-                else if (horizontalInput < 0)
+                    AdjustBulletSpawnPointPosition(-1.04f, 0.95f);
+                }
+                else if (horizontalInput < 0){
                     lastMovementInput = new Vector2(-1, 1);
-                else
+                    AdjustBulletSpawnPointPosition(-1.12f, -0.87f);
+                }
+                else{
                     lastMovementInput = Vector2.up;
+                    AdjustBulletSpawnPointPosition(-1.74f, 0.02f);
+                }
             }
             else if (verticalInput < 0)
             {
-                if (horizontalInput > 0)
+                if (horizontalInput > 0){
                     lastMovementInput = new Vector2(1, -1);
-                else if (horizontalInput < 0)
+                    AdjustBulletSpawnPointPosition(0.25f, 1f);
+                }
+                else if (horizontalInput < 0){
                     lastMovementInput = new Vector2(-1, -1);
-                else
+                    AdjustBulletSpawnPointPosition(0.13f, -1.04f);
+                }
+                else{
                     lastMovementInput = Vector2.down;
+                    AdjustBulletSpawnPointPosition(1.8f, -0.1f);
+                }
             }
         }
         return lastMovementInput;
+    }
+
+    private void AdjustBulletSpawnPointPosition(float x, float y)
+    {
+        Vector2 newPosition = Vector2.zero;
+        newPosition.x = x;
+        newPosition.y = y;
+        bulletSpawnPoint.localPosition = newPosition;
     }
 
     private void ShootBullet(Vector2 direction)
