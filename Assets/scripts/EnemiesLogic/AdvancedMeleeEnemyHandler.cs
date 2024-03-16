@@ -17,11 +17,13 @@ public class AdvancedMeleeEnemyHandler : MonoBehaviour
     private MeleeTeleportAttack meleeTeleportAttack;
     private bool hasDoneInitialAttack = false;
     private bool hasLineOfSight = false;
+    private MovePointAroundEntity movePointAroundEntityHandler;
 
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        movePointAroundEntityHandler = GetComponent<MovePointAroundEntity>();
         meleeStandardAttack = GetComponent<MeleeStandardAttack>();
         meleeTeleportAttack = GetComponent<MeleeTeleportAttack>();
 
@@ -44,7 +46,10 @@ public class AdvancedMeleeEnemyHandler : MonoBehaviour
         if(!hasDoneInitialAttack){
             if(Vector2.Distance(rb.position, target.position) < minDistanceInitialAttack && !isAttacking && hasLineOfSight)
             {
-                meleeTeleportAttack.TriggerAttackStart(rb, target);
+                Vector2 direction = meleeTeleportAttack.TriggerAttackStart(rb, target);
+                anim.SetFloat("XInput", direction.x);
+                anim.SetFloat("YInput", direction.y);
+                movePointAroundEntityHandler.MovePoint(direction.x, direction.y);
                 anim.SetTrigger("Attack");
                 isAttacking = true;
             }
@@ -57,7 +62,7 @@ public class AdvancedMeleeEnemyHandler : MonoBehaviour
 
                 if(shouldAttack)
                 {
-                    anim.SetTrigger("Attack2");
+                    anim.SetTrigger("Attack");
                     isAttacking = true;
                 }
             }
@@ -111,6 +116,11 @@ public class AdvancedMeleeEnemyHandler : MonoBehaviour
         {
             StartCoroutine(Die(1));
         }
+    }
+
+    Vector2 GetCurrentFacingDirection()
+    {
+        return new Vector2(anim.GetFloat("XInput"), anim.GetFloat("YInput"));
     }
 
     IEnumerator Die(int secs)
