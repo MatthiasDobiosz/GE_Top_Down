@@ -42,13 +42,19 @@ public class DoorAnimated : MonoBehaviour
 
     bool IsPlayerNearDoor()
     {
-        if (player != null)
-        {
-            float distance = Vector3.Distance(transform.position, player.transform.position);
-            return distance <= interactionDistance;
-        }
-        return false;
+    if (player != null)
+    {
+        Vector3 playerPosition = player.transform.position;
+        Vector3 doorPosition = transform.position;
+
+        playerPosition.z = doorPosition.z;
+        
+        float distance = Vector3.Distance(doorPosition, playerPosition);
+
+        return distance <= interactionDistance;
     }
+    return false;
+}
 
     public void OpenDoor()
     {
