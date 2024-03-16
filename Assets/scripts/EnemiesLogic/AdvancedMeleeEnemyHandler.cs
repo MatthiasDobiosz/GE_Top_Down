@@ -43,13 +43,17 @@ public class AdvancedMeleeEnemyHandler : MonoBehaviour
             }
         }
 
+
         if(!hasDoneInitialAttack){
             if(Vector2.Distance(rb.position, target.position) < minDistanceInitialAttack && !isAttacking && hasLineOfSight)
             {
                 Vector2 direction = meleeTeleportAttack.TriggerAttackStart(rb, target);
                 anim.SetFloat("XInput", direction.x);
                 anim.SetFloat("YInput", direction.y);
-                movePointAroundEntityHandler.MovePoint(direction.x, direction.y);
+
+                Vector2 facingDirection = GetCurrentFacingDirection();
+                movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 0);
+
                 anim.SetTrigger("Attack");
                 isAttacking = true;
             }
@@ -57,7 +61,8 @@ public class AdvancedMeleeEnemyHandler : MonoBehaviour
         else {  
             if(!isAttacking && hasLineOfSight)
             { 
-            
+                Vector2 facingDirection = GetCurrentFacingDirection();
+                movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 1);
                 bool shouldAttack = meleeStandardAttack.TriggerAttackStart(rb, target);
 
                 if(shouldAttack)

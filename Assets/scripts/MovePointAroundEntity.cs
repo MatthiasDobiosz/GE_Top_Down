@@ -3,80 +3,65 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Direction
-{
-    Left,
-    Right,
-    Top,
-    Bottom,
-    TopLeft,
-    TopRight,
-    BottomLeft,
-    BottomRight
-}
 public class MovePointAroundEntity : MonoBehaviour
 {
-    public Transform point;
+    public Transform[] points;
     public Transform entity;
-    public Direction initialAttackDirection;
+    public Vector2[] directionCoordinates;
 
-    private Vector2 initialAttackDirectionValue = Vector2.zero;
-    private Dictionary<(Direction, Direction), Vector2> directionMappings;
-    
-    void Start()
-    {
-        directionMappings = new Dictionary<(Direction, Direction), Vector2>();
-        if(initialAttackDirectionValue == Vector2.zero){
-            initialAttackDirectionValue = entity.InverseTransformPoint(point.position);
-            FillDirectionMappings();
+    public void MovePoint(float lastX, float lastY, int index)
+    {        
+        if (Mathf.Abs(lastX) > Mathf.Abs(lastY))
+        {
+            if (lastX > 0){
+                //right
+                SetNewPointPosition(directionCoordinates[2*(index+1)].x, directionCoordinates[2*(index+1)].y, points[index]);
+            }
+            else{
+                // Left
+                SetNewPointPosition(directionCoordinates[6*(index+1)].x, directionCoordinates[6*(index+1)].y, points[index]);
+            }
+        }
+        else
+        {
+            if (lastY > 0)
+            {
+                if (lastX > 0){
+                    // Top Right
+                    SetNewPointPosition(directionCoordinates[1*(index+1)].x, directionCoordinates[1*(index+1)].y, points[index]);
+                }
+                else if (lastX < 0){
+                    // Top Left
+                    SetNewPointPosition(directionCoordinates[7*(index+1)].x, directionCoordinates[7*(index+1)].y, points[index]);
+                }
+                else{
+                    // Top
+                    SetNewPointPosition(directionCoordinates[index == 0 ? 0 : (8*index)].x, directionCoordinates[index == 0 ? 0 : (8*index)].y, points[index]);
+                }
+            }
+            else if (lastY < 0)
+            {
+                if (lastX > 0){
+                    // Bottom Right
+                    SetNewPointPosition(directionCoordinates[3*(index+1)].x, directionCoordinates[3*(index+1)].y, points[index]);
+                }
+                else if (lastX < 0){
+                    // Bottom Left
+                    SetNewPointPosition(directionCoordinates[5*(index+1)].x, directionCoordinates[5*(index+1)].y, points[index]);
+                }
+                else{
+                    // Bottom
+                    SetNewPointPosition(directionCoordinates[4*(index+1)].x, directionCoordinates[4*(index+1)].y, points[index]);
+                }
+            }
         }
     }
 
-    public void MovePoint(float lastX, float lastY)
+    void SetNewPointPosition(float x, float y, Transform point)
     {
-        double angleInDegrees = Math.Atan2(lastY, lastX) * (180 / Math.PI);
-
-        if (angleInDegrees < 0)
-            angleInDegrees += 360;
-        
-        if (IsInArea(angleInDegrees, 22.5, 67.5))
-            // Top Right
-            point.position = directionMappings.GetValueOrDefault((initialAttackDirection, Direction.Top));   
-        else if (IsInArea(angleInDegrees, 67.5, 112.5))
-            // Top
-            point.position = directionMappings.GetValueOrDefault((initialAttackDirection, Direction.Top));
-        else if (IsInArea(angleInDegrees, 112.5, 157.5))
-            // Top Left
-            point.position = directionMappings.GetValueOrDefault((initialAttackDirection, Direction.Top));
-        else if (IsInArea(angleInDegrees, 157.5, 202.5))
-            // Left
-            point.position = directionMappings.GetValueOrDefault((initialAttackDirection, Direction.Left));
-        else if (IsInArea(angleInDegrees, 202.5, 247.5))
-            // Bottom Left
-            point.position = directionMappings.GetValueOrDefault((initialAttackDirection, Direction.Bottom));
-        else if (IsInArea(angleInDegrees, 247.5, 292.5))
-            // Bottom
-            point.position = directionMappings.GetValueOrDefault((initialAttackDirection, Direction.Bottom));
-        else if (IsInArea(angleInDegrees, 292.5, 337.5))
-            // Bottom Right
-            point.position = directionMappings.GetValueOrDefault((initialAttackDirection, Direction.Bottom));
-        else 
-        {
-            //right
-            point.localPosition = directionMappings.GetValueOrDefault((initialAttackDirection, Direction.Right));
-        }    
-    }
-
-    bool IsInArea(double val, double min, double max)
-    {
-        return val >= min && val < max;
-    }
-
-    void FillDirectionMappings()
-    {
-        directionMappings[(Direction.Left, Direction.Top)] = new Vector2(initialAttackDirectionValue.y, -initialAttackDirectionValue.x);
-        directionMappings[(Direction.Left, Direction.Bottom)] = new Vector2(initialAttackDirectionValue.y, initialAttackDirectionValue.x);
-        directionMappings[(Direction.Left, Direction.Right)] = new Vector2(-initialAttackDirectionValue.x, initialAttackDirectionValue.y);
-        directionMappings[(Direction.Left, Direction.Left)] = new Vector2(initialAttackDirectionValue.y, initialAttackDirectionValue.x);
+        Vector2 newPosition = Vector2.zero;
+        newPosition.x = x;
+        newPosition.y = y;
+        point.localPosition = newPosition;
     }
 }
