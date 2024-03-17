@@ -12,6 +12,10 @@ public class Gun2D : MonoBehaviour
     private Vector2 lastMovementInput;
     private AudioManager audioManager;
 
+    public float shootCooldown = 0.25f;
+    private bool canShoot = true;
+    private float shootTimer = 0f;
+
     private void Start()
     {
         player = GetComponentInParent<Player>();
@@ -20,12 +24,22 @@ public class Gun2D : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (canShoot && Input.GetKeyDown(KeyCode.Space))
         {   
             lastMovementInput = player.lastMovementInput;
             Vector2 shootDirection = GetShootDirection();
             audioManager.Play("PlayerShooting");
             ShootBullet(shootDirection);
+            canShoot = false;
+            shootTimer = shootCooldown;
+        }
+        if (!canShoot)
+        {
+            shootTimer -= Time.deltaTime;
+            if (shootTimer <= 0f)
+            {
+                canShoot = true;
+            }
         }
     }
 

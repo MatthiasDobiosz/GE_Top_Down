@@ -5,12 +5,15 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     public TMP_Text collectedText;
-    private int collectedCount = 0;
+    public int collectedCount = 0;
     public int totalObjects = 4;
 
-    public Teleporter teleporter;
+    private Teleporter teleporter;
+    private TeleporterMaster teleporterMaster;
 
     private void Start() {
+        teleporter = FindObjectOfType<Teleporter>();
+        teleporterMaster = FindObjectOfType<TeleporterMaster>();
         UpdateCollectedText();
     }
 
@@ -25,8 +28,13 @@ public class GameController : MonoBehaviour
             teleporter.allKeyFragments = true;
         }
     }
+    public void CollectMasterObject()
+    {
+        teleporterMaster.hasMasterKey = true;
+        FindObjectOfType<AudioManager>().Play("CollectKey");
+    }
 
-    void UpdateCollectedText()
+    public void UpdateCollectedText()
     {
         collectedText.text = collectedCount + "/" + totalObjects + " key fragments";
     }

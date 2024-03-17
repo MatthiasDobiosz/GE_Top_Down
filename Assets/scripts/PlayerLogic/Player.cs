@@ -159,6 +159,12 @@ public class Player : MonoBehaviour
 
             other.gameObject.SetActive(false);
         }
+        if (other.CompareTag("CollectibleMaster"))
+        {
+            gameController.CollectMasterObject();
+
+            other.gameObject.SetActive(false);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
