@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     {
         collectedCount++;
         UpdateCollectedText();
+        FindObjectOfType<AudioManager>().Play("CollectKey");
 
         if (collectedCount >= totalObjects)
         {

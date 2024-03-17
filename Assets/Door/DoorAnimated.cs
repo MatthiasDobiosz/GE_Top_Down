@@ -58,6 +58,7 @@ public class DoorAnimated : MonoBehaviour
 
     public void OpenDoor()
     {
+        FindObjectOfType<AudioManager>().Play("OpenDoor");
         animator.SetBool("Open", true);
         isOpen = true;
     }

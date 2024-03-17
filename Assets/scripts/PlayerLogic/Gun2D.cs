@@ -10,10 +10,12 @@ public class Gun2D : MonoBehaviour
 
     private Player player;
     private Vector2 lastMovementInput;
+    private AudioManager audioManager;
 
     private void Start()
     {
         player = GetComponentInParent<Player>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     private void Update()
@@ -22,6 +24,7 @@ public class Gun2D : MonoBehaviour
         {   
             lastMovementInput = player.lastMovementInput;
             Vector2 shootDirection = GetShootDirection();
+            audioManager.Play("PlayerShoot");
             ShootBullet(shootDirection);
         }
     }
@@ -92,5 +95,5 @@ public class Gun2D : MonoBehaviour
         bullet.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
 
         Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), player.GetComponent<Collider2D>());
-    }
+    }   
 }
