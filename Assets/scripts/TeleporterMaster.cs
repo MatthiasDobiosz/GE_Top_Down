@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class Teleporter : MonoBehaviour
+public class TeleporterMaster : MonoBehaviour
 {
     public Vector2 teleportPosition;
     public float delayBeforeTeleport = 2f;
@@ -11,17 +11,18 @@ public class Teleporter : MonoBehaviour
 
     private bool playerOnTeleporter = false;
 
-    public bool allKeyFragments = false;
+    public bool hasMasterKey = false;
 
     private GameController gameController;
-    public TMP_Text teleporterError;
+    public TMP_Text teleporterMasterError;
+
 
     private void Start() {
         gameController = FindObjectOfType<GameController>();
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && allKeyFragments)
+        if (other.CompareTag("Player") && hasMasterKey)
         {
             FindObjectOfType<AudioManager>().Play("TeleportCharge");
             playerOnTeleporter = true;
@@ -31,15 +32,15 @@ public class Teleporter : MonoBehaviour
             {
                 spawnedParticles = Instantiate(particlePrefab, transform.position, Quaternion.identity);
             }
-        }else if (other.CompareTag("Player") && !allKeyFragments)
+        }else if (other.CompareTag("Player") && !hasMasterKey)
         {
-            teleporterError.gameObject.SetActive(true); 
+            teleporterMasterError.gameObject.SetActive(true); 
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        teleporterError.gameObject.SetActive(false); 
+        teleporterMasterError.gameObject.SetActive(false); 
         if (other.CompareTag("Player"))
         {
             FindObjectOfType<AudioManager>().Cancel("TeleportCharge");
@@ -64,11 +65,6 @@ public class Teleporter : MonoBehaviour
                 Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
                 rb.velocity = Vector2.zero;
                 player.transform.position = teleportPosition;
-                allKeyFragments = false;
-                Debug.Log(gameController.collectedCount);
-                gameController.collectedCount = 0;
-                Debug.Log(gameController.collectedCount);
-                gameController.UpdateCollectedText();
             }
             else
             {
