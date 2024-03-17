@@ -24,7 +24,7 @@ public class Gun2D : MonoBehaviour
         {   
             lastMovementInput = player.lastMovementInput;
             Vector2 shootDirection = GetShootDirection();
-            audioManager.Play("PlayerShoot");
+            audioManager.Play("PlayerShooting");
             ShootBullet(shootDirection);
         }
     }

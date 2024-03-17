@@ -18,7 +18,7 @@ public class RangedStandardAttack : MonoBehaviour
         EventManager.TriggerEvent("attackStart", new Dictionary<string, object> {
             {"body", rb}
         });
-
+        FindObjectOfType<AudioManager>().Play("EnemyShooting");
         Vector2 playerPosition = new(target.position.x, target.position.y);
         Vector2 monsterPosition = new(rb.position.x, rb.position.y);
         Vector2 direction = playerPosition - monsterPosition;

@@ -50425,8 +50425,8 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: PlayerShoot
-    clip: {fileID: 8300000, guid: 6f6735b695173da41896ea435fa905a6, type: 3}
+  - name: EnemyShooting
+    clip: {fileID: 8300000, guid: e7f9f5e43fc118248a557a41b4e45ed7, type: 3}
     volume: 0.05
     pitch: 1
     loop: 0
