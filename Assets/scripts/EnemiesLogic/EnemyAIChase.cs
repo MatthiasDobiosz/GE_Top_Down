@@ -26,6 +26,7 @@ public class EnemyAIChase : MonoBehaviour
     private bool currentlyAttacking = false;
     private bool hasLineOfSight = false;
 
+    private Animator anim;
     private Seeker seeker;
     private Rigidbody2D rb;
 
@@ -33,6 +34,7 @@ public class EnemyAIChase : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
 
         InvokeRepeating(nameof(UpdatePath), 0f, .01f);
 
@@ -65,7 +67,9 @@ public class EnemyAIChase : MonoBehaviour
         }
 
         if (path == null || !currentlyChasing || currentlyAttacking)
+        {
             return;
+        }
 
         if (Vector2.Distance(rb.position, target.position) > chaseEndDistance)
         {
@@ -94,16 +98,22 @@ public class EnemyAIChase : MonoBehaviour
         // rb.AddForce(force);
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
-
+        
         if(Math.Abs(path.vectorPath[currentWaypoint].x - rb.position.x) > 0.1f)
         {
-            if(velocity.x >= 0.01f)
-            {
-                transform.localScale = new Vector3(0.6f, 0.6f, 1f);
-            } else if (velocity.x <= -0.01f)
-            {
-                transform.localScale = new Vector3(-0.6f, 0.6f, 1f);
+            if(Math.Abs(velocity.y) < 0.1f)
+            {   
+                anim.SetFloat("YInput", 0);
             }
+            anim.SetFloat("XInput", velocity.x);
+        }
+        if(Math.Abs(path.vectorPath[currentWaypoint].y - rb.position.y) > 0.1f)
+        {
+            if(Math.Abs(velocity.x) < 0.1f)
+            {   
+                anim.SetFloat("XInput", 0);
+            }
+            anim.SetFloat("YInput", velocity.y);
         }
 
         if (distance < nextWaypointDistance)
@@ -148,6 +158,7 @@ public class EnemyAIChase : MonoBehaviour
     {
         if((Rigidbody2D)message["body"] == rb)
         {
+            
             currentlyAttacking = true;
         }
     }

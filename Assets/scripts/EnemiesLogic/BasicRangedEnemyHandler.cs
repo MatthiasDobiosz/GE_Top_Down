@@ -52,7 +52,9 @@ public class BasicRangedEnemyHandler : MonoBehaviour
  
         if(!isAttacking && hasLineOfSight && isInAttackPosition)
         { 
-            rangedStandardAttack.TriggerAttackStart(rb, target);
+            Vector2 direction = rangedStandardAttack.TriggerAttackStart(rb, target);
+            anim.SetFloat("XInput", direction.x);
+            anim.SetFloat("YInput", direction.y);
             isAttacking = true;
         }
 
@@ -109,7 +111,7 @@ public class BasicRangedEnemyHandler : MonoBehaviour
     {
         if((GameObject)message["gameobject"] == transform.gameObject && !inDeathAnimation)
         {
-            anim.SetTrigger("Death");
+            //anim.SetTrigger("Death");
             inDeathAnimation = true;
             StartCoroutine(Die(1));
         }

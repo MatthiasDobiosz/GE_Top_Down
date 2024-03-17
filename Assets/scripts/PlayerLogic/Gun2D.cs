@@ -39,7 +39,6 @@ public class Gun2D : MonoBehaviour
             }
             else{
                 lastMovementInput = Vector2.left;
-                Debug.Log("wdwd");
                 AdjustBulletSpawnPointPosition(-0.53f, -1.24f);
                 }
         }

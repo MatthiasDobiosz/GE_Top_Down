@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 /**
     Teleportion Melee Attack: Will teleport behind the player when he is in given Range and execute attack.
@@ -11,12 +13,14 @@ public class MeleeTeleportAttack : MonoBehaviour
     public float attackRange = 0.2f;
     public int damage = 20;
 
-    public void TriggerAttackStart(Rigidbody2D rb, Transform target)
+
+    public Vector2 TriggerAttackStart(Rigidbody2D rb, Transform target)
     {
         // Get player facing direction
-        float playerDirection = target.GetComponent<Player>().GetLastMovementInput().x;
+        float playerDirectionX = target.GetComponent<Player>().GetLastMovementInput().x;
+        float playerDirectionY = target.GetComponent<Player>().GetLastMovementInput().y;
 
-        bool facingRight = playerDirection >= 0f;
+        bool facingRight = playerDirectionX >= 0f;
         Vector2 teleportPosition = facingRight ? new(target.position.x - attackRange, target.position.y ) : new(target.position.x + attackRange, target.position.y );
 
         RaycastHit2D hitObject = Physics2D.Linecast(teleportPosition, target.position, 1 << LayerMask.NameToLayer("Obstacles"));
@@ -24,7 +28,6 @@ public class MeleeTeleportAttack : MonoBehaviour
         // if there are no obstacles execute from behind player
         if(hitObject.collider == null)
         {
-            transform.localScale = facingRight ? new Vector3(0.6f, 0.6f, 1f): new Vector3(-0.6f, 0.6f, 1f);
             rb.position = teleportPosition;
         }
         // Check other side if there are obstacles, if obstacles on both sides --> do the attack on the spot
@@ -35,7 +38,6 @@ public class MeleeTeleportAttack : MonoBehaviour
 
             if(newHitObject.collider == null)
             {
-                transform.localScale = facingRight ? new Vector3(-0.6f, 0.6f, 1f): new Vector3(0.6f, 0.6f, 1f);
                 rb.position = newTeleportPosition;
             }
         }
@@ -43,7 +45,10 @@ public class MeleeTeleportAttack : MonoBehaviour
         EventManager.TriggerEvent("attackStart", new Dictionary<string, object> {
             {"body", rb}
         });
+
+        return new Vector2(playerDirectionX, playerDirectionY);
     }
+
 
     public void TriggerAttackEnd(Rigidbody2D rb)
     {
@@ -68,6 +73,7 @@ public class MeleeTeleportAttack : MonoBehaviour
             }
         }
     }
+
 
     void OnDrawGizmosSelected()
     {

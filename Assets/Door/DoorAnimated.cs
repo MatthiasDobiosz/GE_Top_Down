@@ -50,7 +50,6 @@ public class DoorAnimated : MonoBehaviour
         playerPosition.z = doorPosition.z;
         
         float distance = Vector3.Distance(doorPosition, playerPosition);
-        Debug.Log(distance);
 
         return distance <= interactionDistance;
     }

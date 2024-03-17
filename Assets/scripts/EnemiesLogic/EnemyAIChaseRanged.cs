@@ -27,6 +27,7 @@ public class EnemyAIChaseRanged : MonoBehaviour
     private bool currentlyAttacking = false;
     private bool hasLineOfSight = false;
 
+    private Animator anim;
     private Seeker seeker;
     private Rigidbody2D rb;
     private Vector2 currentTargetPoint;
@@ -36,6 +37,7 @@ public class EnemyAIChaseRanged : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         GetRangedPosition();
 
         InvokeRepeating(nameof(UpdatePath), 0f, .01f);
@@ -72,7 +74,11 @@ public class EnemyAIChaseRanged : MonoBehaviour
 
 
         if (path == null || !currentlyChasing || currentlyAttacking || isInThresholdDistance)
+        {
+            anim.SetBool("Moving", false);
             return;
+        }
+            
 
         if (Vector2.Distance(rb.position, currentTargetPoint) > chaseEndDistance)
         {
@@ -104,13 +110,19 @@ public class EnemyAIChaseRanged : MonoBehaviour
 
         if(Math.Abs(path.vectorPath[currentWaypoint].x - rb.position.x) > 0.1f)
         {
-            if(velocity.x >= 0.01f)
-            {
-                transform.localScale = new Vector3(0.6f, 0.6f, 1f);
-            } else if (velocity.x <= -0.01f)
-            {
-                transform.localScale = new Vector3(-0.6f, 0.6f, 1f);
+            if(Math.Abs(velocity.y) < 0.1f)
+            {   
+                anim.SetFloat("YInput", 0);
             }
+            anim.SetFloat("XInput", velocity.x);
+        }
+        if(Math.Abs(path.vectorPath[currentWaypoint].y - rb.position.y) > 0.1f)
+        {
+            if(Math.Abs(velocity.x) < 0.1f)
+            {   
+                anim.SetFloat("XInput", 0);
+            }
+            anim.SetFloat("YInput", velocity.y);
         }
 
         if (distance < nextWaypointDistance)
@@ -173,6 +185,7 @@ public class EnemyAIChaseRanged : MonoBehaviour
     {
         if(!currentlyChasing)
         {
+            anim.SetBool("Moving", true);
             EventManager.TriggerEvent("chaseStart", new Dictionary<string, object> {
                 {"body", rb}
             });
@@ -192,6 +205,7 @@ public class EnemyAIChaseRanged : MonoBehaviour
     {
         if((Rigidbody2D)message["body"] == rb)
         {
+            anim.SetBool("Moving", true);
             currentlyAttacking = false;
         }
     }

@@ -41,7 +41,9 @@ public class BasicMeleeEnemyHandler : MonoBehaviour
 
             if(shouldAttack)
             {
-                anim.SetTrigger("Attack");
+                //Vector2 facingDirection = GetCurrentFacingDirection();
+                // movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 0);
+                //anim.SetTrigger("Attack");
                 isAttacking = true;
             }
         }

@@ -62,7 +62,6 @@ public class Player : MonoBehaviour
 
     private void UpdateAnimator(bool idle)
     {
-        Debug.Log(idle);
         if (animator != null)
         {
             animator.SetBool("Idle", idle);
