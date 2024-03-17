@@ -46,5 +46,8 @@ public class Health : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
+
+        if(healthbar)
+            healthbar.SetHealth(currentHealth);
     }
 }
