@@ -18,6 +18,7 @@ public class Teleporter : MonoBehaviour
     {
         if (other.CompareTag("Player") && allKeyFragments)
         {
+            FindObjectOfType<AudioManager>().Play("TeleportCharge");
             playerOnTeleporter = true;
             Invoke("TeleportPlayer", delayBeforeTeleport);
 
@@ -36,6 +37,7 @@ public class Teleporter : MonoBehaviour
         teleporterError.gameObject.SetActive(false); 
         if (other.CompareTag("Player"))
         {
+            FindObjectOfType<AudioManager>().Cancel("TeleportCharge");
             playerOnTeleporter = false;
             CancelInvoke("TeleportPlayer");
 
@@ -53,6 +55,7 @@ public class Teleporter : MonoBehaviour
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
             {
+                FindObjectOfType<AudioManager>().Play("Teleport");
                 Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
                 rb.velocity = Vector2.zero;
                 player.transform.position = teleportPosition;
