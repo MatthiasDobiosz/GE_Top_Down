@@ -53,6 +53,7 @@ public class AdvancedMeleeEnemyHandler : MonoBehaviour
 
                 Vector2 facingDirection = GetCurrentFacingDirection();
                 movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 0);
+                movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 1);
 
                 anim.SetTrigger("Attack");
                 isAttacking = true;

@@ -15,11 +15,11 @@ public class MovePointAroundEntity : MonoBehaviour
         {
             if (lastX > 0){
                 //right
-                SetNewPointPosition(directionCoordinates[2*(index+1)].x, directionCoordinates[2*(index+1)].y, points[index]);
+                SetNewPointPosition(directionCoordinates[(8*index)+2].x, directionCoordinates[(8*index)+2].y, points[index]);
             }
             else{
                 // Left
-                SetNewPointPosition(directionCoordinates[6*(index+1)].x, directionCoordinates[6*(index+1)].y, points[index]);
+                SetNewPointPosition(directionCoordinates[(8*index)+6].x, directionCoordinates[(8*index)+6].y, points[index]);
             }
         }
         else
@@ -28,30 +28,30 @@ public class MovePointAroundEntity : MonoBehaviour
             {
                 if (lastX > 0){
                     // Top Right
-                    SetNewPointPosition(directionCoordinates[1*(index+1)].x, directionCoordinates[1*(index+1)].y, points[index]);
+                    SetNewPointPosition(directionCoordinates[(8*index)+1].x, directionCoordinates[(8*index)+1].y, points[index]);
                 }
                 else if (lastX < 0){
                     // Top Left
-                    SetNewPointPosition(directionCoordinates[7*(index+1)].x, directionCoordinates[7*(index+1)].y, points[index]);
+                    SetNewPointPosition(directionCoordinates[(8*index)+7].x, directionCoordinates[(8*index)+7].y, points[index]);
                 }
                 else{
                     // Top
-                    SetNewPointPosition(directionCoordinates[index == 0 ? 0 : (8*index)].x, directionCoordinates[index == 0 ? 0 : (8*index)].y, points[index]);
+                    SetNewPointPosition(directionCoordinates[8*index].x, directionCoordinates[8*index].y, points[index]);
                 }
             }
             else if (lastY < 0)
             {
                 if (lastX > 0){
                     // Bottom Right
-                    SetNewPointPosition(directionCoordinates[3*(index+1)].x, directionCoordinates[3*(index+1)].y, points[index]);
+                    SetNewPointPosition(directionCoordinates[(8*index)+3].x, directionCoordinates[(8*index)+3].y, points[index]);
                 }
                 else if (lastX < 0){
                     // Bottom Left
-                    SetNewPointPosition(directionCoordinates[5*(index+1)].x, directionCoordinates[5*(index+1)].y, points[index]);
+                    SetNewPointPosition(directionCoordinates[(8*index)+5].x, directionCoordinates[(8*index)+5].y, points[index]);
                 }
                 else{
                     // Bottom
-                    SetNewPointPosition(directionCoordinates[4*(index+1)].x, directionCoordinates[4*(index+1)].y, points[index]);
+                    SetNewPointPosition(directionCoordinates[(8*index)+4].x, directionCoordinates[(8*index)+4].y, points[index]);
                 }
             }
         }
