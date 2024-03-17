@@ -127,8 +127,8 @@ public class Player : MonoBehaviour
             if (count > 0)
             {
                 foreach (var hit in castCollisions)
-                {
-                    if (hit.collider.CompareTag("Obstacle"))
+                {        
+                    if (hit.collider.CompareTag("Obstacle") | hit.collider.CompareTag("Enemy"))
                     {
                         Debug.Log("uwbfuwbf");
                         rb.velocity = Vector2.zero;
