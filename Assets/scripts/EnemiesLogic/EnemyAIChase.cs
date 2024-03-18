@@ -25,6 +25,7 @@ public class EnemyAIChase : MonoBehaviour
     private bool currentlyChasing = false;
     private bool currentlyAttacking = false;
     private bool hasLineOfSight = false;
+    private bool isPlayerDead = false;
 
     private Animator anim;
     private Seeker seeker;
@@ -40,6 +41,9 @@ public class EnemyAIChase : MonoBehaviour
 
         EventManager.StartListening("attackStart", DiscontinueChase);
         EventManager.StartListening("attackEnd", ContinueChase);
+
+        EventManager.StartListening("playerDeath", HandlePlayerDeath);
+        EventManager.StartListening("playerRespawn", HandlePlayerRespawn);
 
         EventManager.StartListening("damageTaken", OnAttack);
     }
@@ -61,6 +65,11 @@ public class EnemyAIChase : MonoBehaviour
 
     void Update()
     {
+        if(isPlayerDead)
+        {
+            return;
+        }
+
         if(Vector2.Distance(rb.position, target.position) < chaseStartDistance && hasLineOfSight)
         { 
             StartChase();
@@ -73,10 +82,7 @@ public class EnemyAIChase : MonoBehaviour
 
         if (Vector2.Distance(rb.position, target.position) > chaseEndDistance)
         {
-            EventManager.TriggerEvent("chaseEnd", new Dictionary<string, object> {
-                {"body", rb}
-            });
-            currentlyChasing = false;
+            EndChase();
         }
 
         
@@ -138,6 +144,25 @@ public class EnemyAIChase : MonoBehaviour
         }
     }
 
+    void EndChase()
+    {
+        EventManager.TriggerEvent("chaseEnd", new Dictionary<string, object> {
+            {"body", rb}
+        });
+        currentlyChasing = false;
+    }
+
+    void HandlePlayerDeath(Dictionary<string, object> message = null)
+    {
+        EndChase();
+        isPlayerDead = true;
+    }
+
+    void HandlePlayerRespawn(Dictionary<string, object> message = null)
+    {
+        isPlayerDead = false;
+    }
+
     void CheckIfPlayerIsInLineOfSight()
     {
         RaycastHit2D ray = Physics2D.Linecast(transform.position, target.transform.position, 1 << LayerMask.NameToLayer("Obstacles"));
@@ -158,7 +183,6 @@ public class EnemyAIChase : MonoBehaviour
     {
         if((Rigidbody2D)message["body"] == rb)
         {
-            
             currentlyAttacking = true;
         }
     }
@@ -184,5 +208,7 @@ public class EnemyAIChase : MonoBehaviour
         EventManager.StopListening("damageTaken", OnAttack);
         EventManager.StopListening("attackStart", DiscontinueChase);
         EventManager.StopListening("attackEnd", ContinueChase);
+        EventManager.StopListening("playerDeath", HandlePlayerDeath);
+        EventManager.StopListening("playerRespawn", HandlePlayerRespawn);
     }
 }

@@ -26,6 +26,7 @@ public class EnemyAIChaseRanged : MonoBehaviour
     private bool currentlyChasing = false;
     private bool currentlyAttacking = false;
     private bool hasLineOfSight = false;
+    private bool isPlayerDead = false;
 
     private Animator anim;
     private Seeker seeker;
@@ -44,6 +45,9 @@ public class EnemyAIChaseRanged : MonoBehaviour
 
         EventManager.StartListening("attackStart", DiscontinueChase);
         EventManager.StartListening("attackEnd", ContinueChase);
+
+        EventManager.StartListening("playerDeath", HandlePlayerDeath);
+        EventManager.StartListening("playerRespawn", HandlePlayerRespawn);
 
         EventManager.StartListening("damageTaken", OnAttack);
     }
@@ -66,6 +70,11 @@ public class EnemyAIChaseRanged : MonoBehaviour
     void Update()
     {
         GetRangedPosition();
+
+        if(isPlayerDead)
+        {
+            return;
+        }
         
         if(Vector2.Distance(rb.position, currentTargetPoint) < chaseStartDistance && hasLineOfSight)
         { 
@@ -82,10 +91,7 @@ public class EnemyAIChaseRanged : MonoBehaviour
 
         if (Vector2.Distance(rb.position, currentTargetPoint) > chaseEndDistance)
         {
-            EventManager.TriggerEvent("chaseEnd", new Dictionary<string, object> {
-                {"body", rb}
-            });
-            currentlyChasing = false;
+            EndChase();
         }
 
         
@@ -143,7 +149,7 @@ public class EnemyAIChaseRanged : MonoBehaviour
          /// Debug.Log(currentDistance);
 
         // if the enemy is not at the threshold distance or has no LOS than it should chase the player target point
-        if(currentDistance > thresholdDistance  || !hasLineOfSight)
+        if(currentDistance > thresholdDistance  || !hasLineOfSight && isPlayerDead)
         {
             currentTargetPoint = target.position;
             isInThresholdDistance = false;
@@ -193,6 +199,27 @@ public class EnemyAIChaseRanged : MonoBehaviour
         }
     }
 
+    
+    void EndChase()
+    {
+        EventManager.TriggerEvent("chaseEnd", new Dictionary<string, object> {
+            {"body", rb}
+        });
+        currentlyChasing = false;
+    }
+
+    void HandlePlayerDeath(Dictionary<string, object> message = null)
+    {
+        Debug.Log("End");
+        EndChase();
+        isPlayerDead = true;
+    }
+
+    void HandlePlayerRespawn(Dictionary<string, object> message = null)
+    {
+        isPlayerDead = false;
+    }
+
     void DiscontinueChase(Dictionary<string, object> message)
     {
         if((Rigidbody2D)message["body"] == rb)
@@ -223,5 +250,7 @@ public class EnemyAIChaseRanged : MonoBehaviour
         EventManager.StopListening("damageTaken", OnAttack);
         EventManager.StopListening("attackStart", DiscontinueChase);
         EventManager.StopListening("attackEnd", ContinueChase);
+        EventManager.StopListening("playerDeath", HandlePlayerDeath);
+        EventManager.StopListening("playerRespawn", HandlePlayerRespawn);
     }
 }

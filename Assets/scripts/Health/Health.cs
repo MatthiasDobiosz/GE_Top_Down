@@ -9,8 +9,8 @@ public class Health : MonoBehaviour
 {
     public int maxHealth = 100;
     public int currentHealth;
-
     public Healthbar healthbar = null;
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -49,5 +49,13 @@ public class Health : MonoBehaviour
 
         if(healthbar)
             healthbar.SetHealth(currentHealth);
+    }
+
+    public void ResetHealth()
+    {
+        currentHealth = maxHealth;
+
+        if(healthbar)
+            healthbar.SetMaxHealth(maxHealth);
     }
 }
