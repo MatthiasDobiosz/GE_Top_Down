@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     protected Vector2 initialPosition;
     protected Color originalColor;
     protected bool hasLineOfSight;
-   
+
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -50,6 +50,7 @@ public class Enemy : MonoBehaviour
         if((GameObject)message["gameobject"] == transform.gameObject)
         {
             StartCoroutine(Die(1));
+            FindObjectOfType<AudioManager>().Play("MazeDeath");
         }
     }
 
