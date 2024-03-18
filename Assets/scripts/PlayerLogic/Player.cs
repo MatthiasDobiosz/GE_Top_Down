@@ -110,6 +110,7 @@ public class Player : MonoBehaviour
         if (canDash)
         {
             StartCoroutine(Dash(movementInput.normalized));
+            FindObjectOfType<AudioManager>().Play("PlayerDash");
         }
     }
 
@@ -130,7 +131,6 @@ public class Player : MonoBehaviour
                 {        
                     if (hit.collider.CompareTag("Obstacle") | hit.collider.CompareTag("Enemy"))
                     {
-                        Debug.Log("uwbfuwbf");
                         rb.velocity = Vector2.zero;
                         isDashing = false;
                         tr.emitting = false;

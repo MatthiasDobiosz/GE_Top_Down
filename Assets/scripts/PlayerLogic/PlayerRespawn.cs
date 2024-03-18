@@ -14,7 +14,7 @@ public class PlayerRespawn : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-  
+
         EventManager.StartListening("death", CheckForDeath);
     }
 
@@ -31,6 +31,7 @@ public class PlayerRespawn : MonoBehaviour
             EventManager.TriggerEvent("playerDeath", null);
             rb.bodyType = RigidbodyType2D.Static;
             StartCoroutine(FadeOut());
+            FindObjectOfType<AudioManager>().Play("PlayerDeath");
         }
     }
 
@@ -47,9 +48,9 @@ public class PlayerRespawn : MonoBehaviour
             yield return null;
         }   
 
-       yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1);
 
-       StartCoroutine(FadeIn());
+        StartCoroutine(FadeIn());
     }
 
     // https://owlcation.com/stem/How-to-fade-out-a-GameObject-in-Unity
