@@ -24,6 +24,7 @@ public class RangedStandardAttack : MonoBehaviour
         Vector2 direction = playerPosition - monsterPosition;
 
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
+        bullet.GetComponent<EnemyBullet>().damage = damage;
         bullet.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
 
         Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), transform.GetComponent<Collider2D>());

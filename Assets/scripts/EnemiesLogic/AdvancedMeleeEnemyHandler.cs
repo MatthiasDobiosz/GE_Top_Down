@@ -5,31 +5,26 @@ using UnityEngine;
 /**
     Handle advanced normal melee enemy (Initial attack + standard attack)
 */
-public class AdvancedMeleeEnemyHandler : MonoBehaviour
+public class AdvancedMeleeEnemyHandler : Enemy
 {
-    public Transform target;
     public float minDistanceInitialAttack = 0.5f;
 
-    private Rigidbody2D rb;
     private Animator anim;
     private bool isAttacking = false;
     private MeleeStandardAttack meleeStandardAttack;
     private MeleeTeleportAttack meleeTeleportAttack;
     private bool hasDoneInitialAttack = false;
-    private bool hasLineOfSight = false;
     private MovePointAroundEntity movePointAroundEntityHandler;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         anim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
         movePointAroundEntityHandler = GetComponent<MovePointAroundEntity>();
         meleeStandardAttack = GetComponent<MeleeStandardAttack>();
         meleeTeleportAttack = GetComponent<MeleeTeleportAttack>();
 
         EventManager.StartListening("patrolStart", ResetInitialAttack);
-
-        EventManager.StartListening("death", CheckForDeath);
     }
 
     void Update()
@@ -75,11 +70,6 @@ public class AdvancedMeleeEnemyHandler : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
-    {
-        CheckIfPlayerIsInLineOfSight();
-    }
-
     public void AttackFinished()
     {
         isAttacking = false;
@@ -100,47 +90,25 @@ public class AdvancedMeleeEnemyHandler : MonoBehaviour
         }
     }
 
-    void CheckIfPlayerIsInLineOfSight()
-    {
-        RaycastHit2D ray = Physics2D.Linecast(transform.position, target.transform.position, 1 << LayerMask.NameToLayer("Obstacles"));
-
-        if(ray.collider != null)
-        {
-            hasLineOfSight = false;
-            Debug.DrawLine(transform.position, target.transform.position, Color.red);
-        } else 
-        {
-            hasLineOfSight = true;
-            Debug.DrawLine(transform.position, target.transform.position, Color.green);
-        }
-
-    }
-
-    void CheckForDeath(Dictionary<string, object> message)
-    {
-        if((GameObject)message["gameobject"] == transform.gameObject)
-        {
-            StartCoroutine(Die(1));
-        }
-    }
-
     Vector2 GetCurrentFacingDirection()
     {
         return new Vector2(anim.GetFloat("XInput"), anim.GetFloat("YInput"));
     }
 
-    IEnumerator Die(int secs)
+    /**
+    IEnumerator Dieold(int secs)
     {
-        transform.GetComponent<EnemyAIChase>().enabled = false;
-        transform.GetComponent<EnemyAIPatrol>().enabled = false;
+        //transform.GetComponent<EnemyAIChase>().enabled = false;
+        //transform.GetComponent<EnemyAIPatrol>().enabled = false;
 
-        Destroy(transform.gameObject, secs);
+        transform.gameObject.SetActive(false);
+        //Destroy(transform.gameObject, secs);
         yield return new WaitForSeconds(secs);
 
-        transform.GetComponent<EnemyAIChase>().OnDestroy();
-        transform.GetComponent<EnemyAIPatrol>().OnDestroy();
+        //transform.GetComponent<EnemyAIChase>().OnDestroy();
+        //transform.GetComponent<EnemyAIPatrol>().OnDestroy();
         
-        OnDestroy();
+        //OnDestroy();
     }
 
     public void OnDestroy()
@@ -148,4 +116,5 @@ public class AdvancedMeleeEnemyHandler : MonoBehaviour
         EventManager.StopListening("patrolStart", ResetInitialAttack);
         EventManager.StopListening("death", CheckForDeath);
     }
+    */
 }

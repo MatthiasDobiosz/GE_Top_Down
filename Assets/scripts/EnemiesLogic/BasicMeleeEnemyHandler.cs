@@ -5,23 +5,20 @@ using UnityEngine;
 /**
     Basic enemy handler: Only exceute one standard melee attack
 */
-public class BasicMeleeEnemyHandler : MonoBehaviour
+public class BasicMeleeEnemyHandler : Enemy
 {
-    public Transform target;
     public float minDistanceAttack = 0.3f;
 
-    private Rigidbody2D rb;
     private Animator anim;
     private bool isAttacking = false;
     private MeleeStandardAttack meleeStandardAttack;
 
-    void Start()
-    {
-        anim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
-        meleeStandardAttack = GetComponent<MeleeStandardAttack>();
 
-        EventManager.StartListening("death", CheckForDeath);
+    protected override void Start()
+    {
+        base.Start();
+        anim = GetComponent<Animator>();
+        meleeStandardAttack = GetComponent<MeleeStandardAttack>();
     }
 
     void Update()
@@ -35,7 +32,7 @@ public class BasicMeleeEnemyHandler : MonoBehaviour
         }
 
  
-        if(!isAttacking)
+        if(!isAttacking && hasLineOfSight)
         { 
             bool shouldAttack = meleeStandardAttack.TriggerAttackStart(rb, target);
 
@@ -56,30 +53,29 @@ public class BasicMeleeEnemyHandler : MonoBehaviour
         meleeStandardAttack.TriggerAttackEnd(rb);
     }
 
-    void CheckForDeath(Dictionary<string, object> message)
+    /**
+    IEnumerator Dieold(int secs)
     {
-        if((GameObject)message["gameobject"] == transform.gameObject)
-        {
-            StartCoroutine(Die(1));
-        }
-    }
+        //transform.GetComponent<EnemyAIChase>().enabled = false;
+        //transform.GetComponent<EnemyAIPatrol>().enabled = false;
 
-    IEnumerator Die(int secs)
-    {
-        transform.GetComponent<EnemyAIChase>().enabled = false;
-        transform.GetComponent<EnemyAIPatrol>().enabled = false;
+        //Destroy(transform.gameObject, secs);
 
-        Destroy(transform.gameObject, secs);
         yield return new WaitForSeconds(secs);
-
-        transform.GetComponent<EnemyAIChase>().OnDestroy();
-        transform.GetComponent<EnemyAIPatrol>().OnDestroy();
+        Color objectColor = spriteRenderer.material.color;
+        originalColor = objectColor;
+        objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 0);
+        spriteRenderer.material.color = objectColor;
+        transform.gameObject.SetActive(false);
+        //transform.GetComponent<EnemyAIChase>().OnDestroy();
+        //transform.GetComponent<EnemyAIPatrol>().OnDestroy();
         
-        OnDestroy();
+        //OnDestroy();
     }
 
     public void OnDestroy()
     {
         EventManager.StopListening("death", CheckForDeath);
     }
+    */
 }
