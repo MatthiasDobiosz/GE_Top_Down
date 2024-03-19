@@ -108,13 +108,15 @@ public class Player : MonoBehaviour
     void StartDash()
     {
         if (canDash)
-        {
+        {   
             StartCoroutine(Dash(movementInput.normalized));
+            FindObjectOfType<AudioManager>().Play("PlayerDash");
         }
     }
 
     private IEnumerator Dash(Vector2 direction)
     {
+        animator.SetBool("Dash", true);
         canDash = false;
         isDashing = true;
         rb.velocity = direction * dashingPower;
@@ -130,16 +132,15 @@ public class Player : MonoBehaviour
                 {        
                     if (hit.collider.CompareTag("Obstacle") | hit.collider.CompareTag("Enemy"))
                     {
-                        Debug.Log("uwbfuwbf");
                         rb.velocity = Vector2.zero;
                         isDashing = false;
                         tr.emitting = false;
                         canDash = true;
+                        animator.SetBool("Dash", false);
                         yield break;
                     }
                 }
             }
-
             dashDistance += (dashingPower / dashingTime) * Time.deltaTime;
             yield return null;
         }
@@ -147,6 +148,7 @@ public class Player : MonoBehaviour
         tr.emitting = false;
         isDashing = false;
         rb.velocity = Vector2.zero;
+        animator.SetBool("Dash", false);
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
