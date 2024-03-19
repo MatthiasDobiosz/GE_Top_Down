@@ -343,7 +343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &63867724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,6 +508,8 @@ MonoBehaviour:
   - {fileID: 915517722}
   speed: 2
   nextWaypointDistance: 0.15
+  originalAlignmentX: 0
+  originalAlignmentY: 0
 --- !u!114 &63867732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48452,6 +48454,8 @@ MonoBehaviour:
   - {fileID: 0}
   speed: 2
   nextWaypointDistance: 3
+  originalAlignmentX: 0
+  originalAlignmentY: 0
 --- !u!1 &266932678
 GameObject:
   m_ObjectHideFlags: 0
@@ -50903,6 +50907,8 @@ MonoBehaviour:
   - {fileID: 767363462}
   speed: 2
   nextWaypointDistance: 0.1
+  originalAlignmentX: 0
+  originalAlignmentY: 0
 --- !u!114 &751763686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53335,6 +53341,8 @@ MonoBehaviour:
   - {fileID: 0}
   speed: 2
   nextWaypointDistance: 0.15
+  originalAlignmentX: 0
+  originalAlignmentY: 0
 --- !u!114 &1426221360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53594,6 +53602,8 @@ MonoBehaviour:
   - {fileID: 767363462}
   speed: 2
   nextWaypointDistance: 0.1
+  originalAlignmentX: 0
+  originalAlignmentY: 0
 --- !u!114 &1454611952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54956,6 +54966,8 @@ MonoBehaviour:
   - {fileID: 772336705}
   speed: 1
   nextWaypointDistance: 0.1
+  originalAlignmentX: 0
+  originalAlignmentY: 0
 --- !u!50 &1728234436
 Rigidbody2D:
   serializedVersion: 4
@@ -55715,6 +55727,8 @@ MonoBehaviour:
   - {fileID: 772336705}
   speed: 0.5
   nextWaypointDistance: 0.1
+  originalAlignmentX: 0
+  originalAlignmentY: 0
 --- !u!50 &2109611234
 Rigidbody2D:
   serializedVersion: 4
