@@ -28,6 +28,7 @@ public class PlayerRespawn : MonoBehaviour
         if((GameObject)message["gameobject"] == transform.gameObject)
         {
             //anim.SetTrigger("Death");
+            FindObjectOfType<AudioManager>().Play("PlayerDeath");
             EventManager.TriggerEvent("playerDeath", null);
             rb.bodyType = RigidbodyType2D.Static;
             StartCoroutine(FadeOut());
