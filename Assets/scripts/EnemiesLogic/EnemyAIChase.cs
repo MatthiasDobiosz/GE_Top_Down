@@ -176,7 +176,6 @@ public class EnemyAIChase : MonoBehaviour
             hasLineOfSight = true;
             Debug.DrawLine(transform.position, target.transform.position, Color.green);
         }
-
     }
 
     void DiscontinueChase(Dictionary<string, object> message)
