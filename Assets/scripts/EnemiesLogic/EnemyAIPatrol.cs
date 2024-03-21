@@ -14,6 +14,8 @@ public class EnemyAIPatrol : MonoBehaviour
     public Transform[] patrolPoints;
     public float speed = 2f;
     public float nextWaypointDistance = 0.1f;
+    public float originalAlignmentX;
+    public float originalAlignmentY;
 
     private Path path;
     private int currentWaypoint = 0;
@@ -23,16 +25,21 @@ public class EnemyAIPatrol : MonoBehaviour
     private Rigidbody2D rb;
     private Transform currentPoint;
     private Animator anim;
+
     private int currentIndex;
     private int arrayDirection = 1;
     private bool isPatroling = true;
+
+    private Vector2 originalPosition;
 
     void Start()
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
         currentPoint = patrolPoints[0];
+        originalPosition = rb.position;
 
         EventManager.StartListening("chaseStart", StopPatrol);
         EventManager.StartListening("chaseEnd", StartPatrol);
@@ -63,7 +70,7 @@ public class EnemyAIPatrol : MonoBehaviour
             return;
 
         if (Vector2.Distance(transform.position, currentPoint.position) < nextWaypointDistance && patrolPoints.Length > 1)
-            {
+        {
             // change array direction to go route backwards
             if (currentIndex >= patrolPoints.Length - 1 && arrayDirection == 1 || currentIndex <= 0 && arrayDirection == -1)
             {   
@@ -72,7 +79,10 @@ public class EnemyAIPatrol : MonoBehaviour
                 // switch to next patrolpoint
                 currentIndex += arrayDirection;
                 currentPoint = patrolPoints[currentIndex];
-            }
+        } else if(Vector2.Distance(transform.position, currentPoint.position) < nextWaypointDistance && patrolPoints.Length == 1)
+        {
+            ResetEnemyToStanding();
+        }
 
 
         if(currentWaypoint >= path.vectorPath.Count)
@@ -118,6 +128,19 @@ public class EnemyAIPatrol : MonoBehaviour
         {
             currentWaypoint++;
         }
+    }
+
+    void ResetEnemyToStanding()
+    {
+        isPatroling = false;
+        rb.position = originalPosition;
+        anim.SetFloat("XInput", originalAlignmentX);
+        anim.SetFloat("YInput", originalAlignmentY);
+        anim.SetBool("Moving", false);
+
+        EventManager.TriggerEvent("enemyStanding", new Dictionary<string, object> {
+            {"body", rb}
+        });
     }
 
 

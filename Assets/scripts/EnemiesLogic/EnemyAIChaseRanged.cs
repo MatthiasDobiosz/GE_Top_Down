@@ -27,6 +27,7 @@ public class EnemyAIChaseRanged : MonoBehaviour
     private bool currentlyAttacking = false;
     private bool hasLineOfSight = false;
     private bool isPlayerDead = false;
+    private bool isPatroling = false;
 
     private Animator anim;
     private Seeker seeker;
@@ -50,6 +51,8 @@ public class EnemyAIChaseRanged : MonoBehaviour
         EventManager.StartListening("playerRespawn", HandlePlayerRespawn);
 
         EventManager.StartListening("damageTaken", OnAttack);
+
+        EventManager.StartListening("enemyStanding", StopPatroling);
     }
 
     void UpdatePath()
@@ -78,13 +81,18 @@ public class EnemyAIChaseRanged : MonoBehaviour
         
         if(Vector2.Distance(rb.position, currentTargetPoint) < chaseStartDistance && hasLineOfSight)
         { 
-            StartChase();
+            if(!currentlyChasing)
+            {
+                StartChase();
+            }   
         }
-
 
         if (path == null || !currentlyChasing || currentlyAttacking || isInThresholdDistance)
         {
-            anim.SetBool("Moving", false);
+            if(!isPatroling)
+            {
+                anim.SetBool("Moving", false);
+            }
             return;
         }
             
@@ -189,28 +197,26 @@ public class EnemyAIChaseRanged : MonoBehaviour
 
     void StartChase()
     {
-        if(!currentlyChasing)
-        {
-            anim.SetBool("Moving", true);
-            EventManager.TriggerEvent("chaseStart", new Dictionary<string, object> {
-                {"body", rb}
-            });
-            currentlyChasing = true;
-        }
+        currentlyChasing = true;
+        anim.SetBool("Moving", true);
+        EventManager.TriggerEvent("chaseStart", new Dictionary<string, object> {
+            {"body", rb}
+        });    
     }
 
     
     void EndChase()
     {
+        anim.SetBool("Moving", true);
         EventManager.TriggerEvent("chaseEnd", new Dictionary<string, object> {
             {"body", rb}
         });
         currentlyChasing = false;
+        isPatroling = true;
     }
 
     void HandlePlayerDeath(Dictionary<string, object> message = null)
     {
-        Debug.Log("End");
         EndChase();
         isPlayerDead = true;
     }
@@ -242,6 +248,14 @@ public class EnemyAIChaseRanged : MonoBehaviour
         if((GameObject)message["gameobject"] == transform.gameObject)
         {
             StartChase();
+        }
+    }
+
+    void StopPatroling(Dictionary<string, object> message)
+    {
+        if((Rigidbody2D)message["body"] == rb)
+        {
+            isPatroling = false;
         }
     }
 
