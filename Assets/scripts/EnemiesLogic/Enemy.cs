@@ -33,6 +33,10 @@ public class Enemy : MonoBehaviour
             transform.gameObject.SetActive(true);
             StartCoroutine(Reset());
         }
+        else 
+        {
+            GetComponent<Health>().ResetHealth();
+        }
     }
 
     protected virtual IEnumerator Reset()

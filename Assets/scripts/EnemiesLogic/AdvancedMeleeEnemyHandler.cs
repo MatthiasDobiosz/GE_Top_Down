@@ -73,15 +73,16 @@ public class AdvancedMeleeEnemyHandler : Enemy
             {
                 hasDoneInitialAttack = true;
 
-                Vector2 facingDirection = GetCurrentFacingDirection();
-                movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 0);
-                movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 1);
-
                 Vector2 direction = meleeTeleportAttack.TriggerAttackStart(rb, target);
+
+                movePointAroundEntityHandler.MovePoint(direction.x, direction.y, 0);
+                movePointAroundEntityHandler.MovePoint(direction.x, direction.y, 1);
+
                 anim.SetFloat("XInput", direction.x);
                 anim.SetFloat("YInput", direction.y);
 
-                anim.SetTrigger("Attack");
+                anim.SetTrigger("AttackTeleport");
+                
                 isAttacking = true;
                 attackType = AttackType.teleport;
             }
