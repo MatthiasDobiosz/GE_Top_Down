@@ -16,8 +16,13 @@ public class Teleporter : MonoBehaviour
     private GameController gameController;
     public TMP_Text teleporterError;
 
+    private Animator animator;
+
+
     private void Start() {
         gameController = FindObjectOfType<GameController>();
+        animator = GetComponent<Animator>();
+        animator.speed = 0f;
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -25,6 +30,7 @@ public class Teleporter : MonoBehaviour
         {
             FindObjectOfType<AudioManager>().Play("TeleportCharge");
             playerOnTeleporter = true;
+            animator.speed = 1f;
             Invoke("TeleportPlayer", delayBeforeTeleport);
 
             if (particlePrefab != null)
@@ -34,6 +40,7 @@ public class Teleporter : MonoBehaviour
         }else if (other.CompareTag("Player") && !allKeyFragments)
         {
             teleporterError.gameObject.SetActive(true); 
+            animator.speed = 0f;
         }
     }
 
@@ -44,6 +51,7 @@ public class Teleporter : MonoBehaviour
         {
             FindObjectOfType<AudioManager>().Cancel("TeleportCharge");
             playerOnTeleporter = false;
+            animator.speed = 0f;
             CancelInvoke("TeleportPlayer");
 
             if (spawnedParticles != null)
@@ -64,10 +72,9 @@ public class Teleporter : MonoBehaviour
                 Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
                 rb.velocity = Vector2.zero;
                 player.transform.position = teleportPosition;
+                animator.speed = 0f;
                 allKeyFragments = false;
-                Debug.Log(gameController.collectedCount);
                 gameController.collectedCount = 0;
-                Debug.Log(gameController.collectedCount);
                 gameController.UpdateCollectedText();
             }
             else
