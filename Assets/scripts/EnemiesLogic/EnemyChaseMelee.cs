@@ -8,12 +8,10 @@ public class EnemyChaseMelee : EnemyChase
 
     protected override void Update()
     {
+        base.Update();
+
         if (path == null || !currentlyChasing || currentlyAttacking)
         {
-            if(!isPatroling)
-            {
-                anim.SetBool("Moving", false);
-            }
             return;
         }
 

@@ -58,8 +58,6 @@ public class EnemyChase : MonoBehaviour
         }
     }
 
-
-    // Update is called once per frame
     protected virtual void Update()
     {
         if(isPlayerDead)
