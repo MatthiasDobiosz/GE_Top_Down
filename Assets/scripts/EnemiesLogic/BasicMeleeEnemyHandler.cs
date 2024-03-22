@@ -12,6 +12,8 @@ public class BasicMeleeEnemyHandler : Enemy
     private Animator anim;
     private bool isAttacking = false;
     private MeleeStandardAttack meleeStandardAttack;
+    private bool hasAttacked = false;
+    private MovePointAroundEntity movePointAroundEntityHandler;
 
 
     protected override void Start()
@@ -19,12 +21,24 @@ public class BasicMeleeEnemyHandler : Enemy
         base.Start();
         anim = GetComponent<Animator>();
         meleeStandardAttack = GetComponent<MeleeStandardAttack>();
+        movePointAroundEntityHandler = GetComponent<MovePointAroundEntity>();
     }
 
     void Update()
     {
         if(isAttacking)
         {
+            // When half of animation is over check if player is in hitbox and deal damage
+            if(anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5)
+            {
+                if(!hasAttacked)
+                {
+                    meleeStandardAttack.ExecuteStandardAttack();
+                    hasAttacked = true;
+                }
+
+            }
+
             if(anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
             {
                 AttackFinished();
@@ -34,13 +48,13 @@ public class BasicMeleeEnemyHandler : Enemy
  
         if(!isAttacking && hasLineOfSight)
         { 
+            Vector2 facingDirection = GetCurrentFacingDirection();
+            movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 0);
             bool shouldAttack = meleeStandardAttack.TriggerAttackStart(rb, target);
-
+    
             if(shouldAttack)
             {
-                //Vector2 facingDirection = GetCurrentFacingDirection();
-                // movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 0);
-                //anim.SetTrigger("Attack");
+                anim.SetTrigger("Attack");
                 isAttacking = true;
             }
         }
@@ -49,10 +63,15 @@ public class BasicMeleeEnemyHandler : Enemy
 
     public void AttackFinished()
     {
+        hasAttacked = false;
         isAttacking = false;
         meleeStandardAttack.TriggerAttackEnd(rb);
     }
 
+    private Vector2 GetCurrentFacingDirection()
+    {
+        return new Vector2(anim.GetFloat("XInput"), anim.GetFloat("YInput"));
+    }
     /**
     IEnumerator Dieold(int secs)
     {
