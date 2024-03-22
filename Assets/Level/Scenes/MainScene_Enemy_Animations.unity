@@ -48386,6 +48386,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85d2ee3e39ccfcd419b053eaeeb5a639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 2
+  nextWaypointDistance: 0.5
+  enemyGFX: {fileID: 0}
+  chaseStartDistance: 0.5
+  chaseEndDistance: 3
+  currentWaypoint: 0
+  currentlyChasing: 0
+  currentlyAttacking: 0
+  hasLineOfSight: 0
+  isPlayerDead: 0
+  anim: {fileID: 0}
+  seeker: {fileID: 0}
+  rb: {fileID: 0}
 --- !u!50 &246921463
 Rigidbody2D:
   serializedVersion: 4
@@ -50914,6 +50928,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9763e093667ed1e499a1a2a59c096b92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 2
+  nextWaypointDistance: 0.5
+  enemyGFX: {fileID: 0}
+  chaseStartDistance: 0.5
+  chaseEndDistance: 3
+  thresholdDistance: 1
+  currentWaypoint: 0
+  currentlyChasing: 0
+  currentlyAttacking: 0
+  hasLineOfSight: 0
+  isPlayerDead: 0
+  isPatroling: 0
+  anim: {fileID: 0}
+  seeker: {fileID: 0}
+  rb: {fileID: 0}
+  currentTargetPoint: {x: 0, y: 0}
+  isInThresholdDistance: 0
 --- !u!114 &751763681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53442,6 +53474,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85d2ee3e39ccfcd419b053eaeeb5a639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 2
+  nextWaypointDistance: 0.5
+  enemyGFX: {fileID: 0}
+  chaseStartDistance: 0.5
+  chaseEndDistance: 3
+  currentWaypoint: 0
+  currentlyChasing: 0
+  currentlyAttacking: 0
+  hasLineOfSight: 0
+  isPlayerDead: 0
+  anim: {fileID: 0}
+  seeker: {fileID: 0}
+  rb: {fileID: 0}
 --- !u!212 &1426221365
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -56045,6 +56091,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85d2ee3e39ccfcd419b053eaeeb5a639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 2
+  nextWaypointDistance: 0.5
+  enemyGFX: {fileID: 0}
+  chaseStartDistance: 0.5
+  chaseEndDistance: 3
+  currentWaypoint: 0
+  currentlyChasing: 0
+  currentlyAttacking: 0
+  hasLineOfSight: 0
+  isPlayerDead: 0
+  anim: {fileID: 0}
+  seeker: {fileID: 0}
+  rb: {fileID: 0}
 --- !u!114 &2109611233
 MonoBehaviour:
   m_ObjectHideFlags: 0

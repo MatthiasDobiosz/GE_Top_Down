@@ -13,13 +13,6 @@ public class RangedStandardAttack : MonoBehaviour
     public GameObject bulletPrefab;
     public float bulletSpeed = 10f;
 
-    private MovePointAroundEntity movePointAroundEntityHandler;
-
-    void Start()
-    {
-        movePointAroundEntityHandler = GetComponent<MovePointAroundEntity>();
-    }
-
     public Vector2 getPlayerDirection(Rigidbody2D rb, Transform target)
     {
         Vector2 playerPosition = new(target.position.x, target.position.y);
