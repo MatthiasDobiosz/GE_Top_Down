@@ -49,11 +49,12 @@ public class AdvancedMeleeEnemyHandler : Enemy
                     if(attackType == AttackType.teleport)
                     {
                         meleeTeleportAttack.ExecuteTeleportAttack();
+                        FindObjectOfType<AudioManager>().Play("WaspTeleportAttack");
                     }
                     else
                     {
                         meleeStandardAttack.ExecuteStandardAttack();
-                        FindObjectOfType<AudioManager>().Play("EnemyAttack1");
+                        FindObjectOfType<AudioManager>().Play("WaspStandardAttack");
                     }
 
                     hasAttacked = true;
@@ -63,7 +64,6 @@ public class AdvancedMeleeEnemyHandler : Enemy
             // Check if attack animation is over
             if(anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
             {
-                Debug.Log(anim.GetCurrentAnimatorStateInfo(0).normalizedTime);
                 AttackFinished();
             }
         }

@@ -34,6 +34,7 @@ public class BasicMeleeEnemyHandler : Enemy
                 if(!hasAttacked)
                 {
                     meleeStandardAttack.ExecuteStandardAttack();
+                    FindObjectOfType<AudioManager>().Play("SawStandardAttack");
                     hasAttacked = true;
                 }
 
