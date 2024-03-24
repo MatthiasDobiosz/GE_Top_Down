@@ -16,6 +16,7 @@ public class BasicRangedEnemyHandler : Enemy
     private RangedStandardAttack rangedStandardAttack;
     private bool isInAttackPosition = false;
     private float attackTimer;
+    private MovePointAroundEntity movePointAroundEntityHandler;
 
     protected override void Start()
     {
@@ -23,6 +24,7 @@ public class BasicRangedEnemyHandler : Enemy
         anim = GetComponent<Animator>();
         rangedStandardAttack = GetComponent<RangedStandardAttack>();
         attackTimer = attackInterval;
+        movePointAroundEntityHandler = GetComponent<MovePointAroundEntity>();
 
         EventManager.StartListening("canAttackRanged", StartAttacking);
         EventManager.StartListening("canNotAttackRanged", StopAttacking);
@@ -46,9 +48,14 @@ public class BasicRangedEnemyHandler : Enemy
  
         if(!isAttacking && hasLineOfSight && isInAttackPosition)
         { 
-            Vector2 direction = rangedStandardAttack.TriggerAttackStart(rb, target);
+            Vector2 direction = rangedStandardAttack.getPlayerDirection(rb, target);
+
+            movePointAroundEntityHandler.MovePoint(direction.x, direction.y, 0);
             anim.SetFloat("XInput", direction.x);
             anim.SetFloat("YInput", direction.y);
+
+            rangedStandardAttack.TriggerAttackStart(rb, direction);
+            
             isAttacking = true;
         }
 
