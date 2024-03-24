@@ -11,6 +11,7 @@ public class EnemyChase : MonoBehaviour
     public Transform enemyGFX;
     public float chaseStartDistance = 0.5f;
     public float chaseEndDistance = 3f;
+    public string chaseSoundName = "";
 
     protected Path path;
     protected int currentWaypoint = 0;
@@ -23,12 +24,14 @@ public class EnemyChase : MonoBehaviour
     protected Animator anim;
     protected Seeker seeker;
     protected Rigidbody2D rb;
+    protected AudioManager audioManager;
 
     protected virtual void Start()
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        audioManager = FindObjectOfType<AudioManager>();
 
         InvokeRepeating(nameof(UpdatePath), 0f, .01f);
 
@@ -58,8 +61,6 @@ public class EnemyChase : MonoBehaviour
         }
     }
 
-
-    // Update is called once per frame
     protected virtual void Update()
     {
         if(isPlayerDead)
@@ -99,6 +100,11 @@ public class EnemyChase : MonoBehaviour
 
     void StartChase()
     {
+        if(chaseSoundName != "")
+        {
+            audioManager.Play(chaseSoundName);
+        }
+        
         currentlyChasing = true;
         EventManager.TriggerEvent("chaseStart", new Dictionary<string, object> {
             {"body", rb}
@@ -144,7 +150,7 @@ public class EnemyChase : MonoBehaviour
 
     void OnAttack(Dictionary<string, object> message)
     {
-        if((GameObject)message["gameobject"] == transform.gameObject)
+        if((GameObject)message["gameobject"] == transform.gameObject && !currentlyChasing)
         {
             StartChase();
         }

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 /**
     Handle advanced normal melee enemy (Initial attack + standard attack)
 */
@@ -9,11 +11,18 @@ public class AdvancedMeleeEnemyHandler : Enemy
 {
     public float minDistanceInitialAttack = 0.5f;
 
+    private enum AttackType {
+        teleport = 1,
+        standard = 2,
+    }
+
     private Animator anim;
     private bool isAttacking = false;
+    private AttackType attackType = AttackType.teleport;
     private MeleeStandardAttack meleeStandardAttack;
     private MeleeTeleportAttack meleeTeleportAttack;
     private bool hasDoneInitialAttack = false;
+    private bool hasAttacked = false;
     private MovePointAroundEntity movePointAroundEntityHandler;
 
     protected override void Start()
@@ -31,6 +40,27 @@ public class AdvancedMeleeEnemyHandler : Enemy
     {
         if(isAttacking)
         {
+
+            // When half of animation is over check if player is in hitbox and deal damage
+            if(anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5)
+            {
+                if(!hasAttacked)
+                {
+                    if(attackType == AttackType.teleport)
+                    {
+                        meleeTeleportAttack.ExecuteTeleportAttack();
+                        FindObjectOfType<AudioManager>().Play("WaspTeleportAttack");
+                    }
+                    else
+                    {
+                        meleeStandardAttack.ExecuteStandardAttack();
+                        FindObjectOfType<AudioManager>().Play("WaspStandardAttack");
+                    }
+
+                    hasAttacked = true;
+                }
+            }
+
             // Check if attack animation is over
             if(anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
             {
@@ -42,16 +72,20 @@ public class AdvancedMeleeEnemyHandler : Enemy
         if(!hasDoneInitialAttack){
             if(Vector2.Distance(rb.position, target.position) < minDistanceInitialAttack && !isAttacking && hasLineOfSight)
             {
+                hasDoneInitialAttack = true;
+
                 Vector2 direction = meleeTeleportAttack.TriggerAttackStart(rb, target);
+
+                movePointAroundEntityHandler.MovePoint(direction.x, direction.y, 0);
+                movePointAroundEntityHandler.MovePoint(direction.x, direction.y, 1);
+
                 anim.SetFloat("XInput", direction.x);
                 anim.SetFloat("YInput", direction.y);
 
-                Vector2 facingDirection = GetCurrentFacingDirection();
-                movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 0);
-                movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 1);
-
-                anim.SetTrigger("Attack");
+                anim.SetTrigger("AttackTeleport");
+                
                 isAttacking = true;
+                attackType = AttackType.teleport;
             }
         }
         else {  
@@ -65,6 +99,7 @@ public class AdvancedMeleeEnemyHandler : Enemy
                 {
                     anim.SetTrigger("Attack");
                     isAttacking = true;
+                    attackType = AttackType.standard;
                 }
             }
         }
@@ -73,10 +108,10 @@ public class AdvancedMeleeEnemyHandler : Enemy
     public void AttackFinished()
     {
         isAttacking = false;
+        hasAttacked = false;
         if(!hasDoneInitialAttack)
         {
             meleeTeleportAttack.TriggerAttackEnd(rb);
-            hasDoneInitialAttack = true;
         } else {
             meleeStandardAttack.TriggerAttackEnd(rb);
         }
@@ -90,7 +125,7 @@ public class AdvancedMeleeEnemyHandler : Enemy
         }
     }
 
-    Vector2 GetCurrentFacingDirection()
+    private Vector2 GetCurrentFacingDirection()
     {
         return new Vector2(anim.GetFloat("XInput"), anim.GetFloat("YInput"));
     }
