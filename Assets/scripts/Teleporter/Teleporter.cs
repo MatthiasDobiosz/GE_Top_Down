@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -6,22 +7,15 @@ public class Teleporter : MonoBehaviour
 {
     public Vector2 teleportPosition;
     public float delayBeforeTeleport = 2f;
-
-    public GameObject particlePrefab;
-    private GameObject spawnedParticles; 
-
-    private bool playerOnTeleporter = false;
-
+    public int destinationLayer;
     public bool allKeyFragments = false;
-
-    private GameController gameController;
+    public GameObject particlePrefab;
     public TMP_Text teleporterError;
 
+    private GameObject spawnedParticles; 
+    private bool playerOnTeleporter = false;
+    private GameController gameController;
     private Animator animator;
-    public GameObject teleporterEbene1;
-    public GameObject teleporterEbene2;
-    public GameObject teleporterEbene3;
-    private int currentTeleporterCount = 0;
 
     private void Start() {
         gameController = FindObjectOfType<GameController>();
@@ -87,16 +81,11 @@ public class Teleporter : MonoBehaviour
                 rb.velocity = Vector2.zero;
                 player.transform.position = teleportPosition;
                 animator.speed = 0f;
-                if(currentTeleporterCount == 0){
-                    teleporterEbene1.SetActive(false);
-                    teleporterEbene2.SetActive(true);
-                } else if(currentTeleporterCount == 1){
-                    teleporterEbene2.SetActive(false);
-                    teleporterEbene3.SetActive(true);
-                }
-                currentTeleporterCount++;
                 gameController.collectedCount = 0;
                 gameController.UpdateCollectedText();
+                EventManager.TriggerEvent("teleport", new Dictionary<string, object>{
+                    {"layer", destinationLayer-1}
+                });
             }
             else
             {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,32 +8,31 @@ public class GameController : MonoBehaviour
     public TMP_Text collectedText;
     public int collectedCount = 0;
     public int totalObjects = 4;
+    public GameObject[] teleporters;
 
-    private Teleporter teleporter;
     private TeleporterMaster teleporterMaster;
-
-
+    private Teleporter currentTeleporter;
 
     private void Start() {
-        teleporter = FindObjectOfType<Teleporter>();
+        currentTeleporter = teleporters[0].GetComponent<Teleporter>();
         teleporterMaster = FindObjectOfType<TeleporterMaster>();
         UpdateCollectedText();
+
+        EventManager.StartListening("teleport", UpdateCurrentTeleporter);
     }
 
     public void CollectObject()
     {
         collectedCount++;
-        Debug.Log(collectedCount);
         UpdateCollectedText();
         FindObjectOfType<AudioManager>().Play("CollectKey");
 
-        if (collectedCount >= totalObjects && !teleporter.allKeyFragments)
+        if (collectedCount >= totalObjects && !currentTeleporter.allKeyFragments)
         {
-            Debug.Log("alle");
-            teleporter.AllKeyFragmentsCollected();
-            Debug.Log(teleporter.allKeyFragments);
+            currentTeleporter.AllKeyFragmentsCollected();
         }
     }
+
     public void CollectMasterObject()
     {
         teleporterMaster.hasMasterKey = true;
@@ -42,5 +42,10 @@ public class GameController : MonoBehaviour
     public void UpdateCollectedText()
     {
         collectedText.text = collectedCount + "/" + totalObjects + " key fragments";
+    }
+
+    void UpdateCurrentTeleporter(Dictionary<string, object> message)
+    {
+        currentTeleporter = teleporters[(int)message["layer"]].GetComponent<Teleporter>();
     }
 }
