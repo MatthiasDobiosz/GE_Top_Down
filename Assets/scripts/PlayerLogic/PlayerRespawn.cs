@@ -10,6 +10,11 @@ public class PlayerRespawn : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    public GameObject particlePrefab;
+
+    private GameObject deathParticles; 
+
+
 
     void Start()
     {
@@ -31,8 +36,16 @@ public class PlayerRespawn : MonoBehaviour
             EventManager.TriggerEvent("playerDeath", null);
             rb.bodyType = RigidbodyType2D.Static;
             StartCoroutine(FadeOut());
+            deathParticles = Instantiate(particlePrefab, transform.position, Quaternion.identity);
             FindObjectOfType<AudioManager>().Play("PlayerDeath");
+            StartCoroutine(DestroyParticlesAfterDelay());
         }
+    }
+
+    IEnumerator DestroyParticlesAfterDelay()
+    {
+        yield return new WaitForSeconds(3f);
+        Destroy(deathParticles);
     }
 
     // https://owlcation.com/stem/How-to-fade-out-a-GameObject-in-Unity
