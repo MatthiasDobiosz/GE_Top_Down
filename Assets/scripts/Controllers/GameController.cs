@@ -11,6 +11,8 @@ public class GameController : MonoBehaviour
     private Teleporter teleporter;
     private TeleporterMaster teleporterMaster;
 
+
+
     private void Start() {
         teleporter = FindObjectOfType<Teleporter>();
         teleporterMaster = FindObjectOfType<TeleporterMaster>();
@@ -20,12 +22,15 @@ public class GameController : MonoBehaviour
     public void CollectObject()
     {
         collectedCount++;
+        Debug.Log(collectedCount);
         UpdateCollectedText();
         FindObjectOfType<AudioManager>().Play("CollectKey");
 
-        if (collectedCount >= totalObjects)
+        if (collectedCount >= totalObjects && !teleporter.allKeyFragments)
         {
-            teleporter.allKeyFragments = true;
+            Debug.Log("alle");
+            teleporter.AllKeyFragmentsCollected();
+            Debug.Log(teleporter.allKeyFragments);
         }
     }
     public void CollectMasterObject()
