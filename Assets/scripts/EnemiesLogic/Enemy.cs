@@ -6,14 +6,13 @@ public class Enemy : MonoBehaviour
 {
     public Transform target;
     public SpriteRenderer spriteRenderer;
+    public GameObject particlePrefab;
 
     protected Rigidbody2D rb;
     protected Vector2 initialPosition;
     protected Color originalColor;
     protected bool hasLineOfSight;
-
-    public GameObject particlePrefab;
-    private GameObject deathParticles; 
+    protected GameObject deathParticles; 
 
     protected virtual void Start()
     {
@@ -56,10 +55,10 @@ public class Enemy : MonoBehaviour
     {
         if((GameObject)message["gameobject"] == transform.gameObject)
         {
-            StartCoroutine(Die(1));
+            StartCoroutine(DestroyParticlesAfterDelay());
+            StartCoroutine(Die());
             deathParticles = Instantiate(particlePrefab, transform.position, Quaternion.identity);
             FindObjectOfType<AudioManager>().Play("MazeDeath");
-            StartCoroutine(DestroyParticlesAfterDelay());
         }
     }
 
@@ -69,7 +68,7 @@ public class Enemy : MonoBehaviour
         Destroy(deathParticles);
     }
 
-    protected virtual IEnumerator Die(int secs)
+    protected virtual IEnumerator Die()
     {
         Color objectColor = spriteRenderer.material.color;
         originalColor = objectColor;
