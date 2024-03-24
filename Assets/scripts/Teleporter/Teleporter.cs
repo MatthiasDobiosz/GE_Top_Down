@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -5,43 +7,49 @@ public class Teleporter : MonoBehaviour
 {
     public Vector2 teleportPosition;
     public float delayBeforeTeleport = 2f;
-
-    public GameObject particlePrefab;
-    private GameObject spawnedParticles; 
-
-    private bool playerOnTeleporter = false;
-
+    public int destinationLayer;
     public bool allKeyFragments = false;
-
-    private GameController gameController;
+    public GameObject particlePrefab;
     public TMP_Text teleporterError;
 
+    private GameObject spawnedParticles; 
+    private bool playerOnTeleporter = false;
+    private GameController gameController;
     private Animator animator;
-
 
     private void Start() {
         gameController = FindObjectOfType<GameController>();
         animator = GetComponent<Animator>();
         animator.speed = 0f;
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && allKeyFragments)
+        if (other.CompareTag("Player"))
         {
-            FindObjectOfType<AudioManager>().Play("TeleportCharge");
-            playerOnTeleporter = true;
-            animator.speed = 1f;
-            Invoke("TeleportPlayer", delayBeforeTeleport);
-
-            if (particlePrefab != null)
+            if (!allKeyFragments)
             {
-                spawnedParticles = Instantiate(particlePrefab, transform.position, Quaternion.identity);
+                teleporterError.gameObject.SetActive(true); 
+                animator.speed = 0f;
             }
-        }else if (other.CompareTag("Player") && !allKeyFragments)
-        {
-            teleporterError.gameObject.SetActive(true); 
-            animator.speed = 0f;
+            else
+            {
+                FindObjectOfType<AudioManager>().Play("TeleportCharge");
+                playerOnTeleporter = true;
+                animator.speed = 1f;
+                Invoke("TeleportPlayer", delayBeforeTeleport);
+
+                if (particlePrefab != null)
+                {
+                    spawnedParticles = Instantiate(particlePrefab, transform.position, Quaternion.identity);
+                }
+            }
         }
+    }
+
+    public void AllKeyFragmentsCollected()
+    {
+        allKeyFragments = true;
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -73,9 +81,11 @@ public class Teleporter : MonoBehaviour
                 rb.velocity = Vector2.zero;
                 player.transform.position = teleportPosition;
                 animator.speed = 0f;
-                allKeyFragments = false;
                 gameController.collectedCount = 0;
                 gameController.UpdateCollectedText();
+                EventManager.TriggerEvent("teleport", new Dictionary<string, object>{
+                    {"layer", destinationLayer-1}
+                });
             }
             else
             {
@@ -83,4 +93,5 @@ public class Teleporter : MonoBehaviour
             }
         }
     }
+
 }
