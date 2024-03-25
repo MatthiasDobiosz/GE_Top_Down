@@ -6,8 +6,9 @@ using UnityEngine;
 public class Teleporter : MonoBehaviour
 {
     public Vector2 teleportPosition;
+    public GameObject targetObject;
     public float delayBeforeTeleport = 2f;
-    public int destinationLayer;
+    public int destinationLayer = 0;
     public bool allKeyFragments = false;
     public GameObject particlePrefab;
     public TMP_Text teleporterError;
@@ -79,13 +80,26 @@ public class Teleporter : MonoBehaviour
                 FindObjectOfType<AudioManager>().Play("Teleport");
                 Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
                 rb.velocity = Vector2.zero;
-                player.transform.position = teleportPosition;
+                
+                if(targetObject)
+                {
+                    player.transform.position = targetObject.transform.position;
+                }
+                else 
+                {
+                    player.transform.position = teleportPosition;
+                }
+                
                 animator.speed = 0f;
                 gameController.collectedCount = 0;
                 gameController.UpdateCollectedText();
-                EventManager.TriggerEvent("teleport", new Dictionary<string, object>{
-                    {"layer", destinationLayer-1}
-                });
+
+                if(destinationLayer != 0)
+                {
+                    EventManager.TriggerEvent("teleport", new Dictionary<string, object>{
+                        {"layer", destinationLayer-1}
+                    });
+                }
             }
             else
             {
