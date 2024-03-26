@@ -1,5 +1,3 @@
-using System;
-using TMPro;
 using UnityEngine;
 
 public class DoorAnimated : MonoBehaviour
@@ -7,11 +5,9 @@ public class DoorAnimated : MonoBehaviour
     private Animator animator;
     public float interactionDistance = 2f;
     private GameObject player;
-    public TMP_Text lockedText;
     private bool isOpen = false;
-    private bool isPlayerNear = false;
 
-    void Start()
+    void Awake()
     {
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -19,51 +15,42 @@ public class DoorAnimated : MonoBehaviour
 
     void Update()
     {
-        isPlayerNear = IsPlayerNearDoor();
-
-        if (isPlayerNear && Input.GetKeyDown(KeyCode.E))
+        if (IsPlayerNearDoor())
         {
-            OpenDoor();
-        }
-        else if (!isPlayerNear)
-        {
-            CloseDoor();
-        }
-
-        if (isPlayerNear && !isOpen)
-        {
-            lockedText.gameObject.SetActive(true);
+            if (!isOpen && Input.GetKeyDown(KeyCode.E))
+            {
+                Open();
+            }
         }
         else
         {
-            lockedText.gameObject.SetActive(false);
+            if (isOpen)
+            {
+                Close();
+            }
         }
     }
 
     bool IsPlayerNearDoor()
     {
-    if (player != null)
-    {
-        Vector3 playerPosition = player.transform.position;
-        Vector3 doorPosition = transform.position;
+        if (player != null)
+        {
+            Vector3 playerPosition = player.transform.position;
+            Vector3 doorPosition = transform.position;
 
-        playerPosition.z = doorPosition.z;
-        
-        float distance = Vector3.Distance(doorPosition, playerPosition);
-
-        return distance <= interactionDistance;
+            float distance = Vector3.Distance(doorPosition, playerPosition);
+            return distance <= interactionDistance;
+        }
+        return false;
     }
-    return false;
-}
 
-    public void OpenDoor()
+    public void Open()
     {
-        FindObjectOfType<AudioManager>().Play("OpenDoor");
         animator.SetBool("Open", true);
         isOpen = true;
     }
 
-    public void CloseDoor()
+    public void Close()
     {
         animator.SetBool("Open", false);
         isOpen = false;
