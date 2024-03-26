@@ -17,6 +17,7 @@ public class StartEndSequence : MonoBehaviour
         if(collider.CompareTag("Player"))
         {
             StartCoroutine(StartSequence());
+            transform.gameObject.SetActive(false);
         }
     }
 

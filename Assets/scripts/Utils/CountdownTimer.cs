@@ -25,7 +25,6 @@ public class CountdownTimer : MonoBehaviour
                 UpdateTimer(timeLeft);
             } else 
             {
-                Debug.Log("to 0");
                 timeLeft = 0;
                 isCounting = false;
                 HideTimer();
