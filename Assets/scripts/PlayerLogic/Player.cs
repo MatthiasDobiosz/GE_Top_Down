@@ -155,7 +155,6 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Spieler enter");
         if (other.CompareTag("Collectible"))
         {
             gameController.CollectObject();

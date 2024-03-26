@@ -97,8 +97,11 @@ public class Teleporter : MonoBehaviour
                 if(destinationLayer != 0)
                 {
                     EventManager.TriggerEvent("teleport", new Dictionary<string, object>{
-                        {"layer", destinationLayer-1}
+                        {"layer", destinationLayer-1},
                     });
+                } else
+                {
+                    EventManager.TriggerEvent("teleportLast", null);
                 }
             }
             else
