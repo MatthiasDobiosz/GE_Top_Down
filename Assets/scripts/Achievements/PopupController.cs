@@ -10,6 +10,7 @@ public class PopupController : MonoBehaviour
     }
     public void PlayPopupAnimation()
     {
+        FindObjectOfType<AudioManager>().Play("Achievement");
         animator.SetTrigger("ShowPopup");
     }
 }
