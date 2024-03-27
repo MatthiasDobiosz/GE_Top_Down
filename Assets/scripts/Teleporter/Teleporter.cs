@@ -89,11 +89,11 @@ public class Teleporter : MonoBehaviour
                 {
                     player.transform.position = teleportPosition;
                 }
-                
+                FindObjectOfType<ProgressBar>().IncrementProgress(0.2f);
                 animator.speed = 0f;
                 gameController.collectedCount = 0;
                 gameController.UpdateCollectedText();
-
+                
                 if(destinationLayer != 0)
                 {
                     EventManager.TriggerEvent("teleport", new Dictionary<string, object>{
