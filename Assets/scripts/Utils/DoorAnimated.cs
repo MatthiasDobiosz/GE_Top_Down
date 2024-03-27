@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DoorAnimated : MonoBehaviour
@@ -6,11 +7,18 @@ public class DoorAnimated : MonoBehaviour
     public float interactionDistance = 2f;
     private GameObject player;
     private bool isOpen = false;
+    private Bounds doorBounds;
+
 
     void Awake()
     {
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
+
+        Vector3 boundsCenter = new(gameObject.transform.position.x, gameObject.transform.position.y, 0);
+        Vector3 boundsSize = new(5, 5, 0);
+
+        doorBounds = new Bounds(boundsCenter, boundsSize);
     }
 
     void Update()
@@ -48,11 +56,19 @@ public class DoorAnimated : MonoBehaviour
     {
         animator.SetBool("Open", true);
         isOpen = true;
+
+        EventManager.TriggerEvent("updateGrid", new Dictionary<string, object> {
+            {"bounds", doorBounds}
+        });
     }
 
     public void Close()
     {
         animator.SetBool("Open", false);
         isOpen = false;
+
+        EventManager.TriggerEvent("updateGrid", new Dictionary<string, object> {
+            {"bounds", doorBounds}
+        });
     }
 }
