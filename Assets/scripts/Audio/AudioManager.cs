@@ -60,7 +60,7 @@ public class AudioManager : MonoBehaviour
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
             return;
-        s.pitch = pitch;
+        s.source.pitch = pitch;
     }
 
     public void ChangeVolume(string name, float volume)
@@ -68,6 +68,6 @@ public class AudioManager : MonoBehaviour
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
             return;
-        s.volume = volume;
+        s.source.volume = volume;
     }
 }

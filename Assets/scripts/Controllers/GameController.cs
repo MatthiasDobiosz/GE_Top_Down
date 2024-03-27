@@ -11,14 +11,19 @@ public class GameController : MonoBehaviour
     public GameObject[] teleporters;
 
     private TeleporterMaster teleporterMaster;
+    private TeleporterToFinal teleporterToFinal;
+    private bool isOnFinalTeleporter = false;
     private Teleporter currentTeleporter;
 
     private void Start() {
         currentTeleporter = teleporters[0].GetComponent<Teleporter>();
+        teleporterToFinal = FindObjectOfType<TeleporterToFinal>();
         teleporterMaster = FindObjectOfType<TeleporterMaster>();
         UpdateCollectedText();
 
         EventManager.StartListening("teleport", UpdateCurrentTeleporter);
+        EventManager.StartListening("teleportLast", UpdateToLastTeleporter);
+        EventManager.StartListening("teleportFinal", UpdateToNoTeleporter);
     }
 
     public void CollectObject()
@@ -27,9 +32,19 @@ public class GameController : MonoBehaviour
         UpdateCollectedText();
         FindObjectOfType<AudioManager>().Play("CollectKey");
 
-        if (collectedCount >= totalObjects && !currentTeleporter.allKeyFragments)
+        if(isOnFinalTeleporter)
         {
-            currentTeleporter.AllKeyFragmentsCollected();
+            if (collectedCount >= totalObjects && !teleporterToFinal.allKeyFragments)
+            {
+                teleporterToFinal.AllKeyFragmentsCollected();
+            }
+        }
+        else
+        {
+            if (collectedCount >= totalObjects && !currentTeleporter.allKeyFragments)
+            {
+                currentTeleporter.AllKeyFragmentsCollected();
+            }
         }
     }
 
@@ -46,6 +61,26 @@ public class GameController : MonoBehaviour
 
     void UpdateCurrentTeleporter(Dictionary<string, object> message)
     {
-        currentTeleporter = teleporters[(int)message["layer"]].GetComponent<Teleporter>();
+        currentTeleporter = teleporters[(int)message["layer"]].GetComponent<Teleporter>();   
+    }
+
+    void UpdateToLastTeleporter(Dictionary<string, object> message)
+    {
+        isOnFinalTeleporter = true;
+
+        if (collectedCount >= totalObjects && !teleporterToFinal.allKeyFragments)
+        {
+            teleporterToFinal.AllKeyFragmentsCollected();
+        }
+    }
+
+    void UpdateToNoTeleporter(Dictionary<string, object> message)
+    {
+        foreach(GameObject teleporterObject in teleporters)
+        {
+            teleporterObject.SetActive(false);
+        }
+
+        //TODO: Keys auch disablen
     }
 }
