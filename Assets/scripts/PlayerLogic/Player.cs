@@ -158,7 +158,6 @@ public class Player : MonoBehaviour
         if (other.CompareTag("Collectible"))
         {
             gameController.CollectObject();
-            EventManager.TriggerEvent("ShowPopup1", null);
 
             other.gameObject.SetActive(false);
         }
