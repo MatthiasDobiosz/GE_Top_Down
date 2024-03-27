@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ActivateSwitch : MonoBehaviour
 {
-    private Animator animator;
     public float interactionDistance = 0.5f;
+    public TMP_Text doorOpenText;
+
+    private Animator animator;
     private GameObject player;
     private bool isOn = false;
 
@@ -41,8 +44,18 @@ public class ActivateSwitch : MonoBehaviour
 
     public void Open()
     {
-        // animator.SetBool("Open", true);
+        animator.SetTrigger("switch");
         EventManager.TriggerEvent("switchActivated", null);
         isOn = true;
+        StartCoroutine(ShowDoorOpenText());
+    }
+
+    IEnumerator ShowDoorOpenText()
+    {
+        yield return new WaitForSeconds(0.5f);
+        FindObjectOfType<AudioManager>().Play("Switch");
+        doorOpenText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3);
+        doorOpenText.gameObject.SetActive(false);
     }
 }

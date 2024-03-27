@@ -34,6 +34,7 @@ public class TeleporterToFinal : MonoBehaviour
         {
             if (!(allKeyFragments && switchActivated))
             {
+                teleporterError.text = !allKeyFragments ? "You dont have enough Keyfragments to use the teleporter!" : "A switch has to be activated!";
                 teleporterError.gameObject.SetActive(true); 
                 animator.speed = 0f;
             }
