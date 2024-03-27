@@ -46,7 +46,7 @@ public class BasicRangedEnemyHandler : Enemy
         }
 
  
-        if(!isAttacking && hasLineOfSight && isInAttackPosition)
+        if(!isAttacking && hasLineOfSight && isInAttackPosition && !isPlayerDead)
         { 
             Vector2 direction = rangedStandardAttack.getPlayerDirection(rb, target);
 

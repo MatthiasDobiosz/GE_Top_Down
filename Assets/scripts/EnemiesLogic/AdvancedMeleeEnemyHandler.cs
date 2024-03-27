@@ -68,38 +68,40 @@ public class AdvancedMeleeEnemyHandler : Enemy
             }
         }
 
-
-        if(!hasDoneInitialAttack){
-            if(Vector2.Distance(rb.position, target.position) < minDistanceInitialAttack && !isAttacking && hasLineOfSight)
-            {
-                hasDoneInitialAttack = true;
-
-                Vector2 direction = meleeTeleportAttack.TriggerAttackStart(rb, target);
-
-                movePointAroundEntityHandler.MovePoint(direction.x, direction.y, 0);
-                movePointAroundEntityHandler.MovePoint(direction.x, direction.y, 1);
-
-                anim.SetFloat("XInput", direction.x);
-                anim.SetFloat("YInput", direction.y);
-
-                anim.SetTrigger("AttackTeleport");
-                
-                isAttacking = true;
-                attackType = AttackType.teleport;
-            }
-        }
-        else {  
-            if(!isAttacking && hasLineOfSight)
-            { 
-                Vector2 facingDirection = GetCurrentFacingDirection();
-                movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 1);
-                bool shouldAttack = meleeStandardAttack.TriggerAttackStart(rb, target);
-
-                if(shouldAttack)
+        if(!isPlayerDead)
+        {
+            if(!hasDoneInitialAttack){
+                if(Vector2.Distance(rb.position, target.position) < minDistanceInitialAttack && !isAttacking && hasLineOfSight)
                 {
-                    anim.SetTrigger("Attack");
+                    hasDoneInitialAttack = true;
+
+                    Vector2 direction = meleeTeleportAttack.TriggerAttackStart(rb, target);
+
+                    movePointAroundEntityHandler.MovePoint(direction.x, direction.y, 0);
+                    movePointAroundEntityHandler.MovePoint(direction.x, direction.y, 1);
+
+                    anim.SetFloat("XInput", direction.x);
+                    anim.SetFloat("YInput", direction.y);
+
+                    anim.SetTrigger("AttackTeleport");
+                    
                     isAttacking = true;
-                    attackType = AttackType.standard;
+                    attackType = AttackType.teleport;
+                }
+            }
+            else {  
+                if(!isAttacking && hasLineOfSight)
+                { 
+                    Vector2 facingDirection = GetCurrentFacingDirection();
+                    movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 1);
+                    bool shouldAttack = meleeStandardAttack.TriggerAttackStart(rb, target);
+
+                    if(shouldAttack)
+                    {
+                        anim.SetTrigger("Attack");
+                        isAttacking = true;
+                        attackType = AttackType.standard;
+                    }
                 }
             }
         }

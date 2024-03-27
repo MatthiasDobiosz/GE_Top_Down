@@ -47,7 +47,7 @@ public class BasicMeleeEnemyHandler : Enemy
         }
 
  
-        if(!isAttacking && hasLineOfSight)
+        if(!isAttacking && hasLineOfSight && !isPlayerDead)
         { 
             Vector2 facingDirection = GetCurrentFacingDirection();
             movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 0);
