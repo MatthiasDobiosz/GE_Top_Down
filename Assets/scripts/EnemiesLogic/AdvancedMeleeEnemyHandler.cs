@@ -89,20 +89,17 @@ public class AdvancedMeleeEnemyHandler : Enemy
                     attackType = AttackType.teleport;
                 }
             }
-            else {  
-                if(!isAttacking && hasLineOfSight)
-                { 
-                    Vector2 facingDirection = GetCurrentFacingDirection();
-                    movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 1);
-                    bool shouldAttack = meleeStandardAttack.TriggerAttackStart(rb, target);
+            else if(!isAttacking && hasLineOfSight) {  
+                Vector2 facingDirection = GetCurrentFacingDirection();
+                movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 1);
+                bool shouldAttack = meleeStandardAttack.TriggerAttackStart(rb, target);
 
-                    if(shouldAttack)
-                    {
-                        anim.SetTrigger("Attack");
-                        isAttacking = true;
-                        attackType = AttackType.standard;
-                    }
-                }
+                if(shouldAttack)
+                {
+                    anim.SetTrigger("Attack");
+                    isAttacking = true;
+                    attackType = AttackType.standard;
+                }        
             }
         }
     }
