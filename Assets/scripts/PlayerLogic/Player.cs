@@ -87,9 +87,15 @@ public class Player : MonoBehaviour
                 movementFilter,
                 castCollisions,
                 moveSpeed * Time.fixedDeltaTime + collisionOffset);
-
+            if(count == 1)
+            {
+                if(castCollisions[0].transform.CompareTag("Lower Wall"))
+                {
+                    rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
+                }
+            }
             if(count == 0){
-                rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
+                rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
             }
         }   
     }
