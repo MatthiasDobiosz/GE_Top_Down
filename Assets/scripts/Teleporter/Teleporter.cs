@@ -71,7 +71,7 @@ public class Teleporter : MonoBehaviour
     }
 
     private void TeleportPlayer()
-    {
+    {   
         if (playerOnTeleporter)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -89,8 +89,16 @@ public class Teleporter : MonoBehaviour
                 {
                     player.transform.position = teleportPosition;
                 }
+                Debug.Log(destinationLayer);
                 FindObjectOfType<ProgressBar>().IncrementProgress(0.2f);
-                EventManager.TriggerEvent("ShowPopup1", null);
+                if(destinationLayer == 2){
+                    EventManager.TriggerEvent("ShowPopup1", null);
+                } else if(destinationLayer == 3){
+                    EventManager.TriggerEvent("ShowPopup2", null);
+                } else if(destinationLayer == 0){
+                    EventManager.TriggerEvent("ShowPopup3", null);
+                }
+                
                 animator.speed = 0f;
                 gameController.collectedCount = 0;
                 gameController.UpdateCollectedText();

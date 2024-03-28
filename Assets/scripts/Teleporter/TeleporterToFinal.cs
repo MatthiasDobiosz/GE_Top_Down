@@ -85,6 +85,7 @@ public class TeleporterToFinal : MonoBehaviour
                 FindObjectOfType<AudioManager>().Play("Teleport");
                 Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
                 rb.velocity = Vector2.zero;
+
                 
                 if(targetObject)
                 {
@@ -99,7 +100,9 @@ public class TeleporterToFinal : MonoBehaviour
                 gameController.collectedCount = 0;
                 gameController.UpdateCollectedText();
 
+                FindObjectOfType<ProgressBar>().IncrementProgress(0.2f);
                 EventManager.TriggerEvent("teleportFinal", null);
+                EventManager.TriggerEvent("ShowPopup4", null);
             }
             else
             {
