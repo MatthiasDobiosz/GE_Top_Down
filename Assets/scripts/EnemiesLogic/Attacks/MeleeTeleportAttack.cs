@@ -10,7 +10,8 @@ using UnityEngine;
 public class MeleeTeleportAttack : MonoBehaviour
 {
     public Transform attackPoint;
-    public float attackRange = 0.2f;
+    public float attackRange = 0.05f;
+    public float attackDistance = 0.2f;
     public int damage = 20;
 
 
@@ -21,7 +22,7 @@ public class MeleeTeleportAttack : MonoBehaviour
         float playerDirectionY = target.GetComponent<Player>().GetLastMovementInput().y;
 
         bool facingRight = playerDirectionX >= 0f;
-        Vector2 teleportPosition = facingRight ? new(target.position.x - attackRange, target.position.y ) : new(target.position.x + attackRange, target.position.y );
+        Vector2 teleportPosition = facingRight ? new(target.position.x - attackDistance, target.position.y ) : new(target.position.x + attackDistance, target.position.y );
 
         RaycastHit2D hitObject = Physics2D.Linecast(teleportPosition, target.position, 1 << LayerMask.NameToLayer("Obstacles"));
 
@@ -33,7 +34,7 @@ public class MeleeTeleportAttack : MonoBehaviour
         // Check other side if there are obstacles, if obstacles on both sides --> do the attack on the spot
         else
         {
-            Vector2 newTeleportPosition = facingRight ? new(target.position.x + attackRange, target.position.y ) : new(target.position.x - attackRange, target.position.y );
+            Vector2 newTeleportPosition = facingRight ? new(target.position.x + attackDistance, target.position.y ) : new(target.position.x - attackDistance, target.position.y );
             RaycastHit2D newHitObject = Physics2D.Linecast(newTeleportPosition, target.position, 1 << LayerMask.NameToLayer("Obstacles"));
 
             if(newHitObject.collider == null)

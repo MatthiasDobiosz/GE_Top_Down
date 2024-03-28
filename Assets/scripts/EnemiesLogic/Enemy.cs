@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     protected Color originalColor;
     protected bool hasLineOfSight;
     protected GameObject deathParticles; 
+    protected bool isPlayerDead;
 
     protected virtual void Start()
     {
@@ -21,6 +22,9 @@ public class Enemy : MonoBehaviour
 
         EventManager.StartListening("death", CheckForDeath);
         EventManager.StartListening("respawnAll", Respawn);
+
+        EventManager.StartListening("playerDeath", HandlePlayerDeath);
+        EventManager.StartListening("playerRespawn", HandlePlayerRespawn);
     }
 
     protected virtual void FixedUpdate()
@@ -92,5 +96,15 @@ public class Enemy : MonoBehaviour
             hasLineOfSight = true;
             Debug.DrawLine(transform.position, target.transform.position, Color.green);
         }
+    }
+
+    void HandlePlayerDeath(Dictionary<string, object> message = null)
+    {
+        isPlayerDead = true;
+    }
+    
+    void HandlePlayerRespawn(Dictionary<string, object> message = null)
+    {
+        isPlayerDead = false;
     }
 }

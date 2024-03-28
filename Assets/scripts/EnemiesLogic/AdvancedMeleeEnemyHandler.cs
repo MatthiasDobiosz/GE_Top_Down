@@ -68,29 +68,28 @@ public class AdvancedMeleeEnemyHandler : Enemy
             }
         }
 
+        if(!isPlayerDead)
+        {
+            if(!hasDoneInitialAttack){
+                if(Vector2.Distance(rb.position, target.position) < minDistanceInitialAttack && !isAttacking && hasLineOfSight)
+                {
+                    hasDoneInitialAttack = true;
 
-        if(!hasDoneInitialAttack){
-            if(Vector2.Distance(rb.position, target.position) < minDistanceInitialAttack && !isAttacking && hasLineOfSight)
-            {
-                hasDoneInitialAttack = true;
+                    Vector2 direction = meleeTeleportAttack.TriggerAttackStart(rb, target);
 
-                Vector2 direction = meleeTeleportAttack.TriggerAttackStart(rb, target);
+                    movePointAroundEntityHandler.MovePoint(direction.x, direction.y, 0);
+                    movePointAroundEntityHandler.MovePoint(direction.x, direction.y, 1);
 
-                movePointAroundEntityHandler.MovePoint(direction.x, direction.y, 0);
-                movePointAroundEntityHandler.MovePoint(direction.x, direction.y, 1);
+                    anim.SetFloat("XInput", direction.x);
+                    anim.SetFloat("YInput", direction.y);
 
-                anim.SetFloat("XInput", direction.x);
-                anim.SetFloat("YInput", direction.y);
-
-                anim.SetTrigger("AttackTeleport");
-                
-                isAttacking = true;
-                attackType = AttackType.teleport;
+                    anim.SetTrigger("AttackTeleport");
+                    
+                    isAttacking = true;
+                    attackType = AttackType.teleport;
+                }
             }
-        }
-        else {  
-            if(!isAttacking && hasLineOfSight)
-            { 
+            else if(!isAttacking && hasLineOfSight) {  
                 Vector2 facingDirection = GetCurrentFacingDirection();
                 movePointAroundEntityHandler.MovePoint(facingDirection.x, facingDirection.y, 1);
                 bool shouldAttack = meleeStandardAttack.TriggerAttackStart(rb, target);
@@ -100,7 +99,7 @@ public class AdvancedMeleeEnemyHandler : Enemy
                     anim.SetTrigger("Attack");
                     isAttacking = true;
                     attackType = AttackType.standard;
-                }
+                }        
             }
         }
     }

@@ -44,7 +44,7 @@ public class EnemyAIPatrol : MonoBehaviour
         EventManager.StartListening("chaseStart", StopPatrol);
         EventManager.StartListening("chaseEnd", StartPatrol);
 
-        InvokeRepeating(nameof(UpdatePath), 0f, .01f);
+        InvokeRepeating(nameof(UpdatePath), 0f, .1f);
     }
 
     void UpdatePath()
@@ -104,7 +104,7 @@ public class EnemyAIPatrol : MonoBehaviour
         Vector2 velocity = direction * speed;
         
         rb.position += velocity * Time.deltaTime;
-        
+
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
 
         if(Math.Abs(path.vectorPath[currentWaypoint].x - rb.position.x) > 0.1f)
