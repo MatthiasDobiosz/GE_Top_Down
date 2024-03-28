@@ -9,16 +9,17 @@ TagManager:
   - Collectible
   - CollectibleMaster
   - Door
+  - Lower Wall
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemies
   - Water
   - UI
   - Obstacles
-  - 
-  - 
+  - Ignore Enemies
+  - Lower Wall
   - 
   - 
   - 

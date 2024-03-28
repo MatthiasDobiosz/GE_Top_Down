@@ -19,7 +19,7 @@ public class RangedStandardAttack : MonoBehaviour
         Vector2 monsterPosition = new(rb.position.x, rb.position.y);
         Vector2 direction = playerPosition - monsterPosition;
 
-        return direction;
+        return direction.normalized;
     }
 
     public void TriggerAttackStart(Rigidbody2D rb, Vector2 direction)
@@ -32,6 +32,7 @@ public class RangedStandardAttack : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
         bullet.GetComponent<EnemyBullet>().damage = damage;
         bullet.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
+        Debug.Log(direction * bulletSpeed);
 
         Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), transform.GetComponent<Collider2D>());
     }
