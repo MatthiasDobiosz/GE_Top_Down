@@ -32,7 +32,6 @@ public class RangedStandardAttack : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
         bullet.GetComponent<EnemyBullet>().damage = damage;
         bullet.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
-        Debug.Log(direction * bulletSpeed);
 
         Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), transform.GetComponent<Collider2D>());
     }

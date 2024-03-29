@@ -233,6 +233,7 @@ MonoBehaviour:
   nextWaypointDistance: 0.1
   originalAlignmentX: 0
   originalAlignmentY: 0
+  setMoveOnStart: 0
 --- !u!114 &7991121246835883183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,8 +369,8 @@ MonoBehaviour:
   speed: 2
   nextWaypointDistance: 0.3
   enemyGFX: {fileID: 2681366461015419688}
-  chaseStartDistance: 1
-  chaseEndDistance: 3
+  chaseStartDistance: 1.5
+  chaseEndDistance: 4
   chaseSoundName: SawDetect
 --- !u!114 &3969492262452942615
 MonoBehaviour:

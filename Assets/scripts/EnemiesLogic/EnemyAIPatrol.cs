@@ -16,6 +16,7 @@ public class EnemyAIPatrol : MonoBehaviour
     public float nextWaypointDistance = 0.1f;
     public float originalAlignmentX;
     public float originalAlignmentY;
+    public bool setMoveOnStart = false;
 
     private Path path;
     private int currentWaypoint = 0;
@@ -37,6 +38,11 @@ public class EnemyAIPatrol : MonoBehaviour
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        if(setMoveOnStart)
+        {
+            anim.SetBool("Moving", true);
+        }
 
         currentPoint = patrolPoints[0];
         originalPosition = rb.position;

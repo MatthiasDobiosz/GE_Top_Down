@@ -246,6 +246,7 @@ MonoBehaviour:
   nextWaypointDistance: 0.1
   originalAlignmentX: 0
   originalAlignmentY: 0
+  setMoveOnStart: 0
 --- !u!114 &2126014769285105458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,10 +260,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 1.5
+  speed: 2
   nextWaypointDistance: 0.5
   enemyGFX: {fileID: 7524217860787470019}
-  chaseStartDistance: 1.5
+  chaseStartDistance: 2
   chaseEndDistance: 4
   chaseSoundName: RangedDetect
   thresholdDistance: 1

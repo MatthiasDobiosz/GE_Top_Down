@@ -19,7 +19,7 @@ public class EnemyChase : MonoBehaviour
     protected bool currentlyAttacking = false;
     protected bool hasLineOfSight = false;
     protected bool isPlayerDead = false;
-    protected bool isPatroling = false;
+    protected bool isPatroling = true;
 
     protected Animator anim;
     protected Seeker seeker;

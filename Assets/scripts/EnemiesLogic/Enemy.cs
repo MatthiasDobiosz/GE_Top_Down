@@ -105,6 +105,7 @@ public class Enemy : MonoBehaviour
     
     void HandlePlayerRespawn(Dictionary<string, object> message = null)
     {
+        transform.position = initialPosition;
         isPlayerDead = false;
     }
 }
