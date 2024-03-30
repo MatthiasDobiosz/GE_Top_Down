@@ -46,7 +46,7 @@ public class StartEndSequence : MonoBehaviour
     {
         isPlaying = true;
         yield return new WaitForSeconds(5);
-        audioManager.ChangeVolume("Background Music", 0.01f);
+        audioManager.ChangeVolume("Background Music", 0.001f);
         yield return new WaitForSeconds(1);
         audioManager.Play("StartDestructAlarm");
         yield return new WaitForSeconds(2);
