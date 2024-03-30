@@ -89,7 +89,7 @@ public class Teleporter : MonoBehaviour
                 {
                     player.transform.position = teleportPosition;
                 }
-                Debug.Log(destinationLayer);
+                
                 FindObjectOfType<ProgressBar>().IncrementProgress(0.2f);
                 if(destinationLayer == 2){
                     EventManager.TriggerEvent("ShowPopup1", null);
