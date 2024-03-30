@@ -163,4 +163,17 @@ public class EnemyChase : MonoBehaviour
             isPatroling = false;
         }
     }
+
+    void OnDestroy()
+    {
+        EventManager.StopListening("attackStart", DiscontinueChase);
+        EventManager.StopListening("attackEnd", ContinueChase);
+
+        EventManager.StopListening("playerDeath", HandlePlayerDeath);
+        EventManager.StopListening("playerRespawn", HandlePlayerRespawn);
+
+        EventManager.StopListening("damageTaken", OnAttack);
+
+        EventManager.StopListening("enemyStanding", StopPatroling);
+    }
 }
