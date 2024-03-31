@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     public int collectedCount = 0;
     public int totalObjects = 4;
     public GameObject[] teleporters;
+    public GameObject[] enemies;
 
     private TeleporterMaster teleporterMaster;
     private TeleporterToFinal teleporterToFinal;
@@ -61,12 +62,17 @@ public class GameController : MonoBehaviour
 
     void UpdateCurrentTeleporter(Dictionary<string, object> message)
     {
+        enemies[(int)message["layer"]].SetActive(true);
+        Destroy(enemies[(int)(message)["layer"]-1]);
         currentTeleporter = teleporters[(int)message["layer"]].GetComponent<Teleporter>();   
     }
 
     void UpdateToLastTeleporter(Dictionary<string, object> message)
     {
         isOnFinalTeleporter = true;
+
+        enemies[3].SetActive(true);
+        Destroy(enemies[2]);
 
         if (collectedCount >= totalObjects && !teleporterToFinal.allKeyFragments)
         {
@@ -76,6 +82,13 @@ public class GameController : MonoBehaviour
 
     void UpdateToNoTeleporter(Dictionary<string, object> message)
     {
+        EventManager.TriggerEvent("teleportToStage", new Dictionary<string, object>{
+            {"stage", 5},
+        });
+
+        enemies[4].SetActive(true);
+        Destroy(enemies[3]);
+
         foreach(GameObject teleporterObject in teleporters)
         {
             teleporterObject.SetActive(false);

@@ -129,6 +129,14 @@ public class AdvancedMeleeEnemyHandler : Enemy
         return new Vector2(anim.GetFloat("XInput"), anim.GetFloat("YInput"));
     }
 
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        EventManager.StopListening("patrolStart", ResetInitialAttack);
+    }
+
     /**
     IEnumerator Dieold(int secs)
     {

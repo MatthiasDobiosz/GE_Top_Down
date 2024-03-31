@@ -105,6 +105,16 @@ public class Enemy : MonoBehaviour
     
     void HandlePlayerRespawn(Dictionary<string, object> message = null)
     {
+        transform.position = initialPosition;
         isPlayerDead = false;
+    }
+
+    protected virtual void OnDestroy()
+    {
+        EventManager.StopListening("death", CheckForDeath);
+        EventManager.StopListening("respawnAll", Respawn);
+
+        EventManager.StopListening("playerDeath", HandlePlayerDeath);
+        EventManager.StopListening("playerRespawn", HandlePlayerRespawn);
     }
 }

@@ -115,4 +115,12 @@ public class BasicRangedEnemyHandler : Enemy
         EventManager.StopListening("death", CheckForDeath);
     }
     */
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        EventManager.StopListening("canAttackRanged", StartAttacking);
+        EventManager.StopListening("canNotAttackRanged", StopAttacking);
+    }
 }

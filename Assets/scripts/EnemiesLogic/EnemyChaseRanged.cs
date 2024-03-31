@@ -7,7 +7,7 @@ public class EnemyChaseRanged : EnemyChase
 {
     public float thresholdDistance = 1f;
 
-    private bool isInThresholdDistance;
+    private bool isInThresholdDistance = false;
 
     protected override void Start()
     {
@@ -103,27 +103,32 @@ public class EnemyChaseRanged : EnemyChase
     void GetRangedPosition()
     {
         float currentDistance = Vector2.Distance(target.position, rb.position);
+        bool isCurrentlyInRangeDistance = true;
 
          /// Debug.Log(currentDistance);
 
         // if the enemy is not at the threshold distance or has no LOS than it should chase the player target point
         if(currentDistance > thresholdDistance  || !hasLineOfSight && isPlayerDead)
         {
-            isInThresholdDistance = false;
-
-            EventManager.TriggerEvent("canNotAttackRanged", new Dictionary<string, object> {
-                {"body", rb}
-            });
+            isCurrentlyInRangeDistance = false;
         }
-        // if line of sight is established and enemy is within threshold range it should stop and attack
-        else 
-        {
-            isInThresholdDistance = true;
 
-            
-            EventManager.TriggerEvent("canAttackRanged", new Dictionary<string, object> {
-                {"body", rb}
-            });
+        if(isInThresholdDistance != isCurrentlyInRangeDistance)
+        {
+            if(isCurrentlyInRangeDistance)
+            {
+                isInThresholdDistance = true;
+                EventManager.TriggerEvent("canAttackRanged", new Dictionary<string, object> {
+                    {"body", rb}
+                 });
+            }
+            else 
+            {
+                isInThresholdDistance = false;
+                EventManager.TriggerEvent("canNotAttackRanged", new Dictionary<string, object> {
+                    {"body", rb}
+                });
+            }
         }
     }
 
