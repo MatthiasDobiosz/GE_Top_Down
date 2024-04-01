@@ -1,6 +1,7 @@
 using UnityEngine.Audio;
 using System;
 using UnityEngine;
+using System.Collections;
 
 /**
     Manages Audio within the Game
@@ -36,9 +37,19 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        Play("Background Music");
+        PlayDelayed("Background Music", 10f);
     }
 
+    public void PlayDelayed(string name, float delay)
+    {
+        StartCoroutine(PlayDelayedCoroutine(name, delay));
+    }
+
+    private IEnumerator PlayDelayedCoroutine(string name, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Play(name);
+    }
     public void Play(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
