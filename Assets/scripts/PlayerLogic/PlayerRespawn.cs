@@ -14,6 +14,8 @@ public class PlayerRespawn : MonoBehaviour
 
     private GameObject deathParticles; 
 
+    public int deathCount = 0;
+
 
 
     void Start()
@@ -37,6 +39,7 @@ public class PlayerRespawn : MonoBehaviour
             rb.bodyType = RigidbodyType2D.Static;
             StartCoroutine(FadeOut());
             deathParticles = Instantiate(particlePrefab, transform.position, Quaternion.identity);
+            deathCount++;
             FindObjectOfType<AudioManager>().Play("PlayerDeath");
             StartCoroutine(DestroyParticlesAfterDelay());
         }
