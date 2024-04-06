@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,12 +9,14 @@ public class DoorAnimated : MonoBehaviour
     private GameObject player;
     private bool isOpen = false;
     private Bounds doorBounds;
+    private InnerDoorState innerDoorState;
 
 
     void Awake()
     {
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
+        innerDoorState = GetComponentInChildren<InnerDoorState>();
 
         Vector3 boundsCenter = new(gameObject.transform.position.x, gameObject.transform.position.y, 0);
         Vector3 boundsSize = new(5, 5, 0);
@@ -56,6 +59,7 @@ public class DoorAnimated : MonoBehaviour
     {
         animator.SetBool("Open", true);
         isOpen = true;
+        StartCoroutine(ToggleInnerOpenAfterAnimationFinish());
 
         EventManager.TriggerEvent("updateGrid", new Dictionary<string, object> {
             {"bounds", doorBounds}
@@ -66,9 +70,17 @@ public class DoorAnimated : MonoBehaviour
     {
         animator.SetBool("Open", false);
         isOpen = false;
+        innerDoorState.SetInnerClosed();
 
         EventManager.TriggerEvent("updateGrid", new Dictionary<string, object> {
             {"bounds", doorBounds}
         });
+    }
+
+    
+    private IEnumerator ToggleInnerOpenAfterAnimationFinish()
+    {
+        yield return new WaitForSeconds(0.6f);
+        innerDoorState.SetInnerOpen();
     }
 }

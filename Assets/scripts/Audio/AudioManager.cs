@@ -37,7 +37,7 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        PlayDelayed("Background Music", 10f);
+        Play("Background Music");
     }
 
     public void PlayDelayed(string name, float delay)
