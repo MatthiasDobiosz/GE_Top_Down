@@ -30,6 +30,8 @@ public class EnemyAIPatrol : MonoBehaviour
     private int currentIndex;
     private int arrayDirection = 1;
     private bool isPatroling = true;
+    private bool hasBeenTeleported = false;
+    private float shouldBeTeleportedTimer = 0f;
 
     private Vector2 originalPosition;
 
@@ -74,6 +76,25 @@ public class EnemyAIPatrol : MonoBehaviour
     {
         if (path == null || !isPatroling)
             return;
+
+        GraphNode nearestEnemyNode = AstarPath.active.GetNearest(transform.position).node;
+        GraphNode nextPatrolPointNode = AstarPath.active.GetNearest(currentPoint.position).node;
+
+        // if no path is possible there is most likely a door in between
+        if(!PathUtilities.IsPathPossible(nearestEnemyNode, nextPatrolPointNode) && !hasBeenTeleported)
+        {
+            shouldBeTeleportedTimer += Time.deltaTime;
+
+            if(shouldBeTeleportedTimer > 3f)
+            {
+                StartCoroutine(TeleportEnemyToNextWaypoint());
+                hasBeenTeleported = true;
+            }
+        }
+        else 
+        {
+            shouldBeTeleportedTimer = 0f;
+        }
 
         if (Vector2.Distance(transform.position, currentPoint.position) < nextWaypointDistance && patrolPoints.Length > 1)
         {
@@ -134,6 +155,13 @@ public class EnemyAIPatrol : MonoBehaviour
         {
             currentWaypoint++;
         }
+    }
+
+    IEnumerator TeleportEnemyToNextWaypoint()
+    {
+        yield return new WaitForSeconds(1f);
+        transform.position = currentPoint.position;
+        hasBeenTeleported = false;
     }
 
     void ResetEnemyToStanding()

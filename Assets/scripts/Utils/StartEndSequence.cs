@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class StartEndSequence : MonoBehaviour
 {
     public GameObject gameOverScreen;
+    public float globalTimer = 900f;
 
     private AudioManager audioManager;
     private CountdownTimer countdownTimer;
@@ -23,6 +24,16 @@ public class StartEndSequence : MonoBehaviour
 
     void Update()
     {
+        if(!isPlaying)
+        {
+            globalTimer -= Time.deltaTime;
+
+            if(globalTimer <= 0.0)
+            {
+                StartSequence();
+            }
+        }
+
         if(gameOver)
         {
             Color tempColor = gameOverImage.color;
@@ -37,12 +48,21 @@ public class StartEndSequence : MonoBehaviour
         {
             if(collider.CompareTag("Player"))
             {
-                StartCoroutine(StartSequence());
+                StartSequence();
             }
         }
     }
 
-    IEnumerator StartSequence()
+    void StartSequence()
+    {
+        if(!isPlaying)
+        {
+            StartCoroutine(PlaySounds());
+
+        }
+    }
+
+    IEnumerator PlaySounds()
     {
         isPlaying = true;
         yield return new WaitForSeconds(5);
@@ -63,5 +83,13 @@ public class StartEndSequence : MonoBehaviour
         audioManager.Cancel("FastPacedTheme");
 
         gameOver = true;
+        StartCoroutine(EndGame());
+    }
+
+    IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(5);
+        Application.OpenURL("https://www.youtube.com/");
+        Application.Quit();
     }
 }
