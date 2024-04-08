@@ -9,6 +9,7 @@ public class CountdownTimer : MonoBehaviour
     public float timeLeft;
     public bool isCounting = false;
     public TMP_Text TimeText;
+    private float overallTime;
 
     void Start()
     {
@@ -17,6 +18,7 @@ public class CountdownTimer : MonoBehaviour
 
     void Update()
     {
+        overallTime += Time.deltaTime;
         if(isCounting)
         {
             if(timeLeft > 0)
@@ -28,6 +30,8 @@ public class CountdownTimer : MonoBehaviour
                 timeLeft = 0;
                 isCounting = false;
                 HideTimer();
+                LogManager.Instance.Log("Tode ingesamt: " + FindObjectOfType<PlayerRespawn>().deathCount);
+                LogManager.Instance.Log("Zeit insgesamt: " + overallTime);
             }
         }
     }
