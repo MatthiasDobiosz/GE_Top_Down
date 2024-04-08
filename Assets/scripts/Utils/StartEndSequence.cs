@@ -72,7 +72,7 @@ public class StartEndSequence : MonoBehaviour
         audioManager.Play("StartDestructAlarm");
         yield return new WaitForSeconds(2);
         audioManager.Play("StartDestructSequence");
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(14);
         audioManager.Cancel("Background Music");
         countdownTimer.ShowTimer();
         countdownTimer.isCounting = true;
@@ -84,14 +84,7 @@ public class StartEndSequence : MonoBehaviour
         audioManager.Cancel("FastPacedTheme");
 
         gameOver = true;
+        yield return new WaitForSeconds(2);
         SceneManager.LoadScene("OutroScene");
-        StartCoroutine(EndGame());
-    }
-
-    IEnumerator EndGame()
-    {  
-        yield return new WaitForSeconds(15);
-        Application.OpenURL("https://www.youtube.com/");
-        Application.Quit();
     }
 }

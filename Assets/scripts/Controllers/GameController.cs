@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public int totalObjects = 4;
     public GameObject[] teleporters;
     public GameObject[] enemies;
+    public GameObject controlsImage;
 
     private TeleporterMaster teleporterMaster;
     private TeleporterToFinal teleporterToFinal;
@@ -25,6 +26,14 @@ public class GameController : MonoBehaviour
         EventManager.StartListening("teleport", UpdateCurrentTeleporter);
         EventManager.StartListening("teleportLast", UpdateToLastTeleporter);
         EventManager.StartListening("teleportFinal", UpdateToNoTeleporter);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            controlsImage.SetActive(!controlsImage.activeSelf);
+        }
     }
 
     public void CollectObject()
