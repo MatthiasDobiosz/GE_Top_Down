@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StartEndSequence : MonoBehaviour
@@ -83,12 +84,13 @@ public class StartEndSequence : MonoBehaviour
         audioManager.Cancel("FastPacedTheme");
 
         gameOver = true;
+        SceneManager.LoadScene("OutroScene");
         StartCoroutine(EndGame());
     }
 
     IEnumerator EndGame()
-    {
-        yield return new WaitForSeconds(5);
+    {  
+        yield return new WaitForSeconds(15);
         Application.OpenURL("https://www.youtube.com/");
         Application.Quit();
     }
