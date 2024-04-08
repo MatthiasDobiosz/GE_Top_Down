@@ -93,7 +93,5 @@ public class GameController : MonoBehaviour
         {
             teleporterObject.SetActive(false);
         }
-
-        //TODO: Keys auch disablen
     }
 }

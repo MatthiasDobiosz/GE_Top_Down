@@ -18,23 +18,20 @@ public class TeleporterToFinal : MonoBehaviour
     private bool playerOnTeleporter = false;
     private GameController gameController;
     private Animator animator;
-    private bool switchActivated = false;
 
     private void Start() {
         gameController = FindObjectOfType<GameController>();
         animator = GetComponent<Animator>();
         animator.speed = 0f;
-
-        EventManager.StartListening("switchActivated", OnSwitchActivated);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            if (!(allKeyFragments && switchActivated))
+            if (!allKeyFragments)
             {
-                teleporterError.text = !allKeyFragments ? "You dont have enough Keyfragments to use the teleporter!" : "A switch has to be activated!";
+                teleporterError.text = "You dont have enough Keyfragments to use the teleporter!";
                 teleporterError.gameObject.SetActive(true); 
                 animator.speed = 0f;
             }
@@ -109,10 +106,5 @@ public class TeleporterToFinal : MonoBehaviour
                 Debug.LogError("No player found");
             }
         }
-    }
-
-    void OnSwitchActivated(Dictionary<string, object> message)
-    {
-        switchActivated = true;
     }
 }

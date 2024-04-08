@@ -87,14 +87,44 @@ public class Player : MonoBehaviour
                 movementFilter,
                 castCollisions,
                 moveSpeed * Time.fixedDeltaTime + collisionOffset);
+
             if(count == 1)
             {
                 if(castCollisions[0].transform.CompareTag("Lower Wall"))
                 {
                     rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
+                } 
+                else if(castCollisions[0].transform.CompareTag("Door"))
+                {
+                    if(castCollisions[0].transform.GetComponent<InnerDoorState>().IsInnerOpen())
+                    {
+                        rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
+                    }
                 }
             }
-            if(count == 0){
+            else if(count == 2)
+            {
+                if(castCollisions[0].transform.CompareTag("Lower Wall"))
+                {
+                    if(castCollisions[1].transform.CompareTag("Door"))
+                    {
+                        if(castCollisions[1].transform.GetComponent<InnerDoorState>().IsInnerOpen())
+                        {
+                            rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
+                        }
+                    }
+                } else if(castCollisions[0].transform.CompareTag("Door"))
+                {
+                    if(castCollisions[1].transform.CompareTag("Lower Wall"))
+                    {
+                        if(castCollisions[0].transform.GetComponent<InnerDoorState>().IsInnerOpen())
+                        {
+                            rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
+                        }
+                    }
+                }
+            }
+            else if(count == 0){
                 rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
             }
         }   
@@ -180,13 +210,14 @@ public class Player : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Enemy"))
         {
+            Debug.Log("collide");
             Vector2 pushbackDirection = (transform.position - collision.transform.position).normalized;
 
-            // rb.AddForce(pushbackDirection * 0.5f, ForceMode2D.Impulse);
+            rb.AddForce(pushbackDirection * 0.5f, ForceMode2D.Impulse);
 
             if(collision.gameObject.TryGetComponent<Rigidbody2D>(out var enemyRb))
             {
-                // enemyRb.AddForce(-pushbackDirection * 0.5f, ForceMode2D.Impulse);
+                enemyRb.AddForce(-pushbackDirection * 0.5f, ForceMode2D.Impulse);
             }
         }
     }
