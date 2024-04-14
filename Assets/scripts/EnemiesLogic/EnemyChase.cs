@@ -33,7 +33,7 @@ public class EnemyChase : MonoBehaviour
         anim = GetComponent<Animator>();
         audioManager = FindObjectOfType<AudioManager>();
 
-        InvokeRepeating(nameof(UpdatePath), 0f, .01f);
+        InvokeRepeating(nameof(UpdatePath), 0f, .1f);
 
         EventManager.StartListening("attackStart", DiscontinueChase);
         EventManager.StartListening("attackEnd", ContinueChase);

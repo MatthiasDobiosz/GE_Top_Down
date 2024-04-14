@@ -51,6 +51,19 @@ public class LogManager : MonoBehaviour
     public void AddEnemyKilled()
     {
         enemiesKilled++;
+        if(enemiesKilled == 1)
+        {
+            EventManager.TriggerEvent("firstMonsterKill", null);
+        } else if(enemiesKilled == 5)
+        {
+            EventManager.TriggerEvent("kill5", null);
+        } else if(enemiesKilled == 10)
+        {
+            EventManager.TriggerEvent("kill10", null);
+        } else if(enemiesKilled == 15)
+        {
+            EventManager.TriggerEvent("kill15", null);
+        }
     }
 
     public void AddStageReached()

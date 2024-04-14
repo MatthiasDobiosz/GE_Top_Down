@@ -26,6 +26,8 @@ public class GameController : MonoBehaviour
         EventManager.StartListening("teleport", UpdateCurrentTeleporter);
         EventManager.StartListening("teleportLast", UpdateToLastTeleporter);
         EventManager.StartListening("teleportFinal", UpdateToNoTeleporter);
+
+        EventManager.TriggerEvent("gameStart", null);
     }
 
     void Update()
@@ -76,7 +78,7 @@ public class GameController : MonoBehaviour
 
     public void UpdateCollectedText()
     {
-        collectedText.text = collectedCount + "/" + totalObjects + " key fragments";
+        collectedText.text = collectedCount + "/" + totalObjects + " batteries";
     }
 
     void UpdateCurrentTeleporter(Dictionary<string, object> message)

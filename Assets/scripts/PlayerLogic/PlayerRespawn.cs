@@ -45,13 +45,13 @@ public class PlayerRespawn : MonoBehaviour
             case 1:
                 EventManager.TriggerEvent("firstPlayerDeath", null);
                 break;
-            case 2:
+            case 5:
                 EventManager.TriggerEvent("death5", null);
                 break;
-            case 3:
+            case 10:
                 EventManager.TriggerEvent("death10", null);
                 break;
-            case 4:
+            case 15:
                 EventManager.TriggerEvent("death15", null);
                 break;                
             }

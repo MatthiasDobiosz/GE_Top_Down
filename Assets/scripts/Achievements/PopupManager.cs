@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class PopupManager : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class PopupManager : MonoBehaviour
     public GameObject deathFive;
     public GameObject deathTen;
     public GameObject deathFiften;
-    public GameObject gameAlmostDone;
     public GameObject gameStart;
     public GameObject TeleportReady;
 
@@ -40,15 +40,9 @@ public class PopupManager : MonoBehaviour
         EventManager.StartListening("kill10", ShowPopupKill10);
         EventManager.StartListening("kill15", ShowPopupKill15);
 
-        EventManager.StartListening("gameStart", ShowPopupGameStart);
-        EventManager.StartListening("CloseTofinish", ShowPopupCloseToFinish);
         EventManager.StartListening("TeleportReady", ShowPopupTeleportReady);
-        
 
-
-        //Test
-        EventManager.StartListening("playerRespawn", ShowPopupFirstPlayerDeath);
-
+        StartCoroutine(ShowPopupGameStart());
     }
 
     private void OnDestroy()
@@ -69,12 +63,8 @@ public class PopupManager : MonoBehaviour
         EventManager.StopListening("kill10", ShowPopupKill10);
         EventManager.StopListening("kill15", ShowPopupKill15);
 
-        EventManager.StopListening("gameStart", ShowPopupGameStart);
-        EventManager.StopListening("CloseTofinish", ShowPopupCloseToFinish);
         EventManager.StopListening("TeleportReady", ShowPopupTeleportReady);
-
-
-       
+ 
     }
 
     private void ShowPopup1(Dictionary<string, object> message)
@@ -99,7 +89,6 @@ public class PopupManager : MonoBehaviour
 
     private void ShowPopupFirstPlayerDeath(Dictionary<string, object> message)
     {   
-       Debug.Log("deathBla");
         ShowPopup(firstPlayerDeath);
     }
 
@@ -107,9 +96,6 @@ public class PopupManager : MonoBehaviour
     {
         ShowPopup(firstMonsterKill);
     }
-
-
-
 
    private void ShowPopupDeath5(Dictionary<string, object> message)
     {
@@ -136,23 +122,15 @@ public class PopupManager : MonoBehaviour
     {
         ShowPopup(killFiften);
     }
-   private void ShowPopupGameStart(Dictionary<string, object> message)
+   private IEnumerator ShowPopupGameStart()
     {
+        yield return new WaitForSeconds(0.5f);
         ShowPopup(gameStart);
-    }
-   private void ShowPopupCloseToFinish(Dictionary<string, object> message)
-    {
-        ShowPopup(gameAlmostDone);
     }
    private void ShowPopupTeleportReady(Dictionary<string, object> message)
     {
-        Debug.Log("Teleport Ready");
         ShowPopup(TeleportReady);
     }
-
-
-
-
 
     private void ShowPopup(GameObject popupObject)
     {
@@ -162,6 +140,7 @@ public class PopupManager : MonoBehaviour
             if (popupController != null)
             {
                 popupController.PlayPopupAnimation();
+                FindObjectOfType<AudioManager>().Play("Achievement");
             }
         }
         else

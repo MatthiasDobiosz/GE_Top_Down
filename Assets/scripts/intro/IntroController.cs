@@ -9,7 +9,6 @@ using UnityEngine.SceneManagement;
 public class IntroController : MonoBehaviour
 {
 
-    public GameObject targetObject;
     public VideoPlayer videoPlayer;
     public RawImage rawImage;
     public RenderTexture renderTexture;
@@ -20,7 +19,6 @@ public class IntroController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        targetObject.SetActive(true);
         videoPlayer.playOnAwake = false;
     }
 
@@ -75,8 +73,6 @@ public class IntroController : MonoBehaviour
                 Debug.Log("next scene");
                 SceneManager.LoadScene("MainScene");
                 break;
-                
-
         }
         
     }
