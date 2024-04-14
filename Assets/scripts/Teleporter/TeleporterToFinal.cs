@@ -41,7 +41,7 @@ public class TeleporterToFinal : MonoBehaviour
                 playerOnTeleporter = true;
                 animator.speed = 1f;
                 Invoke("TeleportPlayer", delayBeforeTeleport);
-
+                EventManager.TriggerEvent("CloseTofinish", null);
                 if (particlePrefab != null)
                 {
                     spawnedParticles = Instantiate(particlePrefab, transform.position, Quaternion.identity);

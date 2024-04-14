@@ -50,6 +50,7 @@ public class Teleporter : MonoBehaviour
 
     public void AllKeyFragmentsCollected()
     {
+        EventManager.TriggerEvent("TeleportReady", null);
         allKeyFragments = true;
     }
 
