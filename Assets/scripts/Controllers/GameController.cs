@@ -46,6 +46,7 @@ public class GameController : MonoBehaviour
         {
             if (collectedCount >= totalObjects && !teleporterToFinal.allKeyFragments)
             {
+                
                 teleporterToFinal.AllKeyFragmentsCollected();
             }
         }
@@ -53,6 +54,7 @@ public class GameController : MonoBehaviour
         {
             if (collectedCount >= totalObjects && !currentTeleporter.allKeyFragments)
             {
+                
                 currentTeleporter.AllKeyFragmentsCollected();
             }
         }
