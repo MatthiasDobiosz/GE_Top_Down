@@ -6,3 +6,5 @@ Tode ingesamt: 0
 Zeit insgesamt: 318,6685
 Tode ingesamt: 0
 Zeit insgesamt: 311,3325
+Tode ingesamt: 1
+Zeit insgesamt: 294.8656
