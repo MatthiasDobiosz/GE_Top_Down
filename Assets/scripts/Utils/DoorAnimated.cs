@@ -70,17 +70,22 @@ public class DoorAnimated : MonoBehaviour
     {
         animator.SetBool("Open", false);
         isOpen = false;
-        innerDoorState.SetInnerClosed();
+        StartCoroutine(ToggleInnerClosedAfterAnimationFinish());
 
         EventManager.TriggerEvent("updateGrid", new Dictionary<string, object> {
             {"bounds", doorBounds}
         });
     }
-
     
     private IEnumerator ToggleInnerOpenAfterAnimationFinish()
     {
         yield return new WaitForSeconds(0.6f);
         innerDoorState.SetInnerOpen();
+    }
+
+    private IEnumerator ToggleInnerClosedAfterAnimationFinish()
+    {
+        yield return new WaitForSeconds(0.6f);
+        innerDoorState.SetInnerClosed();
     }
 }

@@ -26,13 +26,23 @@ public class GameController : MonoBehaviour
         EventManager.StartListening("teleport", UpdateCurrentTeleporter);
         EventManager.StartListening("teleportLast", UpdateToLastTeleporter);
         EventManager.StartListening("teleportFinal", UpdateToNoTeleporter);
+
+        EventManager.TriggerEvent("gameStart", null);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            controlsImage.SetActive(!controlsImage.activeSelf);
+            if(!controlsImage.activeSelf)
+            {
+                controlsImage.SetActive(true);
+                Time.timeScale = 0;
+            } else 
+            {
+                controlsImage.SetActive(false);
+                Time.timeScale = 1;
+            }
         }
     }
 
@@ -68,12 +78,13 @@ public class GameController : MonoBehaviour
 
     public void UpdateCollectedText()
     {
-        collectedText.text = collectedCount + "/" + totalObjects + " key fragments";
+        collectedText.text = collectedCount + "/" + totalObjects + " batteries";
     }
 
     void UpdateCurrentTeleporter(Dictionary<string, object> message)
     {
         enemies[(int)message["layer"]].SetActive(true);
+        LogManager.Instance.AddStageReached();
         Destroy(enemies[(int)(message)["layer"]-1]);
         currentTeleporter = teleporters[(int)message["layer"]].GetComponent<Teleporter>();   
     }
@@ -81,6 +92,7 @@ public class GameController : MonoBehaviour
     void UpdateToLastTeleporter(Dictionary<string, object> message)
     {
         isOnFinalTeleporter = true;
+        LogManager.Instance.AddStageReached();
 
         enemies[3].SetActive(true);
         Destroy(enemies[2]);
@@ -93,6 +105,7 @@ public class GameController : MonoBehaviour
 
     void UpdateToNoTeleporter(Dictionary<string, object> message)
     {
+        LogManager.Instance.AddStageReached();
         EventManager.TriggerEvent("teleportToStage", new Dictionary<string, object>{
             {"stage", 5},
         });

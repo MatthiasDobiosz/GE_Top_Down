@@ -85,6 +85,7 @@ public class StartEndSequence : MonoBehaviour
 
         gameOver = true;
         yield return new WaitForSeconds(2);
+        LogManager.Instance.WriteFinalLogs();
         SceneManager.LoadScene("OutroScene");
     }
 }
