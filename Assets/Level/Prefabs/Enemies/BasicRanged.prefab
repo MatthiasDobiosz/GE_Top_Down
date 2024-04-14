@@ -263,7 +263,7 @@ MonoBehaviour:
   speed: 2
   nextWaypointDistance: 0.5
   enemyGFX: {fileID: 7524217860787470019}
-  chaseStartDistance: 2
+  chaseStartDistance: 1.7
   chaseEndDistance: 4
   chaseSoundName: RangedDetect
   thresholdDistance: 1

@@ -61,6 +61,7 @@ public class Enemy : MonoBehaviour
         {
             StartCoroutine(DestroyParticlesAfterDelay());
             StartCoroutine(Die());
+            LogManager.Instance.AddEnemyKilled();
             deathParticles = Instantiate(particlePrefab, transform.position, Quaternion.identity);
             FindObjectOfType<AudioManager>().Play("MazeDeath");
         }

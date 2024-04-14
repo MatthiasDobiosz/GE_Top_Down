@@ -6,6 +6,8 @@ public class LogManager : MonoBehaviour
     private static LogManager instance;
     private StreamWriter writer;
     private string logFilePath;
+    private int enemiesKilled = 0;
+    private int reachedStage = 1;
 
     public static LogManager Instance
     {
@@ -44,6 +46,22 @@ public class LogManager : MonoBehaviour
     {
         writer.WriteLine(message);
         writer.Flush();
+    }
+
+    public void AddEnemyKilled()
+    {
+        enemiesKilled++;
+    }
+
+    public void AddStageReached()
+    {
+        reachedStage++;
+    }
+
+    public void WriteFinalLogs()
+    {
+        Log("Gegner getötet " + enemiesKilled);
+        Log("Erreichte Stage " + reachedStage);
     }
 
     private void OnDestroy()
