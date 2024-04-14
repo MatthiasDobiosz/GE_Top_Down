@@ -40,6 +40,22 @@ public class PlayerRespawn : MonoBehaviour
             StartCoroutine(FadeOut());
             deathParticles = Instantiate(particlePrefab, transform.position, Quaternion.identity);
             deathCount++;
+
+            switch (deathCount){
+            case 1:
+                EventManager.TriggerEvent("firstPlayerDeath", null);
+                break;
+            case 2:
+                EventManager.TriggerEvent("death5", null);
+                break;
+            case 3:
+                EventManager.TriggerEvent("death10", null);
+                break;
+            case 4:
+                EventManager.TriggerEvent("death15", null);
+                break;                
+            }
+
             FindObjectOfType<AudioManager>().Play("PlayerDeath");
             StartCoroutine(DestroyParticlesAfterDelay());
         }
