@@ -63,6 +63,18 @@ public class LogManager : MonoBehaviour
         } else if(enemiesKilled == 15)
         {
             EventManager.TriggerEvent("kill15", null);
+        } else if(enemiesKilled == 20)
+        {
+            EventManager.TriggerEvent("kill20", null);
+        } else if(enemiesKilled == 30)
+        {
+            EventManager.TriggerEvent("kill30", null);
+        } else if(enemiesKilled == 40)
+        {
+            EventManager.TriggerEvent("kill40", null);
+        } else if(enemiesKilled == 50)
+        {
+            EventManager.TriggerEvent("kill50", null);
         }
     }
 

@@ -14,6 +14,10 @@ public class PopupManager : MonoBehaviour
     public GameObject killFive;
     public GameObject killTen;
     public GameObject killFiften;
+    public GameObject killTwenty;
+    public GameObject killThirty;
+    public GameObject killFourty;
+    public GameObject killFifty;
     public GameObject deathFive;
     public GameObject deathTen;
     public GameObject deathFiften;
@@ -39,6 +43,10 @@ public class PopupManager : MonoBehaviour
         EventManager.StartListening("kill5", ShowPopupKill5);
         EventManager.StartListening("kill10", ShowPopupKill10);
         EventManager.StartListening("kill15", ShowPopupKill15);
+        EventManager.StartListening("kill20", ShowPopupKill20);
+        EventManager.StartListening("kill30", ShowPopupKill30);
+        EventManager.StartListening("kill40", ShowPopupKill40);
+        EventManager.StartListening("kill50", ShowPopupKill50);
 
         EventManager.StartListening("TeleportReady", ShowPopupTeleportReady);
 
@@ -62,6 +70,10 @@ public class PopupManager : MonoBehaviour
         EventManager.StopListening("kill5", ShowPopupKill5);
         EventManager.StopListening("kill10", ShowPopupKill10);
         EventManager.StopListening("kill15", ShowPopupKill15);
+        EventManager.StopListening("kill20", ShowPopupKill20);
+        EventManager.StopListening("kill30", ShowPopupKill30);
+        EventManager.StopListening("kill40", ShowPopupKill40);
+        EventManager.StopListening("kill50", ShowPopupKill50);
 
         EventManager.StopListening("TeleportReady", ShowPopupTeleportReady);
  
@@ -121,6 +133,22 @@ public class PopupManager : MonoBehaviour
    private void ShowPopupKill15(Dictionary<string, object> message)
     {
         ShowPopup(killFiften);
+    }
+    private void ShowPopupKill20(Dictionary<string, object> message)
+    {
+        ShowPopup(killTwenty);
+    }
+    private void ShowPopupKill30(Dictionary<string, object> message)
+    {
+        ShowPopup(killThirty);
+    }
+    private void ShowPopupKill40(Dictionary<string, object> message)
+    {
+        ShowPopup(killFourty);
+    }
+    private void ShowPopupKill50(Dictionary<string, object> message)
+    {
+        ShowPopup(killFifty);
     }
    private IEnumerator ShowPopupGameStart()
     {
