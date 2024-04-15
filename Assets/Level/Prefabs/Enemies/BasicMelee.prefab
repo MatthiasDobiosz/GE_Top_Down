@@ -366,8 +366,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 1.8
-  nextWaypointDistance: 0.3
+  speed: 1.7
+  nextWaypointDistance: 0.1
   enemyGFX: {fileID: 2681366461015419688}
   chaseStartDistance: 1.5
   chaseEndDistance: 4

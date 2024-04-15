@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
-    public float life = 3f;
+    public float life = 0.05f;
     public int damage = 10;
+    public float maxDistance = 3f;
 
     private void Awake()
     {

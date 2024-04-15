@@ -34,6 +34,7 @@ public class EnemyChase : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
 
         InvokeRepeating(nameof(UpdatePath), 0f, .1f);
+        InvokeRepeating(nameof(CheckIfPlayerIsInLineOfSight), 0f, .1f);
 
         EventManager.StartListening("attackStart", DiscontinueChase);
         EventManager.StartListening("attackEnd", ContinueChase);
@@ -49,7 +50,9 @@ public class EnemyChase : MonoBehaviour
     void UpdatePath()
     {
         if(seeker.IsDone() && currentlyChasing && !currentlyAttacking)
+        {
             seeker.StartPath(rb.position, target.position, OnPathComplete);
+        }
     }
 
     void OnPathComplete(Path p)
@@ -76,12 +79,6 @@ public class EnemyChase : MonoBehaviour
             }
         }
     }
-
-    void FixedUpdate()
-    {
-        CheckIfPlayerIsInLineOfSight();
-    }
-
     
     void CheckIfPlayerIsInLineOfSight()
     {

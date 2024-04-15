@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
     private TeleporterToFinal teleporterToFinal;
     private bool isOnFinalTeleporter = false;
     private Teleporter currentTeleporter;
-
+    
     private void Start() {
         currentTeleporter = teleporters[0].GetComponent<Teleporter>();
         teleporterToFinal = FindObjectOfType<TeleporterToFinal>();
