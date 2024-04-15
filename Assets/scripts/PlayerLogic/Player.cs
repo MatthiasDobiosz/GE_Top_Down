@@ -51,7 +51,21 @@ public class Player : MonoBehaviour
         }
 
         if(movementInput != Vector2.zero){
-            TryMove(movementInput); 
+            Vector2 xVector = new Vector2(movementInput.x, 0);
+            Vector2 yVector = new Vector2(0, movementInput.y);
+            Vector2 newMovementInput = movementInput;
+
+            if(!TryMoveX(xVector))
+            {
+                newMovementInput.x = 0;
+            }
+            if(!TryMoveY(yVector))
+            {
+                newMovementInput.y = 0;
+            }
+
+            rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * newMovementInput);
+            
             lastMovementInput = movementInput;
             UpdateAnimator(false);
         } else{
@@ -80,7 +94,7 @@ public class Player : MonoBehaviour
         return lastMovementInput;
     }
 
-    private void TryMove(Vector2 direction) {
+    private bool TryMoveX(Vector2 direction) {
         if(direction != Vector2.zero) {
             int count = rb.Cast(
                 direction,
@@ -92,13 +106,13 @@ public class Player : MonoBehaviour
             {
                 if(castCollisions[0].transform.CompareTag("Lower Wall"))
                 {
-                    rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
+                    return true;
                 } 
                 else if(castCollisions[0].transform.CompareTag("Door"))
                 {
                     if(castCollisions[0].transform.GetComponent<InnerDoorState>().IsInnerOpen())
                     {
-                        rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
+                        return true;
                     }
                 }
             }
@@ -110,7 +124,62 @@ public class Player : MonoBehaviour
                     {
                         if(castCollisions[1].transform.GetComponent<InnerDoorState>().IsInnerOpen())
                         {
-                            rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
+                            return true;
+                        }
+                    }
+
+                } else if(castCollisions[0].transform.CompareTag("Door"))
+                {
+                    if(castCollisions[1].transform.CompareTag("Lower Wall"))
+                    {
+                        if(castCollisions[0].transform.GetComponent<InnerDoorState>().IsInnerOpen())
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            else if(count == 0){
+                return true;
+            }
+
+            return false;
+        }   
+
+        return false;
+    }
+
+    private bool TryMoveY(Vector2 direction) {
+        if(direction != Vector2.zero) {
+            int count = rb.Cast(
+                direction,
+                movementFilter,
+                castCollisions,
+                moveSpeed * Time.fixedDeltaTime + collisionOffset);
+
+            if(count == 1)
+            {
+                if(castCollisions[0].transform.CompareTag("Lower Wall"))
+                {
+                    return true;
+                } 
+                else if(castCollisions[0].transform.CompareTag("Door"))
+                {
+                    if(castCollisions[0].transform.GetComponent<InnerDoorState>().IsInnerOpen())
+                    {
+                        return true;
+                    }
+                }
+            }
+            else if(count == 2)
+            {
+                if(castCollisions[0].transform.CompareTag("Lower Wall"))
+                {
+                    if(castCollisions[1].transform.CompareTag("Door"))
+                    {
+                        if(castCollisions[1].transform.GetComponent<InnerDoorState>().IsInnerOpen())
+                        {
+                            return true;
                         }
                     }
                 } else if(castCollisions[0].transform.CompareTag("Door"))
@@ -119,15 +188,19 @@ public class Player : MonoBehaviour
                     {
                         if(castCollisions[0].transform.GetComponent<InnerDoorState>().IsInnerOpen())
                         {
-                            rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
+                            return true;
                         }
                     }
                 }
             }
             else if(count == 0){
-                rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * direction);
+                return true;
             }
+
+            return false;
         }   
+
+        return false;
     }
 
     void OnMove(InputValue movementValue) {
@@ -162,11 +235,12 @@ public class Player : MonoBehaviour
         while (dashDistance < dashingPower)
         {
             int count = rb.Cast(direction, movementFilter, castCollisions, 0.3f);
+           
             if (count > 0)
             {
                 foreach (var hit in castCollisions)
                 {        
-                    if (hit.collider.CompareTag("Obstacle") | hit.collider.CompareTag("Enemy"))
+                    if (hit.collider.CompareTag("Obstacle") | hit.collider.CompareTag("Door") | hit.collider.CompareTag("Enemy"))
                     {
                         rb.velocity = Vector2.zero;
                         isDashing = false;
