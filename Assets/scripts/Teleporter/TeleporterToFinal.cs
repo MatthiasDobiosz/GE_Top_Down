@@ -31,7 +31,7 @@ public class TeleporterToFinal : MonoBehaviour
         {
             if (!allKeyFragments)
             {
-                teleporterError.text = "You dont have enough Keyfragments to use the teleporter!";
+                teleporterError.text = "You dont have enough batteries to use the teleporter!";
                 teleporterError.gameObject.SetActive(true); 
                 animator.speed = 0f;
             }
