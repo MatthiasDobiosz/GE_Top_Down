@@ -162,8 +162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b6bdb735dc04a4189b7a2524ba733d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 3
+  life: 1.5
   damage: 10
+  maxDistance: 3
 --- !u!95 &449213956883561133
 Animator:
   serializedVersion: 5

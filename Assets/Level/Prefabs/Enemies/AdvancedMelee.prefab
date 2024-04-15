@@ -349,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 2.5
+  speed: 2
   nextWaypointDistance: 0.3
   enemyGFX: {fileID: 9045147697996991071}
   chaseStartDistance: 1.5
@@ -404,6 +404,7 @@ MonoBehaviour:
   - {x: -0.5, y: -0.5}
   - {x: -0.8, y: -0.1}
   - {x: -0.5, y: 0.5}
+  multiplicator: 1
 --- !u!212 &820802196063033759
 SpriteRenderer:
   m_ObjectHideFlags: 0
