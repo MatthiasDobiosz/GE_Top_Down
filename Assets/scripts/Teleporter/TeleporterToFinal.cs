@@ -97,7 +97,11 @@ public class TeleporterToFinal : MonoBehaviour
                 gameController.collectedCount = 0;
                 gameController.UpdateCollectedText();
 
-                FindObjectOfType<ProgressBar>().IncrementProgress(0.2f);
+                if(FindObjectOfType<ProgressBar>())
+                {
+                    FindObjectOfType<ProgressBar>().IncrementProgress(0.2f);
+                }
+                
                 EventManager.TriggerEvent("teleportFinal", null);
                 EventManager.TriggerEvent("ShowPopup4", null);
             }

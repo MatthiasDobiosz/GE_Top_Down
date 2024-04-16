@@ -8,13 +8,22 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Level/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Level/Scenes/Intro Scene.unity
+  - enabled: 0
+    path: Assets/Level/Scenes/FinalScenes/NoCues/Intro Scene_NoCues.unity
     guid: 462ad67602d9e4c498b8eecc171e5e81
   - enabled: 1
-    path: Assets/Level/Scenes/MainScene.unity
-    guid: ef870528907f76949b980043dc29fb8f
+    path: Assets/Level/Scenes/FinalScenes/Cues/Intro Scene_Cues.unity
+    guid: ab9760aaf71f2c3a0a61af897ba77e26
+  - enabled: 0
+    path: Assets/Level/Scenes/FinalScenes/NoCues/MainScene_NoCues.unity
+    guid: ba9eae15002f4934aabc8726c534fbf4
   - enabled: 1
-    path: Assets/Level/Scenes/OutroScene.unity
+    path: Assets/Level/Scenes/FinalScenes/Cues/MainScene_Cues.unity
+    guid: ef870528907f76949b980043dc29fb8f
+  - enabled: 0
+    path: Assets/Level/Scenes/FinalScenes/NoCues/OutroScene_NoCues.unity
     guid: 3f5b0ecc84d42194fb138bdaf47c16d2
+  - enabled: 1
+    path: Assets/Level/Scenes/FinalScenes/Cues/OutroScene_Cues.unity
+    guid: a0e3b226cad9fae4e9f68e544ce0e7c5
   m_configObjects: {}
