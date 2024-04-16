@@ -13,7 +13,7 @@ public class OutroController : MonoBehaviour
 
     IEnumerator EndGame()
     {  
-        yield return new WaitForSeconds(13);
+        yield return new WaitForSeconds(11);
         Application.OpenURL(link);
         Application.Quit();
     }

@@ -91,7 +91,11 @@ public class Teleporter : MonoBehaviour
                     player.transform.position = teleportPosition;
                 }
                 
-                FindObjectOfType<ProgressBar>().IncrementProgress(0.2f);
+                if(FindObjectOfType<ProgressBar>())
+                {
+                    FindObjectOfType<ProgressBar>().IncrementProgress(0.2f);
+                }
+
                 if(destinationLayer == 2){
                     EventManager.TriggerEvent("ShowPopup1", null);
                 } else if(destinationLayer == 3){

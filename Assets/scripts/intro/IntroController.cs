@@ -13,6 +13,7 @@ public class IntroController : MonoBehaviour
     public RawImage rawImage;
     public RenderTexture renderTexture;
     public Texture2D Tutorial;
+    public string nextScene;
     private int stage = 1;
     private float timeout = 0.0f;
     //public Texture2D videoTexture;
@@ -67,11 +68,11 @@ public class IntroController : MonoBehaviour
                 break;
             case 3:
                 Debug.Log("next scene");
-                SceneManager.LoadScene("MainScene");
+                SceneManager.LoadScene(nextScene);
                 break;
             default:
                 Debug.Log("next scene");
-                SceneManager.LoadScene("MainScene");
+                SceneManager.LoadScene(nextScene);
                 break;
         }
         

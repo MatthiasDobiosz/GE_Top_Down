@@ -8,6 +8,7 @@ public class StartEndSequence : MonoBehaviour
 {
     public GameObject gameOverScreen;
     public float globalTimer = 900f;
+    public string nextScene;
 
     private AudioManager audioManager;
     private CountdownTimer countdownTimer;
@@ -86,6 +87,6 @@ public class StartEndSequence : MonoBehaviour
         gameOver = true;
         yield return new WaitForSeconds(2);
         LogManager.Instance.WriteFinalLogs();
-        SceneManager.LoadScene("OutroScene");
+        SceneManager.LoadScene(nextScene);
     }
 }
