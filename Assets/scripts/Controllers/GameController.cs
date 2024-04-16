@@ -16,6 +16,11 @@ public class GameController : MonoBehaviour
     private TeleporterToFinal teleporterToFinal;
     private bool isOnFinalTeleporter = false;
     private Teleporter currentTeleporter;
+
+    void Awake()
+    {   
+        QualitySettings.vSyncCount = 0;
+    }
     
     private void Start() {
         currentTeleporter = teleporters[0].GetComponent<Teleporter>();
