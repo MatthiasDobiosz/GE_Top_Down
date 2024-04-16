@@ -62,7 +62,7 @@ public class IntroController : MonoBehaviour
                 break;
             case 2:
                 rawImage.texture = Tutorial;
-                timeout = 1.0f;
+                timeout = 0.4f;
                 stage = 3;
                 break;
             case 3:
