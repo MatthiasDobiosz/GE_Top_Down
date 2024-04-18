@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerRespawn : MonoBehaviour
 {
@@ -21,6 +22,10 @@ public class PlayerRespawn : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        InputAction resetAction = new InputAction(binding: "<Keyboard>/r", interactions: "press");
+        resetAction.performed += context => RepositionPlayer();
+        resetAction.Enable();
 
         EventManager.StartListening("death", CheckForDeath);
     }
