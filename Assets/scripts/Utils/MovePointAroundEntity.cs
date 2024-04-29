@@ -13,6 +13,8 @@ public class MovePointAroundEntity : MonoBehaviour
     public Vector2[] directionCoordinates;
     public float multiplicator = 1;
 
+    // functions created with help from chatGPT
+    // asked how to move a point around an object in unity
     public void MovePoint(float lastX, float lastY, int index)
     {        
         double angle = Math.Atan2(lastY, lastX) * (180 / Math.PI);
