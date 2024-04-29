@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/**
+    Script to activate a switch
+    currently not used
+*/
 public class ActivateSwitch : MonoBehaviour
 {
     public float interactionDistance = 0.5f;

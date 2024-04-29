@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+    Controlls outro sequence
+*/
 public class OutroController : MonoBehaviour
 {
     public string link;

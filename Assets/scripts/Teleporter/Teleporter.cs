@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/**
+    Handles teleporter logic
+*/
 public class Teleporter : MonoBehaviour
 {
     public Vector2 teleportPosition;

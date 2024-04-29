@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+    moves a point around an object depending on object posititioning given an array of points
+*/
 public class MovePointAroundEntity : MonoBehaviour
 {
     public Transform[] points;

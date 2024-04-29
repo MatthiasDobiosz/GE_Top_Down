@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+    Overarching enemy handler that contains the basic functionalities
+*/
 public class Enemy : MonoBehaviour
 {
     public Transform target;

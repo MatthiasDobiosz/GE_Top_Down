@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/**
+    Seperate logic for the final teleporter
+*/
 public class TeleporterToFinal : MonoBehaviour
 {
 

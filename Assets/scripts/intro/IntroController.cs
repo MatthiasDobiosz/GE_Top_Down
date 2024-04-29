@@ -5,7 +5,9 @@ using UnityEngine.Video;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
+/**
+    Controlls intro sequence
+*/
 public class IntroController : MonoBehaviour
 {
 

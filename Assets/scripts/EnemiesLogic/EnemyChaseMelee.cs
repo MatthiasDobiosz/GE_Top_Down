@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+    Extended chase logic for melee enemies
+*/
 public class EnemyChaseMelee : EnemyChase
 {
 
@@ -26,17 +29,11 @@ public class EnemyChaseMelee : EnemyChase
             //reachedEndOfPath = true;
             return;
         } 
-        /**else 
-        {
-            reachedEndOfPath = false;
-        }*/
-        
 
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 velocity = direction * speed;
 
         rb.position += velocity * Time.deltaTime;
-        // rb.AddForce(force);
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
         

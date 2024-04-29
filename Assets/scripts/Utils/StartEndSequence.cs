@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/**
+    Handles logic and sounds for the final 60 seconds
+*/
 public class StartEndSequence : MonoBehaviour
 {
     public GameObject gameOverScreen;

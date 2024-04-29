@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+    Door logic and animation handler
+*/
 public class DoorAnimated : MonoBehaviour
 {
     private Animator animator;

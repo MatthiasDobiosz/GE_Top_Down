@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/**
+    Handles player death and respawn logic
+*/
 public class PlayerRespawn : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;

@@ -20,7 +20,6 @@ public class EnemyAIPatrol : MonoBehaviour
 
     private Path path;
     private int currentWaypoint = 0;
-    // private bool reachedEndOfPath = false;
 
     private Seeker seeker;
     private Rigidbody2D rb;
@@ -117,15 +116,6 @@ public class EnemyAIPatrol : MonoBehaviour
             // reachedEndOfPath = true;
             return;
         } 
-        /**
-        else 
-        {
-            reachedEndOfPath = false;
-        }
-        */
-
-
-        // Debug.Log("Path: " + path.vectorPath[currentWaypoint].x + ", Position: " + rb.position.x);
         
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 velocity = direction * speed;

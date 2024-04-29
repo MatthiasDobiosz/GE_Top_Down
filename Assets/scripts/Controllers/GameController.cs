@@ -3,6 +3,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+    Controller for collection and teleport logic
+*/
 public class GameController : MonoBehaviour
 {
     public TMP_Text collectedText;

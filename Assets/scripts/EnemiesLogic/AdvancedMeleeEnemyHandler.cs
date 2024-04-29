@@ -136,27 +136,4 @@ public class AdvancedMeleeEnemyHandler : Enemy
 
         EventManager.StopListening("patrolStart", ResetInitialAttack);
     }
-
-    /**
-    IEnumerator Dieold(int secs)
-    {
-        //transform.GetComponent<EnemyAIChase>().enabled = false;
-        //transform.GetComponent<EnemyAIPatrol>().enabled = false;
-
-        transform.gameObject.SetActive(false);
-        //Destroy(transform.gameObject, secs);
-        yield return new WaitForSeconds(secs);
-
-        //transform.GetComponent<EnemyAIChase>().OnDestroy();
-        //transform.GetComponent<EnemyAIPatrol>().OnDestroy();
-        
-        //OnDestroy();
-    }
-
-    public void OnDestroy()
-    {
-        EventManager.StopListening("patrolStart", ResetInitialAttack);
-        EventManager.StopListening("death", CheckForDeath);
-    }
-    */
 }

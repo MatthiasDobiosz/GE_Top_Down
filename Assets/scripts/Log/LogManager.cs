@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.IO;
 
+/**
+    handles ingame logging
+*/
 public class LogManager : MonoBehaviour
 {
     private static LogManager instance;

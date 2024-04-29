@@ -1,6 +1,10 @@
 using UnityEngine.Audio;
 using UnityEngine;
 
+/**
+    Single sound instance
+    Taken from: https://www.youtube.com/watch?v=6OT43pvUyfY
+*/
 [System.Serializable]
 public class Sound
 {

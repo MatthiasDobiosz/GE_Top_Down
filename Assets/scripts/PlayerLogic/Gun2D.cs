@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+    handles gun spawnpoints and timings
+*/
 public class Gun2D : MonoBehaviour
 {
     public Transform bulletSpawnPoint;
