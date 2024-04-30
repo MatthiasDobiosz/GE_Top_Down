@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+    Camera controller to follow player
+*/
 public class CameraController : MonoBehaviour
 {
     Transform target;
@@ -19,15 +22,5 @@ public class CameraController : MonoBehaviour
     private void LateUpdate() {
         Vector3 targetPosition = target.position + positionOffset;
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-    }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

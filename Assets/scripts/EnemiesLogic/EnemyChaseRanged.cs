@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+    Extended chase logic for ranged enemies
+*/
 public class EnemyChaseRanged : EnemyChase
 {
     public float thresholdDistance = 1f;
@@ -62,11 +65,6 @@ public class EnemyChaseRanged : EnemyChase
             //reachedEndOfPath = true;
             return;
         } 
-        /**else 
-        {
-            reachedEndOfPath = false;
-        }*/
-        
 
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 velocity = direction * speed;
@@ -104,8 +102,6 @@ public class EnemyChaseRanged : EnemyChase
     {
         float currentDistance = Vector2.Distance(target.position, rb.position);
         bool isCurrentlyInRangeDistance = true;
-
-         /// Debug.Log(currentDistance);
 
         // if the enemy is not at the threshold distance or has no LOS than it should chase the player target point
         if(currentDistance > thresholdDistance  || !hasLineOfSight && isPlayerDead)

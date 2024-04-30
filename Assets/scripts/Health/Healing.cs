@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/**
+    Handles player healing
+*/
 public class Healing : MonoBehaviour
 {
     public int healValue;

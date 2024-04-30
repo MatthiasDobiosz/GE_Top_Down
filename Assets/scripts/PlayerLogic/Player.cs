@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/**
+    Handles all of the player movement logic
+*/
 public class Player : MonoBehaviour
 {   
     public float moveSpeed = 2f;
@@ -278,23 +281,5 @@ public class Player : MonoBehaviour
             other.gameObject.SetActive(false);
         }
     }
-
-/**
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("Enemy"))
-        {
-            Debug.Log("collide");
-            Vector2 pushbackDirection = (transform.position - collision.transform.position).normalized;
-
-            rb.AddForce(pushbackDirection * 0.5f, ForceMode2D.Impulse);
-
-            if(collision.gameObject.TryGetComponent<Rigidbody2D>(out var enemyRb))
-            {
-                enemyRb.AddForce(-pushbackDirection * 0.5f, ForceMode2D.Impulse);
-            }
-        }
-    }
-*/
 
 }

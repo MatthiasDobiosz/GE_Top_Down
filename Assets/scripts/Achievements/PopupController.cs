@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/**
+    Popup controller for each popup
+*/
 public class PopupController : MonoBehaviour
 {
     private Animator animator;
@@ -10,7 +13,6 @@ public class PopupController : MonoBehaviour
     }
     public void PlayPopupAnimation()
     {
-        //FindObjectOfType<AudioManager>().Play("Achievement");
         animator.SetTrigger("ShowPopup");
     }
 }

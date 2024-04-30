@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+    Player bullet logic
+*/
 public class bullet : MonoBehaviour
 {
     public float life = 0.05f;

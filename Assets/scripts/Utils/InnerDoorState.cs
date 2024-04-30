@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+    handles the state of the inner door tiles for collision
+*/
 public class InnerDoorState : MonoBehaviour
 {
     private bool isOpen = false;

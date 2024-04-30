@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-// https://bernardopacheco.net/using-an-event-manager-to-decouple-your-game-in-unity
+// EventManager to trigger events across the application and listen to them
+// Taken from: https://bernardopacheco.net/using-an-event-manager-to-decouple-your-game-in-unity
 public class EventManager : MonoBehaviour {
     private Dictionary<string, Action<Dictionary<string, object>>> eventDictionary;
 

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+    Handles progress bar logic
+*/
 public class ProgressBar : MonoBehaviour
 {
     private Slider slider;

@@ -88,34 +88,6 @@ public class BasicRangedEnemyHandler : Enemy
         }
     }
 
-    /**
-    IEnumerator Dieold(int secs)
-    {
-        //transform.GetComponent<EnemyAIChase>().enabled = false;
-        //transform.GetComponent<EnemyAIPatrol>().enabled = false;
-
-        //Destroy(transform.gameObject, secs);
-
-        yield return new WaitForSeconds(secs);
-        Color objectColor = spriteRenderer.material.color;
-        originalColor = objectColor;
-        objectColor = new Color(objectColor.r, objectColor.g, objectColor.b, 0);
-        spriteRenderer.material.color = objectColor;
-        transform.gameObject.SetActive(false);
-        //transform.GetComponent<EnemyAIChase>().OnDestroy();
-        //transform.GetComponent<EnemyAIPatrol>().OnDestroy();
-        
-        //OnDestroy();
-    }
-
-    public void OnDestroy()
-    {
-        EventManager.StopListening("canAttackRanged", StartAttacking);
-        EventManager.StopListening("canNotAttackRanged", StopAttacking);
-        EventManager.StopListening("death", CheckForDeath);
-    }
-    */
-
     protected override void OnDestroy()
     {
         base.OnDestroy();

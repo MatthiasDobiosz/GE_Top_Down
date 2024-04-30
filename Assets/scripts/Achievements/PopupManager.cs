@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
+/**
+    Manages all the achievement popups
+*/
 public class PopupManager : MonoBehaviour
 {
     public GameObject stageCleared1;
@@ -34,8 +37,6 @@ public class PopupManager : MonoBehaviour
         EventManager.StartListening("firstPlayerDeath", ShowPopupFirstPlayerDeath);
         EventManager.StartListening("firstMonsterKill", ShowPopupFirstMonsterKill);
 
-
-        //New popups
         EventManager.StartListening("death5", ShowPopupDeath5);
         EventManager.StartListening("death10", ShowPopupDeath10);
         EventManager.StartListening("death15", ShowPopupDeath15);
@@ -62,7 +63,6 @@ public class PopupManager : MonoBehaviour
         EventManager.StopListening("firstPlayerDeath", ShowPopupFirstPlayerDeath);
         EventManager.StopListening("firstMonsterKill", ShowPopupFirstMonsterKill);
 
-        //New popups
         EventManager.StopListening("death5", ShowPopupDeath5);
         EventManager.StopListening("death10", ShowPopupDeath10);
         EventManager.StopListening("death15", ShowPopupDeath15);
@@ -173,7 +173,7 @@ public class PopupManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("bruh");
+            Debug.LogWarning("no valid popup object");
         }
     }
 }

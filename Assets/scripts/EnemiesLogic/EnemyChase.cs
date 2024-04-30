@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
+// Basic Logic for the script taken by: https://www.youtube.com/watch?v=jvtFUfJ6CP8
+
+/**
+    Logic for an Enemy that will chase a given object once it's near enough
+*/
 public class EnemyChase : MonoBehaviour
 {
     public Transform target;

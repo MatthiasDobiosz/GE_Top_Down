@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/**
+    Enemy bullet instance
+*/
 public class EnemyBullet : MonoBehaviour
 {
     public float life = 0.05f;

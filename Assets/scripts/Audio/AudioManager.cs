@@ -5,7 +5,7 @@ using System.Collections;
 
 /**
     Manages Audio within the Game
-    https://www.youtube.com/watch?v=6OT43pvUyfY
+    Taken from: https://www.youtube.com/watch?v=6OT43pvUyfY
 */
 public class AudioManager : MonoBehaviour
 {

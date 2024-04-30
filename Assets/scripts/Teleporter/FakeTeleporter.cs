@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/**
+    Fake teleporter that does not actually work but shows text
+*/
 public class FakeTeleporter : MonoBehaviour
 {
     public TMP_Text teleporterError;

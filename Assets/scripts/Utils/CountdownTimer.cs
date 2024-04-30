@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+    Countdown logic for the end-sequence
+*/
 public class CountdownTimer : MonoBehaviour
 {
     public float timeLeft;

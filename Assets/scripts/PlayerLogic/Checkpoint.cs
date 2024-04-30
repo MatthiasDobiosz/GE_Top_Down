@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/**
+    Simple checkpoint logic
+*/
 public class Checkpoint : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collider)
