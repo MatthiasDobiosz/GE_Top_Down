@@ -11,6 +11,11 @@ Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-at
 Sound Effect from <a href="https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=106131">Pixabay</a> </br>
 Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=81720">Pixabay</a>
 
+## Base models for creating the environment tile set:
+3D Model from <a href="https://sketchfab.com/3d-models/sci-fi-corridor-5e6240c9b30145b0bf81fd02287985e3">sketchfab</a> </br>
+3D Model from <a href="https://sketchfab.com/3d-models/sci-fi-interior-pack-lowpoly-a56f351b52c345e988f4bba7004262f0">sketchfab</a> </br>
+3D Model from <a href="https://sketchfab.com/3d-models/spacestation-satellite-403974c56f74443aaa9606297fa95129">sketchfab</a> </br>
+
 ## Libraries used:
 
 <a href="https://arongranberg.com/astar/#">A\* Pathfinding Project</a> </br>
