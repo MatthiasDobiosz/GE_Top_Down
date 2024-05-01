@@ -21,3 +21,6 @@ Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-at
 <a href="https://arongranberg.com/astar/#">A\* Pathfinding Project</a> </br>
 <a href="https://assetstore.unity.com/packages/2d/gui/icons/fantasy-status-icons-265728">Fantasy status icons package </a> </br>
 <a href="https://assetstore.unity.com/packages/2d/gui/sci-fi-gui-skin-15606"> Scifi-UI </a>
+
+## The Blender files
+The blend files were created on a Linux system. They do not work on other operating systems but should be able to open on Linux devices. 
